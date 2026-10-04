@@ -1,0 +1,448 @@
+{
+  "adapter": {
+    "description": "amd · gcn-5",
+    "vendor": "amd",
+    "architecture": "gcn-5",
+    "device": "",
+    "isFallbackAdapter": false,
+    "powerPreference": "low-power",
+    "timestampQueries": true
+  },
+  "tests": [
+    {
+      "scenario": "pour",
+      "preset": "sand",
+      "dx": 0.125,
+      "points": 4096,
+      "snapshot": {
+        "mass": 2450.5000844597816,
+        "massErrorPercent": 0.0000034466313098122793,
+        "volume": 1.6900000356254168,
+        "maxSpeed": 0.023868017222331398,
+        "kineticEnergy": 0.014615945021206798,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          0.00015790369622931303,
+          0.20360285679108023,
+          0.0001841032584165366
+        ],
+        "gpuMs": 30.23073
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10213952,
+        "surface": {
+          "vertices": 42396,
+          "triangles": 14132,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 1.11997
+        }
+      },
+      "groundGapM": 0.010000011324882513,
+      "spreadX": 1.5431584119796753,
+      "maxHeightAboveFloorM": 0.18550795912742615,
+      "approximateFlankAngleDeg": 3.201485482910529
+    },
+    {
+      "scenario": "pile",
+      "preset": "sand",
+      "dx": 0.125,
+      "points": 4096,
+      "snapshot": {
+        "mass": 5196.8001708984375,
+        "massErrorPercent": 0.0000032885388424430038,
+        "volume": 3.5840001702308655,
+        "maxSpeed": 0.018586500039151247,
+        "kineticEnergy": 0.027651640730491436,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          0.0003571971719792982,
+          0.30182840674284034,
+          0.0008152181653713341
+        ],
+        "gpuMs": 26.26322
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10208416,
+        "surface": {
+          "vertices": 152628,
+          "triangles": 50876,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 2.39709
+        }
+      },
+      "groundGapM": 0.010268872976303106,
+      "spreadX": 3.209738612174988,
+      "maxHeightAboveFloorM": 0.5348240494728088,
+      "approximateFlankAngleDeg": 13.431436770485952
+    },
+    {
+      "scenario": "pile",
+      "preset": "sand",
+      "dx": 0.1,
+      "points": 8192,
+      "snapshot": {
+        "mass": 5196.799795389175,
+        "massErrorPercent": -0.0000039372372510616325,
+        "volume": 3.5840000985190272,
+        "maxSpeed": 0.07129770059528664,
+        "kineticEnergy": 0.9608111877389186,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          -0.00038432723891576815,
+          0.28537426127553017,
+          -0.00004577891129234949
+        ],
+        "gpuMs": 56.97716
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10347744,
+        "surface": {
+          "vertices": 150072,
+          "triangles": 50024,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 1.7681
+        }
+      },
+      "groundGapM": 0.008000007271766668,
+      "spreadX": 3.2757996320724487,
+      "maxHeightAboveFloorM": 0.5234359264373779,
+      "approximateFlankAngleDeg": 14.316737820162128
+    },
+    {
+      "scenario": "clump",
+      "preset": "wet",
+      "dx": 0.125,
+      "points": 4096,
+      "snapshot": {
+        "mass": 2048.9039039611816,
+        "massErrorPercent": -0.000004687329919108709,
+        "volume": 1.143999958410859,
+        "maxSpeed": 0.00017607515918252882,
+        "kineticEnergy": 8.518762808707861e-7,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          0.00023011386125360565,
+          0.2168168205555467,
+          0.00044092989507286533
+        ],
+        "gpuMs": 29.56297
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10210464,
+        "surface": {
+          "vertices": 31248,
+          "triangles": 10416,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 0.8431
+        }
+      },
+      "groundGapM": 0.020488044619560247,
+      "spreadX": 1.297097086906433,
+      "maxHeightAboveFloorM": 0.18597612380981446,
+      "approximateFlankAngleDeg": 0.5124269713910531
+    },
+    {
+      "scenario": "collapse",
+      "preset": "sand",
+      "dx": 0.125,
+      "points": 4096,
+      "snapshot": {
+        "mass": 2405.2599573135376,
+        "massErrorPercent": -0.000001774717056858988,
+        "volume": 1.6587999620242044,
+        "maxSpeed": 0.620576344340319,
+        "kineticEnergy": 1.7166894874904834,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0.062168017244918196,
+          -7.596828950275706,
+          0.008734349530277763
+        ],
+        "centerOfMass": [
+          0.0006936131805647202,
+          0.3894863224238074,
+          -0.00018831334326622603
+        ],
+        "gpuMs": 25.79618
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10203488,
+        "surface": {
+          "vertices": 132480,
+          "triangles": 44160,
+          "overflowTriangles": 0,
+          "activeGrains": 1,
+          "sparseSamples": 0,
+          "gpuMs": 1.89464
+        }
+      },
+      "groundGapM": 0.010000011324882513,
+      "spreadX": 3.1160123348236084,
+      "maxHeightAboveFloorM": 0.9739385604858398,
+      "approximateFlankAngleDeg": -42.40561219974401
+    },
+    {
+      "scenario": "mix",
+      "preset": "soil",
+      "dx": 0.125,
+      "points": 4096,
+      "snapshot": {
+        "mass": 5561.5560965538025,
+        "massErrorPercent": 0.0000017360883448638314,
+        "volume": 3.432000163011253,
+        "maxSpeed": 0.06800440381432553,
+        "kineticEnergy": 0.06827843093317705,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          0.06565925765018776,
+          0.26311848163291757,
+          0.00028743530683254624
+        ],
+        "gpuMs": 26.93464
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10203552,
+        "surface": {
+          "vertices": 80676,
+          "triangles": 26892,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 1.93042
+        }
+      },
+      "groundGapM": 0.010000011324882513,
+      "spreadX": 2.8794161081314087,
+      "maxHeightAboveFloorM": 0.3343722581863403,
+      "approximateFlankAngleDeg": 1.3252085998937262
+    }
+  ],
+  "singleParticle": {
+    "snapshot": {
+      "mass": 0.6522491574287415,
+      "massErrorPercent": 0,
+      "volume": 0.0004498269991017878,
+      "maxSpeed": 3.8188469409942627,
+      "kineticEnergy": 4.75606778368677,
+      "invalidParticles": 0,
+      "penetrationMm": 0,
+      "preCorrectionPenetrationMm": 0,
+      "bucketMass": 0,
+      "reactionN": [
+        0,
+        0,
+        0
+      ],
+      "centerOfMass": [
+        0,
+        1.2535980939865112,
+        0
+      ],
+      "gpuMs": 20.22102
+    },
+    "surface": {
+      "vertices": 324,
+      "triangles": 108,
+      "overflowTriangles": 0,
+      "activeGrains": 0,
+      "sparseSamples": 0,
+      "gpuMs": 0.74528
+    },
+    "visibleRadius": 0,
+    "referenceRadius": 0.04753195053193698,
+    "seconds": 0.3892676825233345,
+    "initialY": 2,
+    "expectedY": 1.2567486429369854
+  },
+  "isolatedVisibility": [
+    {
+      "budget": 4096,
+      "offset": 0,
+      "surface": {
+        "vertices": 324,
+        "triangles": 108,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.78388
+      }
+    },
+    {
+      "budget": 4096,
+      "offset": 0.015,
+      "surface": {
+        "vertices": 384,
+        "triangles": 128,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.75296
+      }
+    },
+    {
+      "budget": 4096,
+      "offset": 0.03,
+      "surface": {
+        "vertices": 432,
+        "triangles": 144,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.7262
+      }
+    },
+    {
+      "budget": 4096,
+      "offset": 0.045,
+      "surface": {
+        "vertices": 336,
+        "triangles": 112,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.76516
+      }
+    },
+    {
+      "budget": 16384,
+      "offset": 0,
+      "surface": {
+        "vertices": 144,
+        "triangles": 48,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.68772
+      }
+    },
+    {
+      "budget": 16384,
+      "offset": 0.015,
+      "surface": {
+        "vertices": 144,
+        "triangles": 48,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 1,
+        "gpuMs": 0.7382
+      }
+    },
+    {
+      "budget": 16384,
+      "offset": 0.03,
+      "surface": {
+        "vertices": 0,
+        "triangles": 0,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 1,
+        "gpuMs": 0.65
+      }
+    },
+    {
+      "budget": 16384,
+      "offset": 0.045,
+      "surface": {
+        "vertices": 72,
+        "triangles": 24,
+        "overflowTriangles": 0,
+        "activeGrains": 0,
+        "sparseSamples": 0,
+        "gpuMs": 0.6946
+      }
+    }
+  ],
+  "volumeHistory": [
+    {
+      "strain": 0.2,
+      "dilation": 0.6000000834465027,
+      "elasticStretch": [
+        0.9999999403953552,
+        0.9999999403953552,
+        0.9999999403953552
+      ]
+    },
+    {
+      "strain": -0.1,
+      "dilation": 0.3000001311302185,
+      "elasticStretch": [
+        0.9999999403953552,
+        0.9999999403953552,
+        0.9999999403953552
+      ]
+    },
+    {
+      "strain": -0.15,
+      "dilation": 0,
+      "elasticStretch": [
+        0.9512295126914978,
+        0.9512295126914978,
+        0.9512295126914978
+      ]
+    }
+  ],
+  "errors": []
+}

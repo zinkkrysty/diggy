@@ -1,0 +1,333 @@
+{
+  "viewport": [
+    1440,
+    960
+  ],
+  "adapter": {
+    "description": "amd · gcn-5",
+    "vendor": "amd",
+    "architecture": "gcn-5",
+    "isFallbackAdapter": false
+  },
+  "results": [
+    {
+      "preset": "sand",
+      "machine": {
+        "base": {
+          "x": -3.705528497695923,
+          "y": 1,
+          "z": 0.007908453233540058,
+          "yaw": -0.005028046836195963
+        },
+        "joints": [
+          0.9613050301950481,
+          -1.8329681424276794,
+          -0.09028619004915421,
+          0.406424734390518
+        ],
+        "velocity": [
+          0.011428663505304892,
+          0.006810118932472128,
+          -0.46749224744518114,
+          -0.0006937659660630425
+        ],
+        "effort": [
+          31465.092951721905,
+          10066.617889519433,
+          748.1691469952835,
+          186.97895167430238
+        ],
+        "reaction": [
+          -3203.0993314337125,
+          -2324.471859364988,
+          -301.90437420667485,
+          -91.9146267438573
+        ],
+        "pose": {
+          "x": -0.8136020643707291,
+          "y": 2.0519680812046435,
+          "z": -1.21954237464226,
+          "angle": -0.9619493022817854,
+          "yaw": 0.40139668755432206
+        },
+        "carriedMassKg": 243.6
+      },
+      "snapshot": {
+        "cpuAnalysisMs": 4.0999999940395355,
+        "mass": 88740.00291824341,
+        "massErrorPercent": 0.0000032885255333930704,
+        "volume": 61.20000290684402,
+        "restVolume": 61.20000290684402,
+        "deformedVolume": 61.148620380580496,
+        "permanentCompactionPercent": 0,
+        "elasticCompressionPercent": 0.08395837225977365,
+        "maxCompactionPercent": 0,
+        "maxPressurePa": 33987.7678935307,
+        "maxSpeed": 1.680949515057236,
+        "kineticEnergy": 240.57333058111828,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 266.8000087738037,
+        "bucketReferenceVolume": 0.18400000873953104,
+        "bucketRestVolume": 0.18400000873953104,
+        "bucketDeformedVolume": 0.18400000541529096,
+        "reactionN": [
+          -110.6742829801031,
+          -899.1833270169,
+          216.21844138072015
+        ],
+        "centerOfMass": [
+          0.18283700417084442,
+          0.459144034685634,
+          -0.08969502070176069
+        ],
+        "gpuMs": 2.6438
+      },
+      "performance": {
+        "samples": 600,
+        "medianMs": 16.80000001192093,
+        "p95Ms": 50,
+        "p99Ms": 50.19999998807907,
+        "fps": 40.09140841122533,
+        "simulationRate": 0.9999995300817477
+      },
+      "simulationTime": 15.04513973892661,
+      "debt": 0.017121450054182325,
+      "paused": false,
+      "renderScale": 0.65,
+      "timings": {
+        "chassisMs": 0.3999999761581421,
+        "armMs": 0,
+        "renderSubmitMs": 2.4000000059604645,
+        "feedbackWaitMs": 8.400000005960464
+      },
+      "material": "sand",
+      "terrain": {
+        "mapMetres": [
+          12,
+          4,
+          12
+        ],
+        "chunkMetres": 1,
+        "activeChunks": 26,
+        "boundaryChunks": 94,
+        "sleepingOccupiedChunks": 128,
+        "unsupportedChunks": 2
+      }
+    },
+    {
+      "preset": "soil",
+      "machine": {
+        "base": {
+          "x": -3.742611885070801,
+          "y": 1,
+          "z": 0.060450147837400436,
+          "yaw": -0.03829871980233774
+        },
+        "joints": [
+          0.6958971755080359,
+          -1.8765648701439923,
+          0.7216834018129487,
+          0.23344304424790843
+        ],
+        "velocity": [
+          -0.03027043827437348,
+          0.027590868613787317,
+          -0.23254731619385444,
+          -0.00434795421644396
+        ],
+        "effort": [
+          23331.340512777977,
+          -4360.225740974173,
+          -1110.8718578404491,
+          4152.5874866701315
+        ],
+        "reaction": [
+          11708.407242126452,
+          11773.226627017808,
+          3704.4139875013625,
+          -4798.816243317531
+        ],
+        "pose": {
+          "x": -0.3662829384810129,
+          "y": 1.3657968777046923,
+          "z": -0.6069142380045317,
+          "angle": -0.4589842928230078,
+          "yaw": 0.1951443244455707
+        },
+        "carriedMassKg": 218.304
+      },
+      "snapshot": {
+        "cpuAnalysisMs": 4.300000011920929,
+        "mass": 92779.20198440552,
+        "massErrorPercent": 0.0000021388622991536413,
+        "volume": 61.20000290684402,
+        "restVolume": 61.193935881371225,
+        "deformedVolume": 61.14159121545548,
+        "permanentCompactionPercent": 0.009913439844166927,
+        "elasticCompressionPercent": 0.085538975654742,
+        "maxCompactionPercent": 6.793504953384399,
+        "maxPressurePa": 70124.39051430587,
+        "maxSpeed": 0.7614655026327866,
+        "kineticEnergy": 79.95354669483449,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 254.6880054473877,
+        "bucketReferenceVolume": 0.16800000797957182,
+        "bucketRestVolume": 0.16794607387972005,
+        "bucketDeformedVolume": 0.16786431982370537,
+        "reactionN": [
+          15382.462470264667,
+          13415.80775492062,
+          844.2984193574581
+        ],
+        "centerOfMass": [
+          0.19656154645460816,
+          0.4643900317576706,
+          -0.09154406773072558
+        ],
+        "gpuMs": 9.30592
+      },
+      "performance": {
+        "samples": 562,
+        "medianMs": 33.19999998807907,
+        "p95Ms": 33.599999994039536,
+        "p99Ms": 34.900000005960464,
+        "fps": 37.36751818505257,
+        "simulationRate": 0.998886495583054
+      },
+      "simulationTime": 15.023053116281947,
+      "debt": 0.00014688370611144058,
+      "paused": false,
+      "renderScale": 0.65,
+      "timings": {
+        "chassisMs": 0.9000000059604645,
+        "armMs": 0,
+        "renderSubmitMs": 2.5,
+        "feedbackWaitMs": 20.400000005960464
+      },
+      "material": "soil",
+      "terrain": {
+        "mapMetres": [
+          12,
+          4,
+          12
+        ],
+        "chunkMetres": 1,
+        "activeChunks": 68,
+        "boundaryChunks": 145,
+        "sleepingOccupiedChunks": 81,
+        "unsupportedChunks": 0
+      }
+    },
+    {
+      "preset": "wet",
+      "machine": {
+        "base": {
+          "x": -3.730799436569214,
+          "y": 1,
+          "z": 0.07435476034879684,
+          "yaw": -0.05184432108036585
+        },
+        "joints": [
+          0.6989307191910757,
+          -1.9124267083953361,
+          0.6325670846759658,
+          0.23746750494971064
+        ],
+        "velocity": [
+          0.17217941796692532,
+          0.8452303090164865,
+          0.7229211699971239,
+          -0.011757897545285747
+        ],
+        "effort": [
+          25574.596288350913,
+          8916.936760025566,
+          3577.2462765366263,
+          1790.6365584760104
+        ],
+        "reaction": [
+          69761.64912312651,
+          75228.60231495036,
+          26908.805236154883,
+          -11110.226654173945
+        ],
+        "pose": {
+          "x": -0.46735492821863023,
+          "y": 1.322053343430488,
+          "z": -0.5384709211613038,
+          "angle": -0.5809289045282945,
+          "yaw": 0.1856231838693448
+        },
+        "carriedMassKg": 229.248
+      },
+      "snapshot": {
+        "cpuAnalysisMs": 4.4000000059604645,
+        "mass": 109609.20052528381,
+        "massErrorPercent": 4.792459398540257e-7,
+        "volume": 61.20000290684402,
+        "restVolume": 61.195049137878556,
+        "deformedVolume": 61.12027371040762,
+        "permanentCompactionPercent": 0.008094393349955542,
+        "elasticCompressionPercent": 0.12219195592515497,
+        "maxCompactionPercent": 10.000002384185791,
+        "maxPressurePa": 55629.92752707008,
+        "maxSpeed": 0.8253457872448178,
+        "kineticEnergy": 255.229174896377,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 15.701,
+        "bucketMass": 300.88800144195557,
+        "bucketReferenceVolume": 0.16800000797957182,
+        "bucketRestVolume": 0.16786232076676372,
+        "bucketDeformedVolume": 0.16788794205127353,
+        "reactionN": [
+          29336.374581967902,
+          21361.43101535464,
+          -493.58682621145067
+        ],
+        "centerOfMass": [
+          0.18369283859788604,
+          0.4604447391785175,
+          -0.09244571500368032
+        ],
+        "gpuMs": 21.23304
+      },
+      "performance": {
+        "samples": 479,
+        "medianMs": 33.29999998211861,
+        "p95Ms": 50.10000002384186,
+        "p99Ms": 50.29999998211861,
+        "fps": 31.879987487616685,
+        "simulationRate": 0.9851895108622241
+      },
+      "simulationTime": 14.80257091965015,
+      "debt": 0.20582908035587466,
+      "paused": false,
+      "renderScale": 0.65,
+      "timings": {
+        "chassisMs": 1.300000011920929,
+        "armMs": 0,
+        "renderSubmitMs": 2,
+        "feedbackWaitMs": 35
+      },
+      "material": "wet",
+      "terrain": {
+        "mapMetres": [
+          12,
+          4,
+          12
+        ],
+        "chunkMetres": 1,
+        "activeChunks": 91,
+        "boundaryChunks": 175,
+        "sleepingOccupiedChunks": 57,
+        "unsupportedChunks": 0
+      }
+    }
+  ],
+  "errors": []
+}

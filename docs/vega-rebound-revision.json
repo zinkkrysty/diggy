@@ -1,0 +1,423 @@
+{
+  "identity": {
+    "adapter": {
+      "description": "amd · gcn-5",
+      "vendor": "amd",
+      "architecture": "gcn-5",
+      "device": "",
+      "isFallbackAdapter": false,
+      "powerPreference": "low-power",
+      "timestampQueries": true
+    },
+    "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL ES 3.2 Mesa 26.2.2-arch1.1)",
+    "devices": [
+      {
+        "vendorId": 4098,
+        "deviceId": 5688,
+        "vendorString": "",
+        "deviceString": "",
+        "driverVendor": "Mesa",
+        "driverVersion": "26.2.2"
+      },
+      {
+        "vendorId": 4318,
+        "deviceId": 9568,
+        "vendorString": "",
+        "deviceString": "",
+        "driverVendor": "",
+        "driverVersion": ""
+      }
+    ]
+  },
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "measurements": [
+    {
+      "schema": 1,
+      "createdAt": "2026-10-04T05:46:52.441Z",
+      "adapter": {
+        "description": "amd · gcn-5",
+        "vendor": "amd",
+        "architecture": "gcn-5",
+        "device": "",
+        "isFallbackAdapter": false,
+        "powerPreference": "low-power",
+        "timestampQueries": true
+      },
+      "scenario": "scoop",
+      "material": {
+        "moisture": 0,
+        "grainMm": 0.7,
+        "friction": 34,
+        "cohesion": 0,
+        "stiffness": 45000,
+        "viscosity": 0,
+        "adhesion": 0
+      },
+      "solver": {
+        "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+        "dx": 0.125,
+        "grid": [
+          48,
+          32,
+          32
+        ],
+        "points": 3519,
+        "allocatedBytes": 2699456,
+        "dt": 0.0016219486771805603
+      },
+      "simulationSeconds": 15.003025263920362,
+      "timeDebtSeconds": 0.0012747360917376542,
+      "bucketPose": {
+        "x": -1.65,
+        "y": 0.63,
+        "z": 0,
+        "angle": 0
+      },
+      "supportPresent": true,
+      "performance": {
+        "samples": 600,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 16.900000005960464,
+        "fps": 60.00300015000765,
+        "simulationRate": 0.999981358549748
+      },
+      "snapshot": {
+        "mass": 3789.9374878406525,
+        "massErrorPercent": -3.208271830098171e-7,
+        "volume": 2.613749983138405,
+        "maxSpeed": 0.00576964468703428,
+        "kineticEnergy": 0.0009264023278440567,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          -0.24661692791372508,
+          1.7694764577809774,
+          0.1356393103525488
+        ],
+        "centerOfMass": [
+          0.5842233332114418,
+          0.26349848697269523,
+          -0.0008667188401105933
+        ],
+        "gpuMs": 2.50068
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10206336,
+        "surface": {
+          "vertices": 137904,
+          "triangles": 45968,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 1.40424
+        }
+      },
+      "limitations": [
+        "Kinematic bucket: force feedback is diagnostic only.",
+        "No explicit pore water, drainage, or engineering calibration.",
+        "Fixed-point grid accumulation introduces quantization.",
+        "CPU diagnostic readback is included in wall-time measurements.",
+        "Solver buffer allocation excludes renderer and driver memory."
+      ],
+      "benchmark": {
+        "wallSeconds": 15.014300000011922,
+        "samples": 895,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 17,
+        "fps": 59.64956712404389,
+        "simulationRate": 0.9999150419485408,
+        "gpuComputeSamples": [
+          2.98339,
+          2.68526,
+          3.0401,
+          2.84026,
+          3.00428,
+          2.72858,
+          2.57636,
+          2.9975,
+          2.82608,
+          2.87344,
+          2.81716,
+          2.4819,
+          2.8147,
+          2.32322,
+          2.30312,
+          2.73784,
+          2.45564,
+          2.58272,
+          2.47246,
+          2.50068
+        ],
+        "maxPenetrationMm": 0,
+        "maxInvalidParticles": 0,
+        "maxBucketMassKg": 594.4999980926514
+      }
+    },
+    {
+      "schema": 1,
+      "createdAt": "2026-10-04T05:47:07.708Z",
+      "adapter": {
+        "description": "amd · gcn-5",
+        "vendor": "amd",
+        "architecture": "gcn-5",
+        "device": "",
+        "isFallbackAdapter": false,
+        "powerPreference": "low-power",
+        "timestampQueries": true
+      },
+      "scenario": "scoop",
+      "material": {
+        "moisture": 0.12,
+        "grainMm": 0.12,
+        "friction": 38,
+        "cohesion": 1500,
+        "stiffness": 85000,
+        "viscosity": 0.15,
+        "adhesion": 0.08
+      },
+      "solver": {
+        "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+        "dx": 0.125,
+        "grid": [
+          48,
+          32,
+          32
+        ],
+        "points": 3519,
+        "allocatedBytes": 2699456,
+        "dt": 0.001269813914854752
+      },
+      "simulationSeconds": 15.005391031838778,
+      "timeDebtSeconds": 0.0007089681554351655,
+      "bucketPose": {
+        "x": -1.65,
+        "y": 0.63,
+        "z": 0,
+        "angle": 0
+      },
+      "supportPresent": true,
+      "performance": {
+        "samples": 600,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 16.900000005960464,
+        "fps": 59.70446290860267,
+        "simulationRate": 0.9999808271218112
+      },
+      "snapshot": {
+        "mass": 3962.4449236392975,
+        "massErrorPercent": -0.0000019271160872987826,
+        "volume": 2.613749983138405,
+        "maxSpeed": 0.013245342234062017,
+        "kineticEnergy": 0.01679251837681999,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 0,
+        "reactionN": [
+          0,
+          0,
+          0
+        ],
+        "centerOfMass": [
+          0.5577604062070213,
+          0.34247336941251105,
+          -0.002309566103761333
+        ],
+        "gpuMs": 3.64042
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10206336,
+        "surface": {
+          "vertices": 118032,
+          "triangles": 39344,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 1.42252
+        }
+      },
+      "limitations": [
+        "Kinematic bucket: force feedback is diagnostic only.",
+        "No explicit pore water, drainage, or engineering calibration.",
+        "Fixed-point grid accumulation introduces quantization.",
+        "CPU diagnostic readback is included in wall-time measurements.",
+        "Solver buffer allocation excludes renderer and driver memory."
+      ],
+      "benchmark": {
+        "wallSeconds": 15.0165,
+        "samples": 890,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 33.20000001788139,
+        "fps": 59.30921425289427,
+        "simulationRate": 0.9999527546694206,
+        "gpuComputeSamples": [
+          0,
+          3.45436,
+          3.77359,
+          3.34606,
+          3.42038,
+          3.23505,
+          3.24733,
+          3.14748,
+          3.26172,
+          3.22952,
+          3.27688,
+          3.73021,
+          3.46432,
+          3.4958,
+          3.28844,
+          3.31096,
+          3.34618,
+          3.1852,
+          3.52448,
+          3.64042
+        ],
+        "maxPenetrationMm": 0,
+        "maxInvalidParticles": 0,
+        "maxBucketMassKg": 958.2383148670197
+      }
+    },
+    {
+      "schema": 1,
+      "createdAt": "2026-10-04T05:47:22.973Z",
+      "adapter": {
+        "description": "amd · gcn-5",
+        "vendor": "amd",
+        "architecture": "gcn-5",
+        "device": "",
+        "isFallbackAdapter": false,
+        "powerPreference": "low-power",
+        "timestampQueries": true
+      },
+      "scenario": "scoop",
+      "material": {
+        "moisture": 0.62,
+        "grainMm": 0.035,
+        "friction": 29,
+        "cohesion": 1800,
+        "stiffness": 40000,
+        "viscosity": 1.5,
+        "adhesion": 0.55
+      },
+      "solver": {
+        "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+        "dx": 0.125,
+        "grid": [
+          48,
+          32,
+          32
+        ],
+        "points": 3519,
+        "allocatedBytes": 2699456,
+        "dt": 0.0016621891816705884
+      },
+      "simulationSeconds": 15.006243932122274,
+      "timeDebtSeconds": 0.00005606786004716882,
+      "bucketPose": {
+        "x": -1.65,
+        "y": 0.63,
+        "z": 0,
+        "angle": 0
+      },
+      "supportPresent": true,
+      "performance": {
+        "samples": 600,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 17.100000023841858,
+        "fps": 59.50668954364776,
+        "simulationRate": 1.0001588595730928
+      },
+      "snapshot": {
+        "mass": 4681.226185798645,
+        "massErrorPercent": -0.000001371461184659211,
+        "volume": 2.613749983138405,
+        "maxSpeed": 0.16709147319051,
+        "kineticEnergy": 10.241624496652566,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 822.1079235076904,
+        "reactionN": [
+          4.933253140150128,
+          -8348.189335496463,
+          -0.577551587139527
+        ],
+        "centerOfMass": [
+          0.41110427307919256,
+          0.3346119000004497,
+          -0.0012082716439889398
+        ],
+        "gpuMs": 2.74084
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 10206336,
+        "surface": {
+          "vertices": 118032,
+          "triangles": 39344,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 17,
+          "gpuMs": 1.35024
+        }
+      },
+      "limitations": [
+        "Kinematic bucket: force feedback is diagnostic only.",
+        "No explicit pore water, drainage, or engineering calibration.",
+        "Fixed-point grid accumulation introduces quantization.",
+        "CPU diagnostic readback is included in wall-time measurements.",
+        "Solver buffer allocation excludes renderer and driver memory."
+      ],
+      "benchmark": {
+        "wallSeconds": 15.0155,
+        "samples": 894,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 16.80000001192093,
+        "p99Ms": 17.099999994039536,
+        "fps": 59.57497850909739,
+        "simulationRate": 0.9999962637119213,
+        "gpuComputeSamples": [
+          0,
+          2.90594,
+          3.01333,
+          2.91962,
+          2.61573,
+          2.32021,
+          2.78692,
+          2.75798,
+          2.89313,
+          2.9686,
+          2.44952,
+          2.42388,
+          2.29209,
+          2.96903,
+          2.40456,
+          2.36528,
+          2.61846,
+          2.6308,
+          2.45737,
+          2.74084
+        ],
+        "maxPenetrationMm": 0,
+        "maxInvalidParticles": 0,
+        "maxBucketMassKg": 840.7317276000977
+      }
+    }
+  ],
+  "errors": []
+}

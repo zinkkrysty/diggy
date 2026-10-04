@@ -1,0 +1,36 @@
+{
+  "name": "diggy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:browser": "node --import tsx scripts/browser-test.ts",
+    "benchmark": "node --import tsx scripts/benchmark.ts",
+    "test:materials": "node --import tsx scripts/material-check.ts",
+    "benchmark:presentation": "node --import tsx scripts/presentation-benchmark.ts",
+    "test:rebound": "node --import tsx scripts/rebound-check.ts --verify",
+    "test:compaction": "node --import tsx scripts/compaction-check.ts",
+    "test:coupling": "node --import tsx scripts/coupling-check.ts",
+    "test:terrain": "node --import tsx scripts/terrain-check.ts",
+    "test:terrain-cache": "node --import tsx scripts/terrain-cache-check.ts",
+    "test:game": "node --import tsx scripts/game-check.ts",
+    "benchmark:game": "node --import tsx scripts/game-benchmark.ts",
+    "test:driving": "node --import tsx scripts/driving-check.ts && node --import tsx scripts/pile-driving-check.ts && node --import tsx scripts/ledge-driving-check.ts"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.12.0",
+    "three": "^0.183.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.0",
+    "@types/three": "^0.183.0",
+    "@webgpu/types": "^0.1.69",
+    "playwright": "^1.58.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

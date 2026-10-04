@@ -1,0 +1,994 @@
+{
+  "result": {
+    "pointCount": 7650,
+    "maxLoad": 1006.624,
+    "maxReaction": 82015.69137537909,
+    "maxInvalid": 0,
+    "sleepingPoints": 332,
+    "farChanged": 0,
+    "maxFarStateChange": 0,
+    "changedPoints": 2217,
+    "everActiveChunks": 277,
+    "samples": [
+      {
+        "batch": 0,
+        "pose": {
+          "x": -1.6490897660715114,
+          "y": 0.9998439598979735,
+          "z": 0,
+          "angle": 0
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            0.05047799604093712,
+            -0.008653370749874996,
+            0,
+            0
+          ],
+          "effort": [
+            2257.0542112397925,
+            17271.076420930312,
+            0,
+            0
+          ],
+          "reaction": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "carriedMassKg": 0
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.20000290684402,
+          "deformedVolume": 61.19500497356938,
+          "permanentCompactionPercent": 0,
+          "elasticCompressionPercent": 0.008166557250410822,
+          "maxCompactionPercent": 0,
+          "maxPressurePa": 7201.407134927118,
+          "maxSpeed": 0.26971896995783173,
+          "kineticEnergy": 11.544858085221545,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 0,
+          "bucketReferenceVolume": 0,
+          "bucketRestVolume": 0,
+          "bucketDeformedVolume": 0,
+          "reactionN": [
+            0,
+            0,
+            0
+          ],
+          "centerOfMass": [
+            0.21371784745964642,
+            0.47544333479565437,
+            -0.07908573753206553
+          ],
+          "gpuMs": 3.87305
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 18,
+          "boundaryChunks": 72,
+          "sleepingOccupiedChunks": 130,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 30,
+        "pose": {
+          "x": -1.0654399696537307,
+          "y": 0.900006467941911,
+          "z": 0.0003297733896921432,
+          "angle": -0.00019472031092811318
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            0.4817881895719425,
+            0.09842780595242583,
+            0.002358485062529765,
+            0.03296509549635132
+          ],
+          "effort": [
+            -164.57034915455733,
+            17738.780344052568,
+            -92.7310614286994,
+            -166.35903376869976
+          ],
+          "reaction": [
+            -11839.905423067636,
+            12548.713106962077,
+            44.0969358390283,
+            867.8547890920798
+          ],
+          "carriedMassKg": 266.816
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.20000290684402,
+          "deformedVolume": 61.08477810071941,
+          "permanentCompactionPercent": 0,
+          "elasticCompressionPercent": 0.1882758180583699,
+          "maxCompactionPercent": 0,
+          "maxPressurePa": 33421.75337801723,
+          "maxSpeed": 0.24623535806545896,
+          "kineticEnergy": 200.2596105986127,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 1.451,
+          "bucketMass": 266.8160057067871,
+          "bucketReferenceVolume": 0.17600000835955143,
+          "bucketRestVolume": 0.17600000835955143,
+          "bucketDeformedVolume": 0.17579992054828703,
+          "reactionN": [
+            -11839.905423067636,
+            12548.713106962077,
+            44.0969358390283
+          ],
+          "centerOfMass": [
+            0.21468009902176569,
+            0.46689591860264873,
+            -0.07950213278138547
+          ],
+          "gpuMs": 14.8846
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 270,
+          "boundaryChunks": 196,
+          "sleepingOccupiedChunks": 0,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 60,
+        "pose": {
+          "x": -0.5764105793281211,
+          "y": 0.8867499503990464,
+          "z": 0.000021729104251824196,
+          "angle": -0.024776857919161552
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            0.28804251987341883,
+            -0.07347368827518275,
+            0.0005520632764607693,
+            -0.053288879180767704
+          ],
+          "effort": [
+            18489.775940458305,
+            -1100.487426388172,
+            -13.483097957749466,
+            4670.444524345374
+          ],
+          "reaction": [
+            -412.69706040348615,
+            -2691.954464463664,
+            8.235141538301272,
+            -1113.0100786988503
+          ],
+          "carriedMassKg": 667.04
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.197383885780745,
+          "deformedVolume": 61.08659166184799,
+          "permanentCompactionPercent": 0.004279445978561114,
+          "elasticCompressionPercent": 0.1810407845857287,
+          "maxCompactionPercent": 2.3972511291503906,
+          "maxPressurePa": 23424.24448579038,
+          "maxSpeed": 0.13689513650743126,
+          "kineticEnergy": 54.73344773394299,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 667.0400142669678,
+          "bucketReferenceVolume": 0.4400000208988786,
+          "bucketRestVolume": 0.4400000208988786,
+          "bucketDeformedVolume": 0.4394334377538368,
+          "reactionN": [
+            -412.69706040348615,
+            -2691.954464463664,
+            8.235141538301272
+          ],
+          "centerOfMass": [
+            0.22226616574512248,
+            0.46702130606945885,
+            -0.07988500073746925
+          ],
+          "gpuMs": 15.78152
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 268,
+          "boundaryChunks": 194,
+          "sleepingOccupiedChunks": 0,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 90,
+        "pose": {
+          "x": -0.33162778862660164,
+          "y": 0.8822886626693865,
+          "z": -0.00013268965881478207,
+          "angle": -0.028781046272399215
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            0.21397298919306104,
+            -0.01811322554103581,
+            -0.0004408408419022871,
+            -0.004896507366447654
+          ],
+          "effort": [
+            19332.03619074211,
+            -8261.482894590448,
+            17.93029151437633,
+            4949.385873514548
+          ],
+          "reaction": [
+            -3081.0759793948955,
+            1052.4080455799447,
+            -34.18754761596093,
+            22.344388647350875
+          ],
+          "carriedMassKg": 836.832
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.18621437440887,
+          "deformedVolume": 61.069738197091155,
+          "permanentCompactionPercent": 0.022530280686650084,
+          "elasticCompressionPercent": 0.19036343154844593,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 40592.8774203155,
+          "maxSpeed": 0.31280365335537696,
+          "kineticEnergy": 38.45624246192724,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 836.8320178985596,
+          "bucketReferenceVolume": 0.5520000262185931,
+          "bucketRestVolume": 0.5520000262185931,
+          "bucketDeformedVolume": 0.5511067094078177,
+          "reactionN": [
+            -3081.0759793948955,
+            1052.4080455799447,
+            -34.18754761596093
+          ],
+          "centerOfMass": [
+            0.22923979137586178,
+            0.4668899323484484,
+            -0.07994778021001336
+          ],
+          "gpuMs": 13.44952
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 223,
+          "boundaryChunks": 237,
+          "sleepingOccupiedChunks": 1,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 120,
+        "pose": {
+          "x": -0.19662106992539916,
+          "y": 0.8974511964836741,
+          "z": -0.00008701551598414919,
+          "angle": 0.07487923066539695
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.16447481036991068,
+            0.14656907635225483,
+            -0.0005630793393888946,
+            0.25600016783140184
+          ],
+          "effort": [
+            16733.45267814253,
+            3954.807002055064,
+            -2.82354506236425,
+            9761.609355600758
+          ],
+          "reaction": [
+            -15937.454860407628,
+            17199.84002564883,
+            -72.17933817159832,
+            -11860.597719523212
+          ],
+          "carriedMassKg": 958.112
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.18193134464916,
+          "deformedVolume": 61.060774987521924,
+          "permanentCompactionPercent": 0.029528694994296334,
+          "elasticCompressionPercent": 0.19802636900221326,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 78447.48868927467,
+          "maxSpeed": 0.3284332813196301,
+          "kineticEnergy": 18.872182979458948,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 958.1120204925537,
+          "bucketReferenceVolume": 0.6320000300183892,
+          "bucketRestVolume": 0.6320000300183892,
+          "bucketDeformedVolume": 0.6307212022319062,
+          "reactionN": [
+            -15937.454860407628,
+            17199.84002564883,
+            -72.17933817159832
+          ],
+          "centerOfMass": [
+            0.23273847464532943,
+            0.4666733166088481,
+            -0.07997906531773402
+          ],
+          "gpuMs": 13.27744
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 164,
+          "boundaryChunks": 246,
+          "sleepingOccupiedChunks": 11,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 150,
+        "pose": {
+          "x": -0.17549400663464104,
+          "y": 0.8820402201319746,
+          "z": 0.000388258818590483,
+          "angle": 0.5448618545731766
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.08018180164183894,
+            -0.10151075935145137,
+            0.0015570680283787362,
+            0.2317044859968363
+          ],
+          "effort": [
+            11717.825916406528,
+            24535.843431065627,
+            -87.10044290478703,
+            8958.222188437658
+          ],
+          "reaction": [
+            -14751.214687583792,
+            -9383.003799405878,
+            34.13690877483379,
+            -13559.847332095831
+          ],
+          "carriedMassKg": 958.112
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.18193134464916,
+          "deformedVolume": 61.06975688559193,
+          "permanentCompactionPercent": 0.029528694994296334,
+          "elasticCompressionPercent": 0.18334573066242088,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 44825.90641135923,
+          "maxSpeed": 0.2566346125102613,
+          "kineticEnergy": 6.941768016667636,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 958.1120204925537,
+          "bucketReferenceVolume": 0.6320000300183892,
+          "bucketRestVolume": 0.6320000300183892,
+          "bucketDeformedVolume": 0.6308753496635012,
+          "reactionN": [
+            -14751.214687583792,
+            -9383.003799405878,
+            34.13690877483379
+          ],
+          "centerOfMass": [
+            0.2320441984222156,
+            0.4665939593821559,
+            -0.07989520482670273
+          ],
+          "gpuMs": 12.57978
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 119,
+          "boundaryChunks": 251,
+          "sleepingOccupiedChunks": 16,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 180,
+        "pose": {
+          "x": -0.18297402729097909,
+          "y": 1.019214490037563,
+          "z": 0.0001299849336915112,
+          "angle": 0.9386896641420006
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.19241195300957792,
+            0.050166193775574075,
+            -0.0020809324397724053,
+            0.05968631683621997
+          ],
+          "effort": [
+            -917.9936786884609,
+            31946.63352014234,
+            11.3588694895573,
+            2855.4978495570876
+          ],
+          "reaction": [
+            -112.62711252190203,
+            -21699.692901250964,
+            -41.919465670561245,
+            -5699.369919583993
+          ],
+          "carriedMassKg": 1006.624
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.181917738100196,
+          "deformedVolume": 61.071884539320266,
+          "permanentCompactionPercent": 0.02955092791637748,
+          "elasticCompressionPercent": 0.17984594607012294,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 31782.26644889058,
+          "maxSpeed": 0.3701303899482335,
+          "kineticEnergy": 111.05596464975491,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 1006.6240215301514,
+          "bucketReferenceVolume": 0.6640000315383077,
+          "bucketRestVolume": 0.6640000315383077,
+          "bucketDeformedVolume": 0.663276457524838,
+          "reactionN": [
+            -112.62711252190203,
+            -21699.692901250964,
+            -41.919465670561245
+          ],
+          "centerOfMass": [
+            0.22885921561271802,
+            0.4667972081081524,
+            -0.07977920802103167
+          ],
+          "gpuMs": 11.34709
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 110,
+          "boundaryChunks": 210,
+          "sleepingOccupiedChunks": 41,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 210,
+        "pose": {
+          "x": -0.5117567707484085,
+          "y": 1.2925761043724706,
+          "z": 0.0000423960036882849,
+          "angle": 0.9919897757190344
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.3590630098986365,
+            0.22904826668341152,
+            0.00044470553186296566,
+            0.06676553513975733
+          ],
+          "effort": [
+            -4030.0343267457083,
+            31525.224281953742,
+            28.485225970868637,
+            -1453.554232352859
+          ],
+          "reaction": [
+            2491.386674469341,
+            -12284.948043241084,
+            108.36395508451086,
+            1021.6386197400657
+          ],
+          "carriedMassKg": 1006.624
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.181917738100196,
+          "deformedVolume": 61.075790803664496,
+          "permanentCompactionPercent": 0.02955092791637748,
+          "elasticCompressionPercent": 0.17346127476748352,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 20594.303273563335,
+          "maxSpeed": 0.45930654124995507,
+          "kineticEnergy": 89.73309117837123,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 1006.6240215301514,
+          "bucketReferenceVolume": 0.6640000315383077,
+          "bucketRestVolume": 0.6640000315383077,
+          "bucketDeformedVolume": 0.663786906925527,
+          "reactionN": [
+            2491.386674469341,
+            -12284.948043241084,
+            108.36395508451086
+          ],
+          "centerOfMass": [
+            0.21963269192038887,
+            0.46724100212061337,
+            -0.07974392239369626
+          ],
+          "gpuMs": 11.28621
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 118,
+          "boundaryChunks": 202,
+          "sleepingOccupiedChunks": 43,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 240,
+        "pose": {
+          "x": -0.9127484911962879,
+          "y": 1.730209288004806,
+          "z": 0.0005949284728483717,
+          "angle": 0.9900310612227334
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.38640626366001385,
+            0.39620510618101057,
+            0.019648301162776993,
+            -0.07088390764094783
+          ],
+          "effort": [
+            1532.9561854304748,
+            23854.766210155824,
+            1313.1193716310927,
+            -1756.0318328045935
+          ],
+          "reaction": [
+            694.5180359138769,
+            -11334.301913833699,
+            -440.3711870794686,
+            545.1587740093752
+          ],
+          "carriedMassKg": 1006.624
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.181917738100196,
+          "deformedVolume": 61.073995300183874,
+          "permanentCompactionPercent": 0.02955092791637748,
+          "elasticCompressionPercent": 0.17639597107482752,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 24426.77820643692,
+          "maxSpeed": 0.6151661080417226,
+          "kineticEnergy": 143.11640022867897,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 1006.6240215301514,
+          "bucketReferenceVolume": 0.6640000315383077,
+          "bucketRestVolume": 0.6640000315383077,
+          "bucketDeformedVolume": 0.6639433961667454,
+          "reactionN": [
+            694.5180359138769,
+            -11334.301913833699,
+            -440.3711870794686
+          ],
+          "centerOfMass": [
+            0.21383058355789458,
+            0.4701297356568127,
+            -0.07971204080807642
+          ],
+          "gpuMs": 10.58982
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 116,
+          "boundaryChunks": 202,
+          "sleepingOccupiedChunks": 44,
+          "unsupportedChunks": 0
+        }
+      },
+      {
+        "batch": 270,
+        "pose": {
+          "x": -0.9607650620805108,
+          "y": 1.7948338232519931,
+          "z": 0.3369090418951794,
+          "angle": 0.4058002959724058
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.007312476620128614,
+            -0.08233825299918146,
+            0.39386508108638074,
+            -0.6595103033270536
+          ],
+          "effort": [
+            -5.539673040961645,
+            25485.897949103353,
+            -691.1599814967667,
+            389.4381531443905
+          ],
+          "reaction": [
+            208.23324456994385,
+            -9904.865541569197,
+            -303.69695487731565,
+            1719.0937084393167
+          ],
+          "carriedMassKg": 1006.624
+        },
+        "snapshot": {
+          "mass": 92779.20198440552,
+          "massErrorPercent": 0.0000021388622991536413,
+          "volume": 61.20000290684402,
+          "restVolume": 61.181917738100196,
+          "deformedVolume": 61.073934332770214,
+          "permanentCompactionPercent": 0.02955092791637748,
+          "elasticCompressionPercent": 0.17649562047437062,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 28035.81998017001,
+          "maxSpeed": 0.4600405351381647,
+          "kineticEnergy": 101.93326780970983,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 1006.6240215301514,
+          "bucketReferenceVolume": 0.6640000315383077,
+          "bucketRestVolume": 0.6640000315383077,
+          "bucketDeformedVolume": 0.6640433834314843,
+          "reactionN": [
+            208.23324456994385,
+            -9904.865541569197,
+            -303.69695487731565
+          ],
+          "centerOfMass": [
+            0.21062748881500937,
+            0.4706227755390725,
+            -0.0757749903685678
+          ],
+          "gpuMs": 9.51222
+        },
+        "terrain": {
+          "mapMetres": [
+            12,
+            4,
+            12
+          ],
+          "chunkMetres": 1,
+          "activeChunks": 84,
+          "boundaryChunks": 196,
+          "sleepingOccupiedChunks": 55,
+          "unsupportedChunks": 0
+        }
+      }
+    ],
+    "report": {
+      "schema": 3,
+      "terrain": {
+        "mapMetres": [
+          12,
+          4,
+          12
+        ],
+        "chunkMetres": 1,
+        "activeChunks": 79,
+        "boundaryChunks": 186,
+        "sleepingOccupiedChunks": 64,
+        "unsupportedChunks": 4
+      },
+      "actuation": "force",
+      "bucketDynamics": {
+        "mode": "force-limited fixture",
+        "massKg": 1800,
+        "inertiaKgM2": 1100,
+        "strength": 1,
+        "velocity": [
+          -0.0002869049075136885,
+          -0.04974942931608729,
+          0.39497372269792563,
+          -0.6523711023480262
+        ],
+        "effort": [
+          -239.95540694718449,
+          24861.33422231415,
+          -685.9937617386095,
+          -543.9639617453649
+        ],
+        "reaction": [
+          -118.64363983332044,
+          -8529.07469162376,
+          -316.7681057432588,
+          2831.1859581427375
+        ],
+        "carriedMassKg": 1006.624
+      },
+      "createdAt": "2026-10-04T14:04:06.532Z",
+      "adapter": {
+        "description": "amd · gcn-5",
+        "vendor": "amd",
+        "architecture": "gcn-5",
+        "device": "",
+        "isFallbackAdapter": false,
+        "powerPreference": "low-power",
+        "timestampQueries": true
+      },
+      "scenario": "terrain",
+      "material": {
+        "moisture": 0.12,
+        "grainMm": 0.12,
+        "friction": 38,
+        "cohesion": 1500,
+        "stiffness": 85000,
+        "viscosity": 0.15,
+        "adhesion": 0.08
+      },
+      "solver": {
+        "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+        "dx": 0.25,
+        "grid": [
+          48,
+          16,
+          48
+        ],
+        "points": 7650,
+        "allocatedBytes": 3808612,
+        "dt": 0.0009873843651844868
+      },
+      "simulationSeconds": 9.478889905771005,
+      "timeDebtSeconds": 0,
+      "bucketPose": {
+        "x": -0.9612278461324135,
+        "y": 1.7973853987503192,
+        "z": 0.7031966090543798,
+        "angle": -0.2263504948730578
+      },
+      "supportPresent": true,
+      "performance": {
+        "samples": 44,
+        "medianMs": 16.69999998807907,
+        "p95Ms": 19.80000001192093,
+        "p99Ms": 119.30000001192093,
+        "fps": 53.320407174788706,
+        "simulationRate": 0
+      },
+      "snapshot": {
+        "mass": 92779.20198440552,
+        "massErrorPercent": 0.0000021388622991536413,
+        "volume": 61.20000290684402,
+        "restVolume": 61.181917738100196,
+        "deformedVolume": 61.07403540247271,
+        "permanentCompactionPercent": 0.02955092791637748,
+        "elasticCompressionPercent": 0.1763304250927522,
+        "maxCompactionPercent": 6.793504953384399,
+        "maxPressurePa": 29844.599629982367,
+        "maxSpeed": 0.5295385981489608,
+        "kineticEnergy": 93.95367842227715,
+        "invalidParticles": 0,
+        "penetrationMm": 0,
+        "preCorrectionPenetrationMm": 0,
+        "bucketMass": 1006.6240215301514,
+        "bucketReferenceVolume": 0.6640000315383077,
+        "bucketRestVolume": 0.6640000315383077,
+        "bucketDeformedVolume": 0.6639035275644939,
+        "reactionN": [
+          -118.64363983332044,
+          -8529.07469162376,
+          -316.7681057432588
+        ],
+        "centerOfMass": [
+          0.20873018463239842,
+          0.4721669476133534,
+          -0.07168355489575728
+        ],
+        "gpuMs": 9.35114
+      },
+      "rendering": {
+        "mode": "surface",
+        "detailEnabled": true,
+        "allocatedVisualBytes": 26724320,
+        "surface": {
+          "vertices": 267228,
+          "triangles": 89076,
+          "overflowTriangles": 0,
+          "activeGrains": 0,
+          "sparseSamples": 0,
+          "gpuMs": 2.3977
+        }
+      },
+      "limitations": [
+        "Restricted four-axis fixture; full machine joints and chassis are not implemented.",
+        "Soil contact is coupled once per frame batch; this is a coupling prototype, not calibrated hydraulics.",
+        "No explicit pore water, drainage, or engineering calibration.",
+        "Fixed-point grid accumulation introduces quantization.",
+        "CPU diagnostic readback is included in wall-time measurements.",
+        "Solver buffer allocation excludes renderer and driver memory."
+      ]
+    }
+  },
+  "support": {
+    "initial": {
+      "mapMetres": [
+        12,
+        4,
+        12
+      ],
+      "chunkMetres": 1,
+      "activeChunks": 0,
+      "boundaryChunks": 0,
+      "sleepingOccupiedChunks": 8,
+      "unsupportedChunks": 8
+    },
+    "final": {
+      "mass": 371.20001220703125,
+      "massErrorPercent": 0.0000032885321286014773,
+      "volume": 0.25600001215934753,
+      "restVolume": 0.25600001215934753,
+      "deformedVolume": 0.2559162861976052,
+      "permanentCompactionPercent": 0,
+      "elasticCompressionPercent": 0.03270545225216859,
+      "maxCompactionPercent": 0,
+      "maxPressurePa": 5427.7219437584035,
+      "maxSpeed": 0.001151327781311728,
+      "kineticEnergy": 0.00007490987618483044,
+      "invalidParticles": 0,
+      "penetrationMm": 0,
+      "preCorrectionPenetrationMm": 0,
+      "bucketMass": 0,
+      "bucketReferenceVolume": 0,
+      "bucketRestVolume": 0,
+      "bucketDeformedVolume": 0,
+      "reactionN": [
+        0,
+        0,
+        0
+      ],
+      "centerOfMass": [
+        1.0493692252784967,
+        0.3756524883210659,
+        0.9499974362552166
+      ],
+      "gpuMs": 2.34556
+    },
+    "terrain": {
+      "mapMetres": [
+        12,
+        4,
+        12
+      ],
+      "chunkMetres": 1,
+      "activeChunks": 60,
+      "boundaryChunks": 122,
+      "sleepingOccupiedChunks": 0,
+      "unsupportedChunks": 0
+    },
+    "seconds": 1.9053993138728977
+  },
+  "visual": {
+    "vertices": 272100,
+    "triangles": 90700,
+    "overflowTriangles": 0,
+    "activeGrains": 0,
+    "sparseSamples": 49,
+    "gpuMs": 1.78572
+  },
+  "errors": []
+}

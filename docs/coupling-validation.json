@@ -1,0 +1,2240 @@
+{
+  "adapter": {
+    "description": "amd · gcn-5",
+    "vendor": "amd",
+    "architecture": "gcn-5",
+    "device": "",
+    "isFallbackAdapter": false,
+    "powerPreference": "low-power",
+    "timestampQueries": true
+  },
+  "runs": [
+    {
+      "strength": 1,
+      "samples": [
+        {
+          "batch": 0,
+          "pose": {
+            "x": -1.6498704116483023,
+            "y": 0.63,
+            "z": 0,
+            "angle": 0
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.01411914139408573,
+              0,
+              0,
+              0
+            ],
+            "effort": [
+              1452.5052036675797,
+              17658,
+              0,
+              0
+            ],
+            "reaction": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "carriedMassKg": 0
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.613749983138405,
+            "deformedVolume": 2.6123156770977585,
+            "permanentCompactionPercent": 0,
+            "elasticCompressionPercent": 0.054875410804366975,
+            "maxCompactionPercent": 0,
+            "maxPressurePa": 10826.925630375657,
+            "maxSpeed": 0.1571826820363989,
+            "kineticEnergy": 35.45811871239187,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 0,
+            "bucketReferenceVolume": 0,
+            "bucketRestVolume": 0,
+            "bucketDeformedVolume": 0,
+            "reactionN": [
+              0,
+              0,
+              0
+            ],
+            "centerOfMass": [
+              0.37543465188570035,
+              0.6237489608886321,
+              0.0003880534308273206
+            ],
+            "gpuMs": 13.66816
+          }
+        },
+        {
+          "batch": 40,
+          "pose": {
+            "x": -1.2984042073238486,
+            "y": 0.630317617155392,
+            "z": 0.000017461395999839434,
+            "angle": -0.0008828864550921623
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.6623863557408615,
+              0.01015885278950368,
+              0.000043671478582390144,
+              -0.008717011736951314
+            ],
+            "effort": [
+              435.3249134927628,
+              17378.735899626703,
+              -10.838470642559354,
+              317.066254479295
+            ],
+            "reaction": [
+              -855.9799808477653,
+              93.85909202915546,
+              -32.351889625102075,
+              -130.2684187995697
+            ],
+            "carriedMassKg": 30.402
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6136360004588735,
+            "deformedVolume": 2.6103877768013484,
+            "permanentCompactionPercent": 0.004360886858600921,
+            "elasticCompressionPercent": 0.12427987894851888,
+            "maxCompactionPercent": 1.5128493309020996,
+            "maxPressurePa": 26889.818162378873,
+            "maxSpeed": 0.18347579680594844,
+            "kineticEnergy": 7.668198745668493,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 31.52840518951416,
+            "bucketReferenceVolume": 0.020797101315110922,
+            "bucketRestVolume": 0.020797101315110922,
+            "bucketDeformedVolume": 0.020795222337313915,
+            "reactionN": [
+              -855.9799808477653,
+              93.85909202915546,
+              -32.351889625102075
+            ],
+            "centerOfMass": [
+              0.37516183334293257,
+              0.5263692782231103,
+              -0.00042152109850213473
+            ],
+            "gpuMs": 13.42334
+          }
+        },
+        {
+          "batch": 80,
+          "pose": {
+            "x": -0.9002529586762279,
+            "y": 0.6281865583952915,
+            "z": -0.00017409249958587857,
+            "angle": -0.013297099645206208
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.6127691775693487,
+              -0.011129990100670631,
+              -0.00011109191556151355,
+              -0.01908442391189789
+            ],
+            "effort": [
+              7596.379246853538,
+              17928.880330920438,
+              25.3899985240434,
+              1914.9816634354595
+            ],
+            "reaction": [
+              -6985.5395155171,
+              -1395.1380521835745,
+              -27.73109537225048,
+              -2196.2698382355056
+            ],
+            "carriedMassKg": 282.626
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6128916003366807,
+            "deformedVolume": 2.6086340899910225,
+            "permanentCompactionPercent": 0.032841044754150506,
+            "elasticCompressionPercent": 0.16294247894208524,
+            "maxCompactionPercent": 4.355907440185547,
+            "maxPressurePa": 32786.60899135013,
+            "maxSpeed": 0.6413023695797284,
+            "kineticEnergy": 7.273485457409989,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 288.25970458984375,
+            "bucketReferenceVolume": 0.19014492630958557,
+            "bucketRestVolume": 0.19014492630958557,
+            "bucketDeformedVolume": 0.18988271159312256,
+            "reactionN": [
+              -6985.5395155171,
+              -1395.1380521835745,
+              -27.73109537225048
+            ],
+            "centerOfMass": [
+              0.4123743427070796,
+              0.5219620773190271,
+              -0.0006351384174472178
+            ],
+            "gpuMs": 13.45012
+          }
+        },
+        {
+          "batch": 120,
+          "pose": {
+            "x": -0.5440525964150703,
+            "y": 0.6241488045264197,
+            "z": -0.00004184701423645503,
+            "angle": -0.022382773762812246
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.29022705174163443,
+              0.018513422035127715,
+              0.00013332948234948323,
+              -0.06455637331006434
+            ],
+            "effort": [
+              14382.3702096323,
+              18119.28318159683,
+              9.578049815506683,
+              3844.1043214844576
+            ],
+            "reaction": [
+              -17991.66375971608,
+              -233.71091151203657,
+              27.84503276478655,
+              -4209.100474487943
+            ],
+            "carriedMassKg": 512.33
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.612188468264245,
+            "deformedVolume": 2.6077122255640752,
+            "permanentCompactionPercent": 0.059742319817635,
+            "elasticCompressionPercent": 0.17135986758045618,
+            "maxCompactionPercent": 4.419255256652832,
+            "maxPressurePa": 51499.15114382512,
+            "maxSpeed": 0.38110288871721937,
+            "kineticEnergy": 36.59854321415249,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 517.9666566848755,
+            "bucketReferenceVolume": 0.3416666644625366,
+            "bucketRestVolume": 0.3416666644625366,
+            "bucketDeformedVolume": 0.3413394428976907,
+            "reactionN": [
+              -17991.66375971608,
+              -233.71091151203657,
+              27.84503276478655
+            ],
+            "centerOfMass": [
+              0.4689436978770853,
+              0.5117349992695432,
+              -0.0015010783945887927
+            ],
+            "gpuMs": 13.72508
+          }
+        },
+        {
+          "batch": 160,
+          "pose": {
+            "x": -0.26989778416622034,
+            "y": 0.6180297188373726,
+            "z": -0.00034485914604219883,
+            "angle": -0.02421210262701947
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.36199336301801066,
+              -0.04293076612065669,
+              -0.0007679285207882272,
+              -0.0023985337637644003
+            ],
+            "effort": [
+              13801.12165728819,
+              20050.589143862253,
+              71.76525996788992,
+              2906.567506000745
+            ],
+            "reaction": [
+              -12249.598967206766,
+              -2898.111516547395,
+              -16.786775833647173,
+              -3379.1298684141057
+            ],
+            "carriedMassKg": 675.6
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.611751501315505,
+            "deformedVolume": 2.607890555366625,
+            "permanentCompactionPercent": 0.0764603284855947,
+            "elasticCompressionPercent": 0.14782975895429873,
+            "maxCompactionPercent": 4.598486423492432,
+            "maxPressurePa": 41184.14472399341,
+            "maxSpeed": 0.35696314852131317,
+            "kineticEnergy": 41.115561257104744,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 687.9948418140411,
+            "bucketReferenceVolume": 0.4538224608404562,
+            "bucketRestVolume": 0.4538224608404562,
+            "bucketDeformedVolume": 0.4532446950710546,
+            "reactionN": [
+              -12249.598967206766,
+              -2898.111516547395,
+              -16.786775833647173
+            ],
+            "centerOfMass": [
+              0.5428471321489632,
+              0.4979270655861907,
+              -0.0021669004849646763
+            ],
+            "gpuMs": 13.65743
+          }
+        },
+        {
+          "batch": 200,
+          "pose": {
+            "x": -0.018791830245628322,
+            "y": 0.6110364115414757,
+            "z": -0.0004922490508047868,
+            "angle": -0.02172666927545502
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.3443859388310158,
+              -0.04959860804761555,
+              0.0003319831575930472,
+              -0.0023485722186078473
+            ],
+            "effort": [
+              13827.043959576044,
+              21121.738490721866,
+              56.41289244722054,
+              2491.983742681858
+            ],
+            "reaction": [
+              -14147.15661148841,
+              -4023.3635350887316,
+              -76.82545184501349,
+              -3372.8633118246216
+            ],
+            "carriedMassKg": 811.846
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.611407988896867,
+            "deformedVolume": 2.60765483571857,
+            "permanentCompactionPercent": 0.08960284100033578,
+            "elasticCompressionPercent": 0.14372144047404278,
+            "maxCompactionPercent": 5.326038599014282,
+            "maxPressurePa": 47809.501533583316,
+            "maxSpeed": 0.3822757586575788,
+            "kineticEnergy": 65.85495365412852,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 811.8564336299896,
+            "bucketReferenceVolume": 0.5355253588641062,
+            "bucketRestVolume": 0.5355166070839361,
+            "bucketDeformedVolume": 0.5347836651697523,
+            "reactionN": [
+              -14147.15661148841,
+              -4023.3635350887316,
+              -76.82545184501349
+            ],
+            "centerOfMass": [
+              0.6391914308585686,
+              0.4796563116883845,
+              -0.002589410277926595
+            ],
+            "gpuMs": 13.4427
+          }
+        },
+        {
+          "batch": 240,
+          "pose": {
+            "x": 0.18317220407251064,
+            "y": 0.6130668002194408,
+            "z": -0.000018985064565946355,
+            "angle": 0.09216723474398311
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.035828684897954446,
+              0.00821838701136094,
+              -0.0007835613587464775,
+              0.4348121672706762
+            ],
+            "effort": [
+              8175.670753096476,
+              24537.62110973356,
+              11.826717670683822,
+              8989.132318651982
+            ],
+            "reaction": [
+              -10581.606179319879,
+              -5409.019464271249,
+              -48.49302023437821,
+              -10320.638911571157
+            ],
+            "carriedMassKg": 871.524
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6107772928532453,
+            "deformedVolume": 2.607881475967726,
+            "permanentCompactionPercent": 0.11373277108891466,
+            "elasticCompressionPercent": 0.11091780572193288,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 47534.52980931483,
+            "maxSpeed": 0.3492309498287658,
+            "kineticEnergy": 48.226133782833955,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 871.5352005958557,
+            "bucketReferenceVolume": 0.5748913006391376,
+            "bucketRestVolume": 0.5748639301864333,
+            "bucketDeformedVolume": 0.5743272704410542,
+            "reactionN": [
+              -10581.606179319879,
+              -5409.019464271249,
+              -48.49302023437821
+            ],
+            "centerOfMass": [
+              0.7495205019940507,
+              0.4608437891083027,
+              -0.002948247847140937
+            ],
+            "gpuMs": 10.44565
+          }
+        },
+        {
+          "batch": 280,
+          "pose": {
+            "x": 0.21224854243488406,
+            "y": 0.6495989673976833,
+            "z": -0.00003601611363531653,
+            "angle": 0.5194089442022117
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.016947986752326706,
+              0.026007840872585786,
+              -0.000660530305634259,
+              0.6378542118285023
+            ],
+            "effort": [
+              5014.022526820984,
+              27408.33073414873,
+              15.731384597700155,
+              5702.628251833477
+            ],
+            "reaction": [
+              -5161.6423955100245,
+              -10456.52824173584,
+              -29.29456959205095,
+              -6744.14415986402
+            ],
+            "carriedMassKg": 838.87
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6106849082340675,
+            "deformedVolume": 2.6084368490328718,
+            "permanentCompactionPercent": 0.11726733329929795,
+            "elasticCompressionPercent": 0.08610993973671155,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 31641.017241456037,
+            "maxSpeed": 0.4371192169816689,
+            "kineticEnergy": 39.796327279832866,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 838.8807809352875,
+            "bucketReferenceVolume": 0.5533514457056299,
+            "bucketRestVolume": 0.553260593458152,
+            "bucketDeformedVolume": 0.5528090382006362,
+            "reactionN": [
+              -5161.6423955100245,
+              -10456.52824173584,
+              -29.29456959205095
+            ],
+            "centerOfMass": [
+              0.7847008091230538,
+              0.4656017060669756,
+              -0.0031982590581469245
+            ],
+            "gpuMs": 7.12426
+          }
+        },
+        {
+          "batch": 320,
+          "pose": {
+            "x": 0.23663441618509154,
+            "y": 0.7185407966558591,
+            "z": -0.00018793702498907597,
+            "angle": 0.9793712655034322
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              -0.017772355254066202,
+              0.06446367708811035,
+              -0.0006387361254726637,
+              0.6588783236999296
+            ],
+            "effort": [
+              2315.975444540566,
+              25585.420357840983,
+              38.263206743478534,
+              2753.34426936823
+            ],
+            "reaction": [
+              -2985.1976635757956,
+              -10188.313289850797,
+              -38.20700563042774,
+              -5291.885494889031
+            ],
+            "carriedMassKg": 828.736
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610654097260916,
+            "deformedVolume": 2.6080740633222694,
+            "permanentCompactionPercent": 0.11844613667950643,
+            "elasticCompressionPercent": 0.09882710778703618,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 48522.08309258611,
+            "maxSpeed": 0.5989148337465087,
+            "kineticEnergy": 36.258862296325994,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 856.8970124721527,
+            "bucketReferenceVolume": 0.565235503599979,
+            "bucketRestVolume": 0.5651239471793272,
+            "bucketDeformedVolume": 0.5646015046707913,
+            "reactionN": [
+              -2985.1976635757956,
+              -10188.313289850797,
+              -38.20700563042774
+            ],
+            "centerOfMass": [
+              0.7820468917821692,
+              0.483257600142555,
+              -0.0036295014694661845
+            ],
+            "gpuMs": 7.26488
+          }
+        },
+        {
+          "batch": 360,
+          "pose": {
+            "x": 0.13949177677756705,
+            "y": 0.9388013489353648,
+            "z": -0.0001994318080835897,
+            "angle": 1.1969983799592845
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              -0.35062858169289124,
+              0.5012993737312313,
+              0.0005348059973145667,
+              0.007278722574330628
+            ],
+            "effort": [
+              -924.0396307466835,
+              27699.03529666506,
+              14.810351425410598,
+              636.4634720475125
+            ],
+            "reaction": [
+              1078.3351322370406,
+              -12128.122717197899,
+              -23.198919091371376,
+              -1065.4412173150424
+            ],
+            "carriedMassKg": 828.736
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6106216270780296,
+            "deformedVolume": 2.608039094533427,
+            "permanentCompactionPercent": 0.11968842010737779,
+            "elasticCompressionPercent": 0.09892404620477357,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 38200.90595787553,
+            "maxSpeed": 0.6634631074732691,
+            "kineticEnergy": 182.6168368257186,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 864.7791137695312,
+            "bucketReferenceVolume": 0.5704347789287567,
+            "bucketRestVolume": 0.5703071376300836,
+            "bucketDeformedVolume": 0.5696268134958082,
+            "reactionN": [
+              1078.3351322370406,
+              -12128.122717197899,
+              -23.198919091371376
+            ],
+            "centerOfMass": [
+              0.7406870228897791,
+              0.5158469230148331,
+              -0.003707779944507897
+            ],
+            "gpuMs": 7.60098
+          }
+        },
+        {
+          "batch": 400,
+          "pose": {
+            "x": -0.09056797914929225,
+            "y": 1.3287396725327763,
+            "z": 0.000003756420725197644,
+            "angle": 1.198942383221303
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              -0.3585957136375765,
+              0.5941038522716653,
+              -0.000019917348455164407,
+              -0.007304689606041129
+            ],
+            "effort": [
+              398.18291226227757,
+              25435.38826103908,
+              1.0455864694677972,
+              744.3200734621166
+            ],
+            "reaction": [
+              -475.4860584735703,
+              -11036.450580178996,
+              5.5196336828583465,
+              -863.0124499092971
+            ],
+            "carriedMassKg": 818.602
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610620807345721,
+            "deformedVolume": 2.6079969149846054,
+            "permanentCompactionPercent": 0.11971978241493986,
+            "elasticCompressionPercent": 0.10050836773124461,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 33301.9979919503,
+            "maxSpeed": 0.917654182386222,
+            "kineticEnergy": 213.54124047351223,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 858.0230269432068,
+            "bucketReferenceVolume": 0.5659782572183758,
+            "bucketRestVolume": 0.565852224438495,
+            "bucketDeformedVolume": 0.5652452390603795,
+            "reactionN": [
+              -475.4860584735703,
+              -11036.450580178996,
+              5.5196336828583465
+            ],
+            "centerOfMass": [
+              0.6760716569407631,
+              0.5816971351474337,
+              -0.00400357953661621
+            ],
+            "gpuMs": 6.98133
+          }
+        },
+        {
+          "batch": 440,
+          "pose": {
+            "x": -0.31252187957244293,
+            "y": 1.747743755413526,
+            "z": -7.063721331119602e-7,
+            "angle": 1.1993013296766661
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              -0.3413223954477078,
+              0.6021833900952741,
+              -0.00016449229694126977,
+              -0.022634030671691792
+            ],
+            "effort": [
+              1130.4142998795778,
+              23131.625877175604,
+              -1.4503395272227007,
+              -760.5327122145256
+            ],
+            "reaction": [
+              66.14698622232767,
+              -12234.844074873348,
+              -26.07900318047751,
+              -793.1941477052517
+            ],
+            "carriedMassKg": 815.224
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610620807345721,
+            "deformedVolume": 2.6080358837469655,
+            "permanentCompactionPercent": 0.11971978241493986,
+            "elasticCompressionPercent": 0.09901566675183382,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 32592.371623751395,
+            "maxSpeed": 0.7658247971673384,
+            "kineticEnergy": 220.71397669992555,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 855.7709980010986,
+            "bucketReferenceVolume": 0.5644927499815822,
+            "bucketRestVolume": 0.564358643750459,
+            "bucketDeformedVolume": 0.5638144331584765,
+            "reactionN": [
+              66.14698622232767,
+              -12234.844074873348,
+              -26.07900318047751
+            ],
+            "centerOfMass": [
+              0.6202044917893345,
+              0.6644838347662659,
+              -0.004302507562808089
+            ],
+            "gpuMs": 7.00193
+          }
+        },
+        {
+          "batch": 480,
+          "pose": {
+            "x": -0.3568836678346396,
+            "y": 1.8321110128742606,
+            "z": 0.0000027410604902815075,
+            "angle": 0.8488771718736884
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              0.019184687618901367,
+              -0.09201996935648943,
+              -0.00005818581185187241,
+              -0.686809218891186
+            ],
+            "effort": [
+              -334.4960743673313,
+              26770.14217315532,
+              0.17706784002593334,
+              657.621145456751
+            ],
+            "reaction": [
+              133.68021072051081,
+              -9348.714974107661,
+              -3.6903055471403854,
+              190.33874408664047
+            ],
+            "carriedMassKg": 801.712
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610620807345721,
+            "deformedVolume": 2.6082904904455875,
+            "permanentCompactionPercent": 0.11971978241493986,
+            "elasticCompressionPercent": 0.08926294058395623,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 31692.4106012705,
+            "maxSpeed": 1.2589735470736962,
+            "kineticEnergy": 38.185009801405705,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 852.3929545879364,
+            "bucketReferenceVolume": 0.5622644891263917,
+            "bucketRestVolume": 0.5621281024669256,
+            "bucketDeformedVolume": 0.5617935745864068,
+            "reactionN": [
+              133.68021072051081,
+              -9348.714974107661,
+              -3.6903055471403854
+            ],
+            "centerOfMass": [
+              0.5894715182079989,
+              0.674835036625983,
+              -0.004401803640451382
+            ],
+            "gpuMs": 7.376
+          }
+        },
+        {
+          "batch": 520,
+          "pose": {
+            "x": -0.35652941893615614,
+            "y": 1.8319575692315888,
+            "z": 5.172859042992984e-7,
+            "angle": 0.4127094959081841
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 1,
+            "velocity": [
+              -0.0012932045863956487,
+              -0.04404258981455061,
+              0.0000031713694181240887,
+              -0.6797065397548657
+            ],
+            "effort": [
+              67.0192144906419,
+              25722.351926650306,
+              -0.19187587128419842,
+              -212.6807614835161
+            ],
+            "reaction": [
+              -46.12565441168437,
+              -8908.31530268006,
+              -0.1392568130996372,
+              1143.7415254078837
+            ],
+            "carriedMassKg": 847.878
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610613841436235,
+            "deformedVolume": 2.608398527175632,
+            "permanentCompactionPercent": 0.11998629258349602,
+            "elasticCompressionPercent": 0.08485798341529849,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 29361.848404828783,
+            "maxSpeed": 0.6435329370548454,
+            "kineticEnergy": 29.787354606351265,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 847.8888967037201,
+            "bucketReferenceVolume": 0.5592934746528044,
+            "bucketRestVolume": 0.5591570879933383,
+            "bucketDeformedVolume": 0.5588952987689638,
+            "reactionN": [
+              -46.12565441168437,
+              -8908.31530268006,
+              -0.1392568130996372
+            ],
+            "centerOfMass": [
+              0.5643904919383357,
+              0.6690759480202814,
+              -0.004352828267039483
+            ],
+            "gpuMs": 7.39209
+          }
+        }
+      ],
+      "final": {
+        "pose": {
+          "x": -0.3566491514490935,
+          "y": 1.8309255589669178,
+          "z": 0.000001868905764014442,
+          "angle": -0.013082652175131541
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.0005437196814646974,
+            -0.04477477003500238,
+            0.000021621901963860143,
+            -0.6781836494163874
+          ],
+          "effort": [
+            70.1649840473663,
+            25895.139188405352,
+            -0.6506195460409504,
+            -890.3215106359567
+          ],
+          "reaction": [
+            -38.15636678930059,
+            -8976.74736660825,
+            0.8545304440205009,
+            1929.2765483926555
+          ],
+          "carriedMassKg": 846.752
+        },
+        "snapshot": {
+          "mass": 3962.4449236392975,
+          "massErrorPercent": -0.0000019271160872987826,
+          "volume": 2.613749983138405,
+          "restVolume": 2.610613841436235,
+          "deformedVolume": 2.6082695174585253,
+          "permanentCompactionPercent": 0.11998629258349602,
+          "elasticCompressionPercent": 0.08979972221476729,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 28678.97410704769,
+          "maxSpeed": 0.37612532387981323,
+          "kineticEnergy": 29.74411501858038,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 846.762882232666,
+          "bucketReferenceVolume": 0.5585507210344076,
+          "bucketRestVolume": 0.5584246882545267,
+          "bucketDeformedVolume": 0.5580718434059222,
+          "reactionN": [
+            -38.15636678930059,
+            -8976.74736660825,
+            0.8545304440205009
+          ],
+          "centerOfMass": [
+            0.5448235196327361,
+            0.6818361640798017,
+            -0.004318026902357905
+          ],
+          "gpuMs": 7.0286
+        }
+      },
+      "maxReaction": 28467.24422001075,
+      "maxTorque": 14059.43114909078,
+      "maxLoad": 900.8,
+      "maxSpeed": 0.7258592504762271,
+      "report": {
+        "schema": 2,
+        "actuation": "force",
+        "bucketDynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 1,
+          "velocity": [
+            -0.0005437196814646974,
+            -0.04477477003500238,
+            0.000021621901963860143,
+            -0.6781836494163874
+          ],
+          "effort": [
+            70.1649840473663,
+            25895.139188405352,
+            -0.6506195460409504,
+            -890.3215106359567
+          ],
+          "reaction": [
+            -38.15636678930059,
+            -8976.74736660825,
+            0.8545304440205009,
+            1929.2765483926555
+          ],
+          "carriedMassKg": 846.752
+        },
+        "createdAt": "2026-10-04T12:59:43.499Z",
+        "adapter": {
+          "description": "amd · gcn-5",
+          "vendor": "amd",
+          "architecture": "gcn-5",
+          "device": "",
+          "isFallbackAdapter": false,
+          "powerPreference": "low-power",
+          "timestampQueries": true
+        },
+        "scenario": "scoop",
+        "material": {
+          "moisture": 0.12,
+          "grainMm": 0.12,
+          "friction": 38,
+          "cohesion": 1500,
+          "stiffness": 85000,
+          "viscosity": 0.15,
+          "adhesion": 0.08
+        },
+        "solver": {
+          "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+          "dx": 0.125,
+          "grid": [
+            48,
+            32,
+            32
+          ],
+          "points": 3519,
+          "allocatedBytes": 2699472,
+          "dt": 0.0004936921825922434
+        },
+        "simulationSeconds": 8.846963912052962,
+        "timeDebtSeconds": 0,
+        "bucketPose": {
+          "x": -0.3566491514490935,
+          "y": 1.8309255589669178,
+          "z": 0.000001868905764014442,
+          "angle": -0.013082652175131541
+        },
+        "supportPresent": true,
+        "performance": {
+          "samples": 1,
+          "medianMs": 0.09999999403953552,
+          "p95Ms": 0.09999999403953552,
+          "p99Ms": 0.09999999403953552,
+          "fps": 10000.000596046482,
+          "simulationRate": 0
+        },
+        "snapshot": {
+          "mass": 3962.4449236392975,
+          "massErrorPercent": -0.0000019271160872987826,
+          "volume": 2.613749983138405,
+          "restVolume": 2.613749983138405,
+          "deformedVolume": 2.613749983138405,
+          "permanentCompactionPercent": 0,
+          "elasticCompressionPercent": 0,
+          "maxCompactionPercent": 0,
+          "maxPressurePa": 0,
+          "maxSpeed": 0,
+          "kineticEnergy": 0,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 0,
+          "bucketReferenceVolume": 0,
+          "bucketRestVolume": 0,
+          "bucketDeformedVolume": 0,
+          "reactionN": [
+            0,
+            0,
+            0
+          ],
+          "centerOfMass": [
+            0.3754346926960651,
+            0.6248666003376091,
+            0.0003880294635094374
+          ],
+          "gpuMs": 0
+        },
+        "rendering": {
+          "mode": "surface",
+          "detailEnabled": true,
+          "allocatedVisualBytes": 16497792,
+          "surface": {
+            "vertices": 92640,
+            "triangles": 30880,
+            "overflowTriangles": 0,
+            "activeGrains": 0,
+            "sparseSamples": 0,
+            "gpuMs": 3.0604
+          }
+        },
+        "limitations": [
+          "Restricted four-axis fixture; full machine joints and chassis are not implemented.",
+          "Soil contact is coupled once per frame batch; this is a coupling prototype, not calibrated hydraulics.",
+          "No explicit pore water, drainage, or engineering calibration.",
+          "Fixed-point grid accumulation introduces quantization.",
+          "CPU diagnostic readback is included in wall-time measurements.",
+          "Solver buffer allocation excludes renderer and driver memory."
+        ]
+      }
+    },
+    {
+      "strength": 0.5,
+      "samples": [
+        {
+          "batch": 0,
+          "pose": {
+            "x": -1.6498704116483023,
+            "y": 0.63,
+            "z": 0,
+            "angle": 0
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.01411914139408573,
+              0,
+              0,
+              0
+            ],
+            "effort": [
+              1452.5052036675797,
+              17658,
+              0,
+              0
+            ],
+            "reaction": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "carriedMassKg": 0
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.613749983138405,
+            "deformedVolume": 2.6123156770977585,
+            "permanentCompactionPercent": 0,
+            "elasticCompressionPercent": 0.054875410804366975,
+            "maxCompactionPercent": 0,
+            "maxPressurePa": 10826.925630375657,
+            "maxSpeed": 0.1571826820363989,
+            "kineticEnergy": 35.45811871239187,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 0,
+            "bucketReferenceVolume": 0,
+            "bucketRestVolume": 0,
+            "bucketDeformedVolume": 0,
+            "reactionN": [
+              0,
+              0,
+              0
+            ],
+            "centerOfMass": [
+              0.37543465188570035,
+              0.6237489608886321,
+              0.0003880534308273206
+            ],
+            "gpuMs": 7.58797
+          }
+        },
+        {
+          "batch": 40,
+          "pose": {
+            "x": -1.2984042073238486,
+            "y": 0.630317617155392,
+            "z": 0.000017461395999839434,
+            "angle": -0.0008828864550921623
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.6623863557408615,
+              0.01015885278950368,
+              0.000043671478582390144,
+              -0.008717011736951314
+            ],
+            "effort": [
+              435.3249134927628,
+              17378.735899626703,
+              -10.838470642559354,
+              317.066254479295
+            ],
+            "reaction": [
+              -855.9799808477653,
+              93.85909202915546,
+              -32.351889625102075,
+              -130.2684187995697
+            ],
+            "carriedMassKg": 30.402
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6136360004588735,
+            "deformedVolume": 2.6103877768013484,
+            "permanentCompactionPercent": 0.004360886858600921,
+            "elasticCompressionPercent": 0.12427987894851888,
+            "maxCompactionPercent": 1.5128493309020996,
+            "maxPressurePa": 26889.818162378873,
+            "maxSpeed": 0.18347579680594844,
+            "kineticEnergy": 7.668198745668493,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 31.52840518951416,
+            "bucketReferenceVolume": 0.020797101315110922,
+            "bucketRestVolume": 0.020797101315110922,
+            "bucketDeformedVolume": 0.020795222337313915,
+            "reactionN": [
+              -855.9799808477653,
+              93.85909202915546,
+              -32.351889625102075
+            ],
+            "centerOfMass": [
+              0.37516183334293257,
+              0.5263692782231103,
+              -0.00042152109850213473
+            ],
+            "gpuMs": 10.77682
+          }
+        },
+        {
+          "batch": 80,
+          "pose": {
+            "x": -0.9002529586762279,
+            "y": 0.6281865583952915,
+            "z": -0.00017409249958587857,
+            "angle": -0.013297099645206208
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.6127691775693487,
+              -0.011129990100670631,
+              -0.00011109191556151355,
+              -0.01908442391189789
+            ],
+            "effort": [
+              7596.379246853538,
+              17928.880330920438,
+              25.3899985240434,
+              1914.9816634354595
+            ],
+            "reaction": [
+              -6985.5395155171,
+              -1395.1380521835745,
+              -27.73109537225048,
+              -2196.2698382355056
+            ],
+            "carriedMassKg": 282.626
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6128916003366807,
+            "deformedVolume": 2.6086340899910225,
+            "permanentCompactionPercent": 0.032841044754150506,
+            "elasticCompressionPercent": 0.16294247894208524,
+            "maxCompactionPercent": 4.355907440185547,
+            "maxPressurePa": 32786.60899135013,
+            "maxSpeed": 0.6413023695797284,
+            "kineticEnergy": 7.273485457409989,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 288.25970458984375,
+            "bucketReferenceVolume": 0.19014492630958557,
+            "bucketRestVolume": 0.19014492630958557,
+            "bucketDeformedVolume": 0.18988271159312256,
+            "reactionN": [
+              -6985.5395155171,
+              -1395.1380521835745,
+              -27.73109537225048
+            ],
+            "centerOfMass": [
+              0.4123743427070796,
+              0.5219620773190271,
+              -0.0006351384174472178
+            ],
+            "gpuMs": 10.41676
+          }
+        },
+        {
+          "batch": 120,
+          "pose": {
+            "x": -0.5484663102804032,
+            "y": 0.6240744672571112,
+            "z": -0.000039253340245955215,
+            "angle": -0.022156245641687274
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.2504892981054626,
+              0.01627360365420631,
+              0.0002329531468419769,
+              -0.05917954419799712
+            ],
+            "effort": [
+              14000,
+              18166.306790880237,
+              7.086654002730328,
+              3751.472909764122
+            ],
+            "reaction": [
+              -16869.734915123714,
+              -325.86727250829193,
+              29.522444377123083,
+              -3988.7582170334717
+            ],
+            "carriedMassKg": 519.086
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.612196113830806,
+            "deformedVolume": 2.607788984518619,
+            "permanentCompactionPercent": 0.059449806508771186,
+            "elasticCompressionPercent": 0.16871356973746643,
+            "maxCompactionPercent": 4.388636350631714,
+            "maxPressurePa": 51403.5042263906,
+            "maxSpeed": 0.33786474841954856,
+            "kineticEnergy": 29.919685690114495,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 519.0926711559296,
+            "bucketReferenceVolume": 0.3424094180809334,
+            "bucketRestVolume": 0.3424094180809334,
+            "bucketDeformedVolume": 0.3420749758640245,
+            "reactionN": [
+              -16869.734915123714,
+              -325.86727250829193,
+              29.522444377123083
+            ],
+            "centerOfMass": [
+              0.4675865935607124,
+              0.5116610843270095,
+              -0.0015055737166883019
+            ],
+            "gpuMs": 7.53209
+          }
+        },
+        {
+          "batch": 160,
+          "pose": {
+            "x": -0.3037778265443557,
+            "y": 0.6174625729350344,
+            "z": -0.00025729268120771036,
+            "angle": -0.02375874979469853
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.1290590665228506,
+              -0.0062159830713816484,
+              -0.0014335700976738823,
+              -0.03395336548816481
+            ],
+            "effort": [
+              14000,
+              19507.465262631227,
+              63.496803488816475,
+              3494.1061658080384
+            ],
+            "reaction": [
+              -16867.892927277713,
+              -1695.489678618928,
+              -63.95685634357883,
+              -3710.1179937313796
+            ],
+            "carriedMassKg": 677.852
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.611825224141644,
+            "deformedVolume": 2.607607519634359,
+            "permanentCompactionPercent": 0.07363975166628789,
+            "elasticCompressionPercent": 0.16148494425660687,
+            "maxCompactionPercent": 4.392361640930176,
+            "maxPressurePa": 51176.96349133908,
+            "maxSpeed": 0.27697402342449207,
+            "kineticEnergy": 25.816630718146584,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 677.8607115745544,
+            "bucketReferenceVolume": 0.4471376782748848,
+            "bucketRestVolume": 0.4471376782748848,
+            "bucketDeformedVolume": 0.4466730350067934,
+            "reactionN": [
+              -16867.892927277713,
+              -1695.489678618928,
+              -63.95685634357883
+            ],
+            "centerOfMass": [
+              0.5219738221258606,
+              0.4981746911816242,
+              -0.0023007849153268306
+            ],
+            "gpuMs": 8.22326
+          }
+        },
+        {
+          "batch": 200,
+          "pose": {
+            "x": -0.15411560210167968,
+            "y": 0.6139360621038531,
+            "z": -0.0005765180874130946,
+            "angle": -0.02087966874440205
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.12708501934991867,
+              -0.034857634258803616,
+              0.00011864339583285194,
+              -0.01128105480842756
+            ],
+            "effort": [
+              14000,
+              20388.43078379058,
+              78.59860754760771,
+              2626.0304929075855
+            ],
+            "reaction": [
+              -11116.25106394023,
+              -3546.763422110364,
+              -62.076889366733724,
+              -3219.3010261065674
+            ],
+            "carriedMassKg": 769.058
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.611659519213402,
+            "deformedVolume": 2.607896943268689,
+            "permanentCompactionPercent": 0.07997949071214538,
+            "elasticCompressionPercent": 0.14406839471349242,
+            "maxCompactionPercent": 4.647171497344971,
+            "maxPressurePa": 44083.22158420637,
+            "maxSpeed": 0.2076424013829464,
+            "kineticEnergy": 11.684524282352545,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 769.0678837299347,
+            "bucketReferenceVolume": 0.5073007213650271,
+            "bucketRestVolume": 0.5072873224428895,
+            "bucketDeformedVolume": 0.5066854576863592,
+            "reactionN": [
+              -11116.25106394023,
+              -3546.763422110364,
+              -62.076889366733724
+            ],
+            "centerOfMass": [
+              0.5645858066537083,
+              0.4866294634718214,
+              -0.002899560925961011
+            ],
+            "gpuMs": 7.25372
+          }
+        },
+        {
+          "batch": 240,
+          "pose": {
+            "x": 0.0017687557301454488,
+            "y": 0.6094728840114854,
+            "z": -0.00036505559777335857,
+            "angle": 0.08842381503766134
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.08030171052644645,
+              0.09744950424214685,
+              -0.00017461238767871805,
+              0.46130439521371636
+            ],
+            "effort": [
+              8982.98391500783,
+              22500,
+              54.727585992931424,
+              9106.776084745856
+            ],
+            "reaction": [
+              -11710.59914224948,
+              -2448.3309998009895,
+              -44.536860771320335,
+              -9905.906802739873
+            ],
+            "carriedMassKg": 837.744
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610981727565303,
+            "deformedVolume": 2.607395139184833,
+            "permanentCompactionPercent": 0.10591126125146788,
+            "elasticCompressionPercent": 0.13736551055125723,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 122821.76475232144,
+            "maxSpeed": 0.48626024986204375,
+            "kineticEnergy": 39.114710393652075,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 837.7547664642334,
+            "bucketReferenceVolume": 0.5526086920872331,
+            "bucketRestVolume": 0.5525504063575685,
+            "bucketDeformedVolume": 0.5517571524556301,
+            "reactionN": [
+              -11710.59914224948,
+              -2448.3309998009895,
+              -44.536860771320335
+            ],
+            "centerOfMass": [
+              0.6297746055652,
+              0.47445081019814916,
+              -0.0028165286750193802
+            ],
+            "gpuMs": 7.76921
+          }
+        },
+        {
+          "batch": 280,
+          "pose": {
+            "x": 0.02454154412561293,
+            "y": 0.5977349705022298,
+            "z": 0.00023080252326577484,
+            "angle": 0.4794859165039984
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.00036451059111890227,
+              -0.12856840598957345,
+              -0.00013375956422827842,
+              0.644232040433562
+            ],
+            "effort": [
+              7813.578144574409,
+              22500,
+              -32.536893878571355,
+              6089.7821954026585
+            ],
+            "reaction": [
+              -8767.41905709893,
+              -5123.2771435010745,
+              10.0075009777512,
+              -7896.241094057882
+            ],
+            "carriedMassKg": 798.334
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610783166184765,
+            "deformedVolume": 2.6080385013296157,
+            "permanentCompactionPercent": 0.11350806208623165,
+            "elasticCompressionPercent": 0.10512802789212072,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 51900.69955472568,
+            "maxSpeed": 0.3433709464435378,
+            "kineticEnergy": 11.64543078180202,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 817.48650598526,
+            "bucketReferenceVolume": 0.5392391269560903,
+            "bucketRestVolume": 0.539003511293408,
+            "bucketDeformedVolume": 0.5383616641427906,
+            "reactionN": [
+              -8767.41905709893,
+              -5123.2771435010745,
+              10.0075009777512
+            ],
+            "centerOfMass": [
+              0.6640172594013148,
+              0.46591104140637996,
+              -0.0033594598987224636
+            ],
+            "gpuMs": 7.67173
+          }
+        },
+        {
+          "batch": 320,
+          "pose": {
+            "x": 0.06628291742107711,
+            "y": 0.5801233679388564,
+            "z": -0.0000518300479467089,
+            "angle": 0.9424293115729625
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.03861154862472473,
+              -0.04525254294763778,
+              -0.00035003637955332873,
+              0.6962452587493935
+            ],
+            "effort": [
+              1291.0400579414743,
+              22500,
+              8.734166854044435,
+              2509.9276703052565
+            ],
+            "reaction": [
+              -2832.5911859840157,
+              -6575.288944125569,
+              -38.86531056508056,
+              -4657.950502528638
+            ],
+            "carriedMassKg": 847.878
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6107022292627446,
+            "deformedVolume": 2.608296069393876,
+            "permanentCompactionPercent": 0.11660464448862706,
+            "elasticCompressionPercent": 0.09216523592382453,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 37846.403631506044,
+            "maxSpeed": 0.4918261195906012,
+            "kineticEnergy": 10.786551561141213,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 847.8888967037201,
+            "bucketReferenceVolume": 0.5592934746528044,
+            "bucketRestVolume": 0.5589769936552224,
+            "bucketDeformedVolume": 0.558576877665225,
+            "reactionN": [
+              -2832.5911859840157,
+              -6575.288944125569,
+              -38.86531056508056
+            ],
+            "centerOfMass": [
+              0.6556347276009493,
+              0.46494216907004093,
+              -0.0036871587618551934
+            ],
+            "gpuMs": 7.36244
+          }
+        },
+        {
+          "batch": 360,
+          "pose": {
+            "x": -0.012241886925439642,
+            "y": 0.5958329881569627,
+            "z": -0.00011208983861024088,
+            "angle": 1.1645602012754077
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              -0.2788479941686018,
+              0.025122274166748566,
+              -0.00010261517441661066,
+              0.04018354958186958
+            ],
+            "effort": [
+              -4622.412209455014,
+              22500,
+              18.427567547717317,
+              -80.36092895897366
+            ],
+            "reaction": [
+              4793.111899352118,
+              -4111.228254299462,
+              -11.653263314383278,
+              44.49888164047498
+            ],
+            "carriedMassKg": 860.264
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610684394108378,
+            "deformedVolume": 2.6080104914115743,
+            "permanentCompactionPercent": 0.11728700334016073,
+            "elasticCompressionPercent": 0.10242152221991985,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 39506.83262971735,
+            "maxSpeed": 0.3334766853794099,
+            "kineticEnergy": 39.0762610278242,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 860.2750558853149,
+            "bucketReferenceVolume": 0.5674637644551694,
+            "bucketRestVolume": 0.5671293767160993,
+            "bucketDeformedVolume": 0.5665240591164846,
+            "reactionN": [
+              4793.111899352118,
+              -4111.228254299462,
+              -11.653263314383278
+            ],
+            "centerOfMass": [
+              0.620041858177967,
+              0.4567994690053208,
+              -0.004311834293764614
+            ],
+            "gpuMs": 6.9569
+          }
+        },
+        {
+          "batch": 400,
+          "pose": {
+            "x": -0.22877558890904853,
+            "y": 0.6283169716248248,
+            "z": 0.0000045801831648067135,
+            "angle": 1.1741108625270913
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              -0.3368538907519504,
+              0.023674475046139364,
+              -0.00006974762509435962,
+              0.010861509794549307
+            ],
+            "effort": [
+              -3995.0373902261417,
+              22500,
+              3.1371896849101075,
+              -641.0999623378602
+            ],
+            "reaction": [
+              4694.5180756775735,
+              -5364.052173350347,
+              10.273354893668689,
+              917.828995429427
+            ],
+            "carriedMassKg": 821.98
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6105162456553463,
+            "deformedVolume": 2.607854981535647,
+            "permanentCompactionPercent": 0.12372022970520424,
+            "elasticCompressionPercent": 0.10194397848043435,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 43668.043041874625,
+            "maxSpeed": 0.4236720527407454,
+            "kineticEnergy": 64.7785473723968,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 855.7709980010986,
+            "bucketReferenceVolume": 0.5644927499815822,
+            "bucketRestVolume": 0.5640292323124464,
+            "bucketDeformedVolume": 0.5633852090753907,
+            "reactionN": [
+              4694.5180756775735,
+              -5364.052173350347,
+              10.273354893668689
+            ],
+            "centerOfMass": [
+              0.560145684941456,
+              0.4478582171731184,
+              -0.004753884232358748
+            ],
+            "gpuMs": 7.33576
+          }
+        },
+        {
+          "batch": 440,
+          "pose": {
+            "x": -0.4537426927470065,
+            "y": 0.652388132793103,
+            "z": -0.0002419946910975811,
+            "angle": 1.1764697791261336
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              -0.3332685515994907,
+              0.021246787036641374,
+              -0.000740894434864798,
+              -0.015595614002328432
+            ],
+            "effort": [
+              -3022.626029922374,
+              22500,
+              48.09207790255928,
+              -2396.1469369546476
+            ],
+            "reaction": [
+              2482.2843427767375,
+              -4666.989535669832,
+              -45.41671063590441,
+              449.73620776041923
+            ],
+            "carriedMassKg": 814.098
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.6103224594501437,
+            "deformedVolume": 2.6078746907165433,
+            "permanentCompactionPercent": 0.1311343361213746,
+            "elasticCompressionPercent": 0.09377265727223971,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 49302.90283394941,
+            "maxSpeed": 0.4427452775644573,
+            "kineticEnergy": 54.7203426137368,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 847.8888967037201,
+            "bucketReferenceVolume": 0.5592934746528044,
+            "bucketRestVolume": 0.5586160488649227,
+            "bucketDeformedVolume": 0.5581298538790775,
+            "reactionN": [
+              2482.2843427767375,
+              -4666.989535669832,
+              -45.41671063590441
+            ],
+            "centerOfMass": [
+              0.5020028192155073,
+              0.439412790851079,
+              -0.00497001731365949
+            ],
+            "gpuMs": 6.96781
+          }
+        },
+        {
+          "batch": 480,
+          "pose": {
+            "x": -0.5052711004059686,
+            "y": 0.645992826725131,
+            "z": -0.00018474630447849852,
+            "angle": 0.8225005557143217
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.02044373890925661,
+              -0.06399295652841236,
+              -0.00039183286147217154,
+              -0.7034495855157892
+            ],
+            "effort": [
+              -3031.278730835824,
+              22500,
+              31.276325509494242,
+              16.80842995294006
+            ],
+            "reaction": [
+              3080.569590983624,
+              -4695.34095684589,
+              -40.346496668049426,
+              915.6135461301145
+            ],
+            "carriedMassKg": 887.288
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610291674287314,
+            "deformedVolume": 2.607836576113026,
+            "permanentCompactionPercent": 0.13231215201915392,
+            "elasticCompressionPercent": 0.0940545533080539,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 44965.93627472912,
+            "maxSpeed": 0.5816782479333479,
+            "kineticEnergy": 23.97954903160616,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 887.2994031906128,
+            "bucketReferenceVolume": 0.5852898512966931,
+            "bucketRestVolume": 0.5845483461807172,
+            "bucketDeformedVolume": 0.5840323508860357,
+            "reactionN": [
+              3080.569590983624,
+              -4695.34095684589,
+              -40.346496668049426
+            ],
+            "centerOfMass": [
+              0.4761709314919869,
+              0.4224212960818844,
+              -0.005096171583975977
+            ],
+            "gpuMs": 7.32393
+          }
+        },
+        {
+          "batch": 520,
+          "pose": {
+            "x": -0.5051864529905747,
+            "y": 0.5808007719553382,
+            "z": 0.000026532028821642544,
+            "angle": 0.38185063818967424
+          },
+          "dynamics": {
+            "mode": "force-limited fixture",
+            "massKg": 1800,
+            "inertiaKgM2": 1100,
+            "strength": 0.5,
+            "velocity": [
+              0.005302596005315942,
+              -0.16247431120457695,
+              0.0002637135471042142,
+              -0.6833071296349066
+            ],
+            "effort": [
+              -2722.032659090437,
+              22500,
+              -10.29759395871644,
+              -550.9639077462234
+            ],
+            "reaction": [
+              2869.108120291825,
+              -5121.11233304289,
+              2.2344388647350875,
+              1519.6716222254952
+            ],
+            "carriedMassKg": 830.988
+          },
+          "snapshot": {
+            "mass": 3962.4449236392975,
+            "massErrorPercent": -0.0000019271160872987826,
+            "volume": 2.613749983138405,
+            "restVolume": 2.610259689896317,
+            "deformedVolume": 2.6077756341486236,
+            "permanentCompactionPercent": 0.13353584943487373,
+            "elasticCompressionPercent": 0.09516508098058596,
+            "maxCompactionPercent": 6.793504953384399,
+            "maxPressurePa": 46946.33721320483,
+            "maxSpeed": 0.5809634880706518,
+            "kineticEnergy": 30.93617481161551,
+            "invalidParticles": 0,
+            "penetrationMm": 0,
+            "preCorrectionPenetrationMm": 0,
+            "bucketMass": 858.0230269432068,
+            "bucketReferenceVolume": 0.5659782572183758,
+            "bucketRestVolume": 0.5652414547166388,
+            "bucketDeformedVolume": 0.5647392734491046,
+            "reactionN": [
+              2869.108120291825,
+              -5121.11233304289,
+              2.2344388647350875
+            ],
+            "centerOfMass": [
+              0.45968777257711624,
+              0.4008427204928902,
+              -0.005197439516779187
+            ],
+            "gpuMs": 7.43216
+          }
+        }
+      ],
+      "final": {
+        "pose": {
+          "x": -0.5219138046015062,
+          "y": 0.5801049022403841,
+          "z": -0.000033686510147755984,
+          "angle": -0.050364728384850024
+        },
+        "dynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 0.5,
+          "velocity": [
+            0.006338828412946048,
+            -0.027852655127896503,
+            -0.0000568649499826561,
+            -0.7009237995328788
+          ],
+          "effort": [
+            -437.96455999410307,
+            22500,
+            6.9066448689636095,
+            -260.5361958221947
+          ],
+          "reaction": [
+            810.5696000670018,
+            -5594.458900478838,
+            -0.05696869626803339,
+            674.5726623649243
+          ],
+          "carriedMassKg": 812.972
+        },
+        "snapshot": {
+          "mass": 3962.4449236392975,
+          "massErrorPercent": -0.0000019271160872987826,
+          "volume": 2.613749983138405,
+          "restVolume": 2.610259015153386,
+          "deformedVolume": 2.608167833130701,
+          "permanentCompactionPercent": 0.13356166456390817,
+          "elasticCompressionPercent": 0.08011396610623223,
+          "maxCompactionPercent": 6.793504953384399,
+          "maxPressurePa": 29423.334707275128,
+          "maxSpeed": 0.32113138326281854,
+          "kineticEnergy": 14.086521972457044,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 851.2669401168823,
+          "bucketReferenceVolume": 0.5615217355079949,
+          "bucketRestVolume": 0.5608319772999905,
+          "bucketDeformedVolume": 0.560619182129551,
+          "reactionN": [
+            810.5696000670018,
+            -5594.458900478838,
+            -0.05696869626803339
+          ],
+          "centerOfMass": [
+            0.4399207373122965,
+            0.39960761385212756,
+            -0.005176022988165812
+          ],
+          "gpuMs": 7.69566
+        }
+      },
+      "maxReaction": 28548.461690030967,
+      "maxTorque": 12666.863018094407,
+      "maxLoad": 888.414,
+      "maxSpeed": 0.7258592504762271,
+      "report": {
+        "schema": 2,
+        "actuation": "force",
+        "bucketDynamics": {
+          "mode": "force-limited fixture",
+          "massKg": 1800,
+          "inertiaKgM2": 1100,
+          "strength": 0.5,
+          "velocity": [
+            0.006338828412946048,
+            -0.027852655127896503,
+            -0.0000568649499826561,
+            -0.7009237995328788
+          ],
+          "effort": [
+            -437.96455999410307,
+            22500,
+            6.9066448689636095,
+            -260.5361958221947
+          ],
+          "reaction": [
+            810.5696000670018,
+            -5594.458900478838,
+            -0.05696869626803339,
+            674.5726623649243
+          ],
+          "carriedMassKg": 812.972
+        },
+        "createdAt": "2026-10-04T12:59:53.615Z",
+        "adapter": {
+          "description": "amd · gcn-5",
+          "vendor": "amd",
+          "architecture": "gcn-5",
+          "device": "",
+          "isFallbackAdapter": false,
+          "powerPreference": "low-power",
+          "timestampQueries": true
+        },
+        "scenario": "scoop",
+        "material": {
+          "moisture": 0.12,
+          "grainMm": 0.12,
+          "friction": 38,
+          "cohesion": 1500,
+          "stiffness": 85000,
+          "viscosity": 0.15,
+          "adhesion": 0.08
+        },
+        "solver": {
+          "method": "MLS-MPM / APIC, experimental cohesive Hencky plasticity",
+          "dx": 0.125,
+          "grid": [
+            48,
+            32,
+            32
+          ],
+          "points": 3519,
+          "allocatedBytes": 2699472,
+          "dt": 0.0004936921825922434
+        },
+        "simulationSeconds": 8.846963912052962,
+        "timeDebtSeconds": 0,
+        "bucketPose": {
+          "x": -0.5219138046015062,
+          "y": 0.5801049022403841,
+          "z": -0.000033686510147755984,
+          "angle": -0.050364728384850024
+        },
+        "supportPresent": true,
+        "performance": {
+          "samples": 0,
+          "medianMs": 0,
+          "p95Ms": 0,
+          "p99Ms": 0,
+          "fps": 0,
+          "simulationRate": 0
+        },
+        "snapshot": {
+          "mass": 3962.4449236392975,
+          "massErrorPercent": -0.0000019271160872987826,
+          "volume": 2.613749983138405,
+          "restVolume": 2.613749983138405,
+          "deformedVolume": 2.613749983138405,
+          "permanentCompactionPercent": 0,
+          "elasticCompressionPercent": 0,
+          "maxCompactionPercent": 0,
+          "maxPressurePa": 0,
+          "maxSpeed": 0,
+          "kineticEnergy": 0,
+          "invalidParticles": 0,
+          "penetrationMm": 0,
+          "preCorrectionPenetrationMm": 0,
+          "bucketMass": 0,
+          "bucketReferenceVolume": 0,
+          "bucketRestVolume": 0,
+          "bucketDeformedVolume": 0,
+          "reactionN": [
+            0,
+            0,
+            0
+          ],
+          "centerOfMass": [
+            0.3754346926960651,
+            0.6248666003376091,
+            0.0003880294635094374
+          ],
+          "gpuMs": 0
+        },
+        "rendering": {
+          "mode": "surface",
+          "detailEnabled": true,
+          "allocatedVisualBytes": 16497792,
+          "surface": {
+            "vertices": 92640,
+            "triangles": 30880,
+            "overflowTriangles": 0,
+            "activeGrains": 0,
+            "sparseSamples": 0,
+            "gpuMs": 1.26912
+          }
+        },
+        "limitations": [
+          "Restricted four-axis fixture; full machine joints and chassis are not implemented.",
+          "Soil contact is coupled once per frame batch; this is a coupling prototype, not calibrated hydraulics.",
+          "No explicit pore water, drainage, or engineering calibration.",
+          "Fixed-point grid accumulation introduces quantization.",
+          "CPU diagnostic readback is included in wall-time measurements.",
+          "Solver buffer allocation excludes renderer and driver memory."
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

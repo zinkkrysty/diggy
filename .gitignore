@@ -1,0 +1,12 @@
+node_modules/
+dist/
+artifacts/
+*.log
+
+# Local-only captures, notes, and test output
+/.local/
+
+# Credentials and per-machine environment overrides
+.env
+.env.*
+!.env.example
