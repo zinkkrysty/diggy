@@ -3,7 +3,7 @@ import { density, finesFromGrain, type MaterialSettings } from './material';
 import type { Pose } from './bucket';
 export type Scenario = 'pour' | 'pile' | 'scoop' | 'clump' | 'mix' | 'collapse' | 'terrain';
 export const SCENARIOS: Record<Scenario, { title: string; description: string }> = {
-  terrain:{title:'Sandbox ground',description:'Dig and dump in the 12 m development terrain. Settled chunks sleep; removing support wakes connected material.'},
+  terrain:{title:'Sandbox ground',description:'Dig and dump in the 24 m excavation clearing. Settled chunks sleep; removing support wakes connected material.'},
   pour: { title:'Pour & settle', description:'A suspended volume falls freely. Observe flow, slope formation, and settling.' },
   pile: { title:'Stable pile', description:'A steep mound relaxes under gravity. Friction should arrest sliding.' },
   scoop: { title:'Scoop & spill', description:'Push the open bucket into the bed, curl, lift, then tip to dump.' },

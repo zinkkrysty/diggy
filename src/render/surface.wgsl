@@ -13,6 +13,7 @@ struct Params {
   orientations:array<vec4f,8>,
   bounds:array<vec4f,8>,
   rotations:array<Rotation,8>,
+  tile:vec4u, // tile id (main pass: tile count), x/z cell origin, owned cell width
 }
 struct Draw { count: atomic<u32>, instances: u32, first: u32, base: u32 }
 struct Draws { surface:Draw, detached:Draw, spill:Draw }
@@ -22,14 +23,32 @@ struct Grain { position: vec4f, velocity: vec4f } // position.w is remaining lif
 @group(0) @binding(2) var<storage,read_write> field: array<Field>;
 @group(0) @binding(3) var<storage,read_write> vertices: array<vec4f>;
 @group(0) @binding(4) var<storage,read_write> normals: array<vec4f>;
-@group(0) @binding(5) var<storage,read_write> draw: Draws;
+@group(0) @binding(5) var<storage,read_write> draw: array<Draws>;
 @group(0) @binding(6) var<uniform> params: Params;
 @group(0) @binding(7) var<storage,read_write> detail: array<Grain>;
 @group(0) @binding(8) var<storage,read_write> counters: array<atomic<u32>>;
 const SCALE: f32=100000.0;
 fn index(c:vec3u)->u32 {return c.x+c.y*params.dims.x+c.z*params.dims.x*params.dims.y;}
 fn coord(i:u32)->vec3u {return vec3u(i%params.dims.x,(i/params.dims.x)%params.dims.y,i/(params.dims.x*params.dims.y));}
-fn valid(c:vec3i)->bool{return all(c>=vec3i(0))&&all(c<vec3i(params.dims.xyz));}
+fn valid(c:vec3i)->bool{
+  if(any(c<vec3i(0))||any(c>=vec3i(params.dims.xyz))){return false;}
+  if(params.tile.w>0u){
+    let lo=vec2i(params.tile.yz)-vec2i(4);let hi=vec2i(params.tile.yz+vec2u(params.tile.w))+vec2i(5);
+    return all(c.xz>=lo)&&all(c.xz<hi);
+  }
+  return true;
+}
+fn tileId()->u32{return select(0u,params.tile.x,params.tile.w>0u);}
+fn surfaceCount()->u32{return 4u+tileId()*2u;}
+fn workCount()->u32{
+  if(params.tile.w==0u){return params.dims.x*params.dims.y*params.dims.z;}
+  let width=params.tile.w+9u;return width*params.dims.y*width;
+}
+fn workCoord(i:u32)->vec3i{
+  if(params.tile.w==0u){return vec3i(coord(i));}
+  let width=params.tile.w+9u;
+  return vec3i(vec3u(i%width,(i/width)%params.dims.y,i/(width*params.dims.y)))+vec3i(i32(params.tile.y)-4,0,i32(params.tile.z)-4);
+}
 fn densityAt(c:vec3i)->f32 {
   if(!valid(c)){return 0.0;}
   return f32(atomicLoad(&field[index(vec3u(c))].density))/SCALE;
@@ -44,16 +63,25 @@ fn boxDistance(point:vec3f,b:Box,rotation:Rotation,bounds:vec3f)->f32 {
   let q=abs(local)-b.halfOmega.xyz;
   return length(max(q,vec3f(0)))+min(max(q.x,max(q.y,q.z)),0.0);
 }
+@compute @workgroup_size(1)
+fn clearDetail(){atomicStore(&counters[2],0u);atomicStore(&counters[3],0u);}
 @compute @workgroup_size(128)
 fn clear(@builtin(global_invocation_id) gid:vec3u){
-  let i=gid.x;
-  if(i<params.dims.x*params.dims.y*params.dims.z){atomicStore(&field[i].density,0u);atomicStore(&field[i].shade,0u);}
-  if(i==0u){atomicStore(&draw.surface.count,0u);draw.surface.instances=1u;draw.surface.first=0u;draw.surface.base=0u;atomicStore(&counters[0],0u);atomicStore(&counters[1],0u);atomicStore(&counters[2],0u);atomicStore(&counters[3],0u);}
+  let i=gid.x;if(i<workCount()){
+    let c=workCoord(i);if(valid(c)){let j=index(vec3u(c));atomicStore(&field[j].density,0u);atomicStore(&field[j].shade,0u);}
+  }
+  if(i==0u){atomicStore(&counters[surfaceCount()],0u);atomicStore(&counters[surfaceCount()+1u],0u);}
 }
 @compute @workgroup_size(64)
 fn splat(@builtin(global_invocation_id) gid:vec3u){
   let i=gid.x;if(i>=params.dims.w){return;}
-  let p=points[i].xyz;let volume=particles[i].velocity.w*particles[i].history.x*determinant(mat3x3f(particles[i].f0.xyz,particles[i].f1.xyz,particles[i].f2.xyz));
+  let p=points[i].xyz;
+  if(params.tile.w>0u){
+    let lo=params.origin.xyz+vec3f(f32(params.tile.y)-4.0,0,f32(params.tile.z)-4.0)*params.surface.x;
+    let hi=lo+vec3f(f32(params.tile.w)+8.0,f32(params.dims.y),f32(params.tile.w)+8.0)*params.surface.x;
+    if(any(p.xz<lo.xz-vec2f(params.surface.y))||any(p.xz>hi.xz+vec2f(params.surface.y))){return;}
+  }
+  let volume=particles[i].velocity.w*particles[i].history.x*determinant(mat3x3f(particles[i].f0.xyz,particles[i].f1.xyz,particles[i].f2.xyz));
   let h=params.surface.y;let dx=params.surface.x;
   let center=vec3i(floor((p-params.origin.xyz)/dx));let range=i32(ceil(h/dx));
   // Poly6 kernel integrates to one. Its field is visual material occupancy, not a force.
@@ -69,13 +97,13 @@ fn splat(@builtin(global_invocation_id) gid:vec3u){
 }
 @compute @workgroup_size(128)
 fn clip(@builtin(global_invocation_id) gid:vec3u){
-  let i=gid.x;if(i>=params.dims.x*params.dims.y*params.dims.z){return;}
-  let p=params.origin.xyz+vec3f(coord(i))*params.surface.x;
+  let i=gid.x;if(i>=workCount()){return;}let c=workCoord(i);if(!valid(c)){return;}
+  let j=index(vec3u(c));let p=params.origin.xyz+vec3f(c)*params.surface.x;
   // Clip the visualization against actual collision geometry, not a broad halo.
-  if(p.y<params.time.w){atomicStore(&field[i].density,0u);atomicStore(&field[i].shade,0u);return;}
-  if(atomicLoad(&field[i].density)==0u){return;}
+  if(p.y<params.time.w){atomicStore(&field[j].density,0u);atomicStore(&field[j].shade,0u);return;}
+  if(atomicLoad(&field[j].density)==0u){return;}
   for(var b=0u;b<params.flags.x;b++){
-    if(boxDistance(p,params.boxes[b],params.rotations[b],params.bounds[b].xyz)<0.0){atomicStore(&field[i].density,0u);atomicStore(&field[i].shade,0u);return;}
+    if(boxDistance(p,params.boxes[b],params.rotations[b],params.bounds[b].xyz)<0.0){atomicStore(&field[j].density,0u);atomicStore(&field[j].shade,0u);return;}
   }
 }
 struct Vertex {position:vec3f,normal:vec3f,shade:f32}
@@ -90,8 +118,9 @@ fn crossing(a:vec3u,b:vec3u)->Vertex{
   return Vertex(pos,normalize(grad+vec3f(0,1e-8,0)),shade);
 }
 fn triangle(a:Vertex,b:Vertex,c:Vertex){
-  let offset=atomicAdd(&counters[0],3u);
-  if(offset+3u>u32(params.surface.w)){atomicAdd(&counters[1],1u);return;}
+  let localOffset=atomicAdd(&counters[surfaceCount()],3u);
+  let offset=tileId()*u32(params.surface.w)+localOffset;
+  if(localOffset+3u>u32(params.surface.w)){atomicAdd(&counters[surfaceCount()+1u],1u);return;}
   var bb=b;var cc=c;
   if(dot(cross(b.position-a.position,c.position-a.position),a.normal+b.normal+c.normal)<0.0){bb=c;cc=b;}
   vertices[offset]=vec4f(a.position,a.shade);normals[offset]=vec4f(a.normal,0);
@@ -115,8 +144,9 @@ fn tetra(corners:array<vec3u,4>){
 }
 @compute @workgroup_size(64)
 fn extract(@builtin(global_invocation_id) gid:vec3u){
-  let i=gid.x;if(i>=params.dims.x*params.dims.y*params.dims.z){return;}
-  let c=coord(i);if(any(c>=params.dims.xyz-vec3u(1))){return;}
+  let i=gid.x;if(i>=workCount()){return;}let signed=workCoord(i);if(!valid(signed)){return;}
+  let c=vec3u(signed);if(any(c>=params.dims.xyz-vec3u(1))){return;}
+  if(params.tile.w>0u&&(any(c.xz<params.tile.yz)||any(c.xz>=params.tile.yz+vec2u(params.tile.w)))){return;}
   let offsets=array<vec3u,8>(vec3u(0,0,0),vec3u(1,0,0),vec3u(1,1,0),vec3u(0,1,0),vec3u(0,0,1),vec3u(1,0,1),vec3u(1,1,1),vec3u(0,1,1));
   var corner:array<vec3u,8>;var lo=1e6;var hi=0.0;
   for(var k=0u;k<8u;k++){corner[k]=c+offsets[k];let d=densityAt(vec3i(corner[k]));lo=min(lo,d);hi=max(hi,d);}
@@ -130,10 +160,19 @@ fn extract(@builtin(global_invocation_id) gid:vec3u){
   tetra(array<vec3u,4>(corner[0],corner[5],corner[1],corner[6]));
 }
 @compute @workgroup_size(1)
+fn finalizeTile(){
+  let tile=tileId();atomicStore(&draw[tile].surface.count,min(atomicLoad(&counters[surfaceCount()]),u32(params.surface.w)));
+  draw[tile].surface.instances=1u;draw[tile].surface.first=tile*u32(params.surface.w);draw[tile].surface.base=0u;
+}
+@compute @workgroup_size(1)
 fn finalize(){
-  atomicStore(&draw.surface.count,min(atomicLoad(&counters[0]),u32(params.surface.w)));
-  atomicStore(&draw.detached.count,params.flags.w);draw.detached.instances=select(params.dims.w,atomicLoad(&counters[3]),params.flags.z>0u);draw.detached.first=0u;draw.detached.base=0u;
-  atomicStore(&draw.spill.count,6u);draw.spill.instances=select(0u,params.flags.y,atomicLoad(&counters[2])>0u);draw.spill.first=0u;draw.spill.base=0u;
+  var vertices=0u;var overflow=0u;
+  for(var tile=0u;tile<params.tile.x;tile++){
+    vertices+=atomicLoad(&draw[tile].surface.count);overflow+=atomicLoad(&counters[5u+tile*2u]);
+  }
+  atomicStore(&counters[0],vertices);atomicStore(&counters[1],overflow);
+  atomicStore(&draw[0].detached.count,params.flags.w);draw[0].detached.instances=select(params.dims.w,atomicLoad(&counters[3]),params.flags.z>0u);draw[0].detached.first=0u;draw[0].detached.base=0u;
+  atomicStore(&draw[0].spill.count,6u);draw[0].spill.instances=select(0u,params.flags.y,atomicLoad(&counters[2])>0u);draw[0].spill.first=0u;draw[0].spill.base=0u;
 }
 fn hash(i:u32)->f32{var v=i*747796405u+2891336453u;v=((v>>((v>>28u)+4u))^v)*277803737u;v=(v>>22u)^v;return f32(v)/4294967295.0;}
 @compute @workgroup_size(64)

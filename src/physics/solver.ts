@@ -1,4 +1,4 @@
-import {TerrainActivity,TERRAIN_ORIGIN} from '../simulation/terrain';
+import {TerrainActivity,TERRAIN_ORIGIN,CHUNK_COUNT,CHUNK_DIMS,TERRAIN_FLOOR} from '../simulation/terrain';
 import shader from './solver.wgsl?raw';
 import { stableTimestep, BULK_MODULUS, BULK_DAMPING, COMPACTION_YIELD, COMPACTION_HARDENING, type MaterialSettings } from '../simulation/material';
 import { STATE_FLOATS, type Seed } from '../simulation/scenarios';
@@ -25,6 +25,11 @@ export class SoilSolver {
   private metrics: GPUBuffer;
   private snapshotBuffer: GPUBuffer;
   private contactBuffer: GPUBuffer;
+  private terrainReadback:GPUBuffer;
+  private cachedPositions:Float32Array;
+  private cachedVelocities:Float32Array;
+  private activeParticleCount=0;
+  terrainFeedbackReport:{activeParticles:number;readbackBytes:number;cpuAnalysisMs:number;gpuMs:number|null}|null=null;
   private pipelines: GPUComputePipeline[]=[];
   private bindGroup!: GPUBindGroup;
   private querySet?: GPUQuerySet;
@@ -41,11 +46,13 @@ export class SoilSolver {
   private lastSteps=0;
   private lastDt=0;
   private reading=false;
-  onTerrainReadback?: (positions:Float32Array)=>void;
+  onTerrainReadback?: (positions:Float32Array,indices?:Uint32Array)=>void;
   constructor(readonly device: GPUDevice, readonly seed: Seed, dx: number, terrain=false) {
     this.count=seed.count;this.mass=seed.mass;this.dx=dx;
+    this.cachedPositions=seed.positions.slice();this.cachedVelocities=new Float32Array(seed.count*3);
+    for(let i=0;i<seed.count;i++)this.cachedVelocities.set(seed.states.subarray(i*STATE_FLOATS,i*STATE_FLOATS+3),i*3);
     if(terrain)this.terrain=new TerrainActivity(seed);
-    this.dimensions=(terrain?[12,4,12]:[6,4,4]).map(v=>Math.round(v/dx));
+    this.dimensions=(terrain?CHUNK_DIMS:[6,4,4]).map(v=>Math.round(v/dx));
     const gridCount=this.dimensions.reduce((a,b)=>a*b,1);
     const create=(label:string,size:number,usage:number)=>device.createBuffer({label,size,usage});
     const storage=GPUBufferUsage.STORAGE|GPUBufferUsage.COPY_DST|GPUBufferUsage.COPY_SRC;
@@ -54,14 +61,15 @@ export class SoilSolver {
     this.grid=create('Fixed-point atomic mass and momentum',gridCount*16,storage);
     this.gridVelocity=create('Grid velocity',gridCount*16,storage);
     this.uniform=create('Solver parameters',1248,GPUBufferUsage.UNIFORM|GPUBufferUsage.COPY_DST);
-    this.activityBuffer=create('Terrain chunk masks and live grid nodes',(576+gridCount)*4,storage);
-    this.activeBuffer=create('Active particle indices and indirect dispatch',(8+2*seed.count)*4,storage);
+    this.activityBuffer=create('Terrain chunk masks and live grid nodes',(CHUNK_COUNT+gridCount)*4,storage);
+    this.activeBuffer=create('Active particle indices and indirect dispatch',(8+10*seed.count)*4,storage);
     this.dispatchBuffer=create('Terrain indirect workgroups',24,GPUBufferUsage.INDIRECT|GPUBufferUsage.COPY_DST);
     this.boundaryGrid=create('Cached sleeping-boundary grid',gridCount*16,storage);
     this.metrics=create('Contact and stability diagnostics',32,storage);
-    this.contactBuffer=create('32-byte bucket feedback',32,GPUBufferUsage.MAP_READ|GPUBufferUsage.COPY_DST);
+    this.contactBuffer=create('Contact feedback and active count',48,GPUBufferUsage.MAP_READ|GPUBufferUsage.COPY_DST);
+    this.terrainReadback=create('Compact active terrain feedback',seed.count*32,GPUBufferUsage.MAP_READ|GPUBufferUsage.COPY_DST);
     this.snapshotBuffer=create('Infrequent diagnostic readback',seed.positions.byteLength+seed.states.byteLength+32,GPUBufferUsage.MAP_READ|GPUBufferUsage.COPY_DST);
-    this.estimatedBytes=seed.positions.byteLength+seed.states.byteLength+gridCount*32+1248+64+this.snapshotBuffer.size+this.activityBuffer.size+this.activeBuffer.size+24+this.boundaryGrid.size;
+    this.estimatedBytes=seed.positions.byteLength+seed.states.byteLength+gridCount*32+1248+64+this.snapshotBuffer.size+this.activityBuffer.size+this.activeBuffer.size+24+this.boundaryGrid.size+this.terrainReadback.size;
     device.queue.writeBuffer(this.positions,0,seed.positions as Float32Array<ArrayBuffer>);
     device.queue.writeBuffer(this.state,0,seed.states as Float32Array<ArrayBuffer>);
     if(device.features.has('timestamp-query')) {
@@ -77,7 +85,7 @@ export class SoilSolver {
     if(errors.length) throw new Error(errors.map(e=>`WGSL ${e.lineNum}:${e.linePos}: ${e.message}`).join('\n'));
     const layout=this.device.createBindGroupLayout({entries:[0,1,2,3,4,5,6,7,8].map(binding=>({binding,visibility:GPUShaderStage.COMPUTE,buffer:{type:binding===4?'uniform' as const:binding===6?'read-only-storage' as const:'storage' as const}}))});
     const pipelineLayout=this.device.createPipelineLayout({bindGroupLayouts:[layout]});
-    this.pipelines=await Promise.all(['clearGrid','scatter','updateGrid','gather','bucketLoad','selectActive','activeDispatch','clearBoundary','scatterBoundary'].map(entryPoint=>this.device.createComputePipelineAsync({label:entryPoint,layout:pipelineLayout,compute:{module,entryPoint}})));
+    this.pipelines=await Promise.all(['clearGrid','scatter','updateGrid','gather','bucketLoad','selectActive','activeDispatch','clearBoundary','scatterBoundary','terrainReadback'].map(entryPoint=>this.device.createComputePipelineAsync({label:entryPoint,layout:pipelineLayout,compute:{module,entryPoint}})));
     this.bindGroup=this.device.createBindGroup({layout,entries:[this.positions,this.state,this.grid,this.gridVelocity,this.uniform,this.metrics,this.activityBuffer,this.activeBuffer,this.boundaryGrid].map((buffer,binding)=>({binding,resource:{buffer}}))});
   }
   timestep(material: MaterialSettings): number { return stableTimestep(material,this.dx); }
@@ -101,7 +109,7 @@ export class SoilSolver {
       if(version!==this.activityVersion){
         const nodes=this.terrain.gridNodes(this.dx);this.nodeCount=nodes.length;
         this.device.queue.writeBuffer(this.activityBuffer,0,this.terrain.modes as Uint32Array<ArrayBuffer>);
-        this.device.queue.writeBuffer(this.activityBuffer,576*4,nodes as Uint32Array<ArrayBuffer>);this.activityVersion=version;
+        this.device.queue.writeBuffer(this.activityBuffer,CHUNK_COUNT*4,nodes as Uint32Array<ArrayBuffer>);this.activityVersion=version;
       }
       u[109]=this.nodeCount;
     }
@@ -134,16 +142,51 @@ export class SoilSolver {
     pass.setPipeline(this.pipelines[4]);pass.dispatchWorkgroups(Math.ceil(this.count/64));
     pass.end();
     encoder.copyBufferToBuffer(this.metrics,0,this.contactBuffer,0,32);
+    if(this.terrain)encoder.copyBufferToBuffer(this.activeBuffer,0,this.contactBuffer,32,16);
     if(this.querySet) encoder.resolveQuerySet(this.querySet,0,2,this.queryResolve!,0);
     this.device.queue.submit([encoder.finish()]);
   }
   terrainTime=0;
   updateTerrain(pose:import("../simulation/bucket").Pose,time:number,extra:import("../simulation/bucket").Pose[]=[]):void{this.terrainTime=time;this.terrain?.update(pose,time,extra);}
+  updateTerrainContacts(colliders:Collider[],time:number):void{this.terrainTime=time;this.terrain?.updateContacts(colliders,time);}
   async contactFeedback(): Promise<ContactFeedback> {
     await this.contactBuffer.mapAsync(GPUMapMode.READ);
-    const m=new Int32Array(this.contactBuffer.getMappedRange());
+    const data=this.contactBuffer.getMappedRange(),m=new Int32Array(data,0,8);
     const result:ContactFeedback={impulse:[m[0]/10000,m[1]/10000,m[2]/10000],torqueImpulse:m[6]/1000,carriedMass:m[7]/1000};
-    this.contactBuffer.unmap();return result;
+    if(this.terrain)this.activeParticleCount=new Uint32Array(data,32,4)[0];
+    const invalid=m[4];this.contactBuffer.unmap();
+    if(invalid)throw new Error(`Invalid material state detected (${invalid} samples). Reset the site.`);
+    return result;
+  }
+  /** Normal gameplay reads only active positions/velocities; full histories stay on GPU. */
+  async terrainFeedback():Promise<typeof this.terrainFeedbackReport>{
+    if(!this.terrain||this.reading)return null;this.reading=true;
+    try{
+      const count=this.activeParticleCount,bytes=count*32;
+      const encoder=this.device.createCommandEncoder({label:'Local terrain feedback'});
+      if(count){
+        const pass=encoder.beginComputePass();pass.setBindGroup(0,this.bindGroup);pass.setPipeline(this.pipelines[9]);pass.dispatchWorkgroups(Math.ceil(count/64));pass.end();
+        encoder.copyBufferToBuffer(this.activeBuffer,(8+2*this.count)*4,this.terrainReadback,0,bytes);
+      }
+      if(this.queryResolve)encoder.copyBufferToBuffer(this.queryResolve,0,this.queryRead!,0,16);
+      this.device.queue.submit([encoder.finish()]);
+      if(bytes)await this.terrainReadback.mapAsync(GPUMapMode.READ,0,bytes);
+      const started=performance.now(),indices=new Uint32Array(count);
+      if(bytes){
+        const data=this.terrainReadback.getMappedRange(0,bytes),words=new Uint32Array(data),values=new Float32Array(data);
+        for(let slot=0;slot<count;slot++){
+          const offset=slot*8,index=words[offset];indices[slot]=index;
+          this.cachedPositions.set(values.subarray(offset+1,offset+5),index*4);
+          this.cachedVelocities.set(values.subarray(offset+5,offset+8),index*3);
+        }
+        this.terrainReadback.unmap();
+      }
+      this.terrain.observeChanges(this.cachedPositions,this.cachedVelocities,indices,this.terrainTime);
+      this.onTerrainReadback?.(this.cachedPositions,indices);
+      const cpuAnalysisMs=performance.now()-started;let gpuMs:number|null=null;
+      if(this.queryRead){await this.queryRead.mapAsync(GPUMapMode.READ);const times=new BigUint64Array(this.queryRead.getMappedRange());gpuMs=Number(times[1]-times[0])/1e6;this.queryRead.unmap();}
+      return this.terrainFeedbackReport={activeParticles:count,readbackBytes:bytes,cpuAnalysisMs,gpuMs};
+    }finally{this.reading=false;}
   }
   async snapshot(colliders: Collider[]): Promise<Snapshot | null> {
     if(this.reading)return null;
@@ -180,7 +223,7 @@ export class SoilSolver {
         mass+=m;volume+=states[o+3];const speedSquared=vx*vx+vy*vy+vz*vz;
         maxSpeed=Math.max(maxSpeed,Math.sqrt(speedSquared));kineticEnergy+=0.5*m*speedSquared;
         com[0]+=x*m;com[1]+=y*m;com[2]+=z*m;
-        penetrationMm=Math.max(penetrationMm,Math.max(0,0.15-y)*1000);
+        penetrationMm=Math.max(penetrationMm,Math.max(0,(this.terrain?TERRAIN_FLOOR:.15)-y)*1000);
         for(const box of boxes) {
           const dx=x-box.center[0],dy=y-box.center[1],dz=z-box.center[2];
           if(Math.abs(dx)>box.bounds[0]||Math.abs(dy)>box.bounds[1]||Math.abs(dz)>box.bounds[2])continue;
@@ -198,7 +241,11 @@ export class SoilSolver {
       }
       const reactionN=[metrics[0],metrics[1],metrics[2]].map(v=>v/10000/Math.max(steps*dt,1e-9));
       const preCorrectionPenetrationMm=metrics[3]/1000;
-      if(this.terrain)this.terrain.observe(new Float32Array(positions),new Float32Array(states),this.terrainTime);
+      if(this.terrain){
+        this.cachedPositions.set(positions);
+        for(let i=0;i<this.count;i++)this.cachedVelocities.set(states.subarray(i*STATE_FLOATS,i*STATE_FLOATS+3),i*3);
+        this.terrain.observe(this.cachedPositions,this.cachedVelocities,this.terrainTime,3);
+      }
       this.onTerrainReadback?.(positions);
       const cpuAnalysisMs=performance.now()-analysisStarted;
       this.snapshotBuffer.unmap();
@@ -218,7 +265,7 @@ export class SoilSolver {
     }finally{buffer.destroy();}
   }
   destroy(): void {
-    for(const buffer of [this.positions,this.state,this.grid,this.gridVelocity,this.uniform,this.metrics,this.contactBuffer,this.activityBuffer,this.activeBuffer,this.dispatchBuffer,this.boundaryGrid,this.snapshotBuffer,this.queryResolve,this.queryRead]) buffer?.destroy();
+    for(const buffer of [this.positions,this.state,this.grid,this.gridVelocity,this.uniform,this.metrics,this.contactBuffer,this.activityBuffer,this.activeBuffer,this.dispatchBuffer,this.boundaryGrid,this.terrainReadback,this.snapshotBuffer,this.queryResolve,this.queryRead]) buffer?.destroy();
     this.querySet?.destroy();
   }
 }

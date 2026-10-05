@@ -105,6 +105,24 @@ Use Three.js, TypeScript, and Vite, with simulation, physics, rendering, input, 
 
 Exercise repeated excavation, transport, dumping, mixing, trench collapse, driving over piles, and digging beneath the machine. Check long-session stability, conservation, and performance as disturbed regions accumulate.
 
+### 8. More realistic digging — planned
+
+Extend the existing force-limited joints, soil reaction feedback, cohesion, adhesion, damage, and compaction rather than replacing the solver. Prioritize hydraulic response and bucket filling, then cutting contact. Keep detailed physical work local to the bucket, tracks, and genuinely unstable ground; preserve cached distant terrain and integrated-Vega performance.
+
+| Improvement | Feasibility | Planned scope and validation |
+| --- | --- | --- |
+| Load-sensitive hydraulics — first priority | High | Tune resistance, slowing, and stalling using existing joint effort and soil reactions. Add shared hydraulic flow so simultaneous joint commands compete for available power. Verify shallow cuts remain smooth, deep cuts resist movement, and coordinated stick pull/curl improves scooping without unstable reactions. |
+| Bucket filling and dumping — first priority | Moderate | Improve containment, metal friction, adhesion, and orientation-dependent spilling. Sand should pour, cohesive soil should release in chunks, and wet dirt should cling briefly. Check scoop, lift, carry, overfill, and dump sequences for conserved mass and believable retained volume. Consistent clump breakup needs additional tuning. |
+| Cutting contact — next priority | Moderate | Improve cutting-edge geometry and angle-dependent resistance. Teeth/edge should cut, while the bucket underside should grade or compact. Compare favorable and unfavorable entry angles and verify local material displacement. Current 20 cm particle spacing limits individual tooth-scale cuts. |
+| Sound and load feedback | High | Drive hydraulic strain and scraping sounds from measured effort and contact; add restrained visual feedback for load. Keep GPU cost low and avoid exaggerated machine movement or camera shake. |
+| Digging tasks | High | Add optional target trench depths, grading guides, and spoil-placement areas using terrain measurements. Reward controlled cuts and accurate placement while retaining free play. |
+| Firm ground becoming loose excavated soil | Moderate | Extend existing damage and compaction history to distinguish undisturbed ground from excavated material. Preserve that history during transport and mixing. Verify cutting resistance changes plausibly without restoring remote activation waves or compromising stable piles. |
+| Persistent ruts and local edge crumbling | Moderate to hard | Support broad track deformation and local failure of unsupported trench edges. Use visual detail for fine tread marks. Validate support removal, driving over disturbed ground, and collapse propagation; detailed physical fracture would require finer local simulation. |
+
+Defer individual physical grains, detailed tooth-scale fracture, and full hydraulic-fluid simulation. Their cost is difficult to justify on integrated Vega. Consider finer local resolution only after measuring a specific contact limitation and its combined physics/rendering cost.
+
+Each physics change must retain finite states, mass conservation, continuous chassis support, local activation, and genuine unsupported collapse. Benchmark active digging and repeated transport/dumping at real-time simulation speed, not only idle or driving scenes.
+
 ## Performance strategy and acceptance
 
 60 FPS provides approximately 16.7 ms for the entire frame. This is a target to validate, not a promise before measurements.

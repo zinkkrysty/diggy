@@ -1,3 +1,5 @@
+import {TERRAIN_FLOOR} from './terrain';
+import {MACHINE_START} from './site-layout';
 import {yawPitchBasis,multiplyBasis,transform,cross,type Basis} from './rigid-transform';
 import type {ContactFeedback} from './actuator';
 import {BUCKET_PARTS,type Collider,type Pose} from './bucket';
@@ -11,7 +13,7 @@ export function rotateYaw(x:number,z:number,yaw:number):[number,number]{return [
 /** Reduced-coordinate hydraulic arm. State is independent of the render graph. */
 export class Excavator {
   joints=[...INITIAL];target=[...INITIAL];velocity=[0,0,0,0];effort=[0,0,0,0];reaction=[0,0,0,0];carriedMass=0;
-  base:MachineBase={x:-3.7,y:1,z:0,yaw:0};
+  base:MachineBase={...MACHINE_START};
   reset(){this.joints=[...INITIAL];this.target=[...INITIAL];this.velocity.fill(0);this.effort.fill(0);this.reaction.fill(0);this.carriedMass=0;}
   get yaw(){return this.base.yaw+this.joints[3];}
   points(){
@@ -51,7 +53,7 @@ export class Excavator {
         // Check each joint independently. A tilted base can already put the
         // bucket outside the work volume; permit motion back toward it.
         const p=this.pose();
-        const violations=(pose:Pose)=>[Math.max(0,.6-pose.y),Math.max(0,pose.y-3.35),Math.max(0,Math.abs(pose.x)-5),Math.max(0,Math.abs(pose.z)-5)];
+        const violations=(pose:Pose)=>[Math.max(0,TERRAIN_FLOOR+.45-pose.y),Math.max(0,pose.y-3.35)];
         const was=violations(beforeJoint),next=violations(p);
         if(next.some((v,k)=>v>was[k]+1e-9)){this.joints[i]=previous;this.velocity[i]=0;this.target[i]=previous;}
       }

@@ -162,7 +162,7 @@ fn contactVelocity(v: vec3f, contact: Contact, friction: f32, adhesion: f32) -> 
 }
 @compute @workgroup_size(128)
 fn clearGrid(@builtin(global_invocation_id) gid: vec3u) {
-  var i=gid.x;if(params.domain.w>0.5){if(i>=params.flags.y){return;}i=activity[576u+i];}else if(i>=params.counts.y*params.counts.z*params.counts.w){return;}
+  var i=gid.x;if(params.domain.w>0.5){if(i>=params.flags.y){return;}i=activity[terrainChunkCount()+i];}else if(i>=params.counts.y*params.counts.z*params.counts.w){return;}
   var fixed=vec4i(0);
   if(params.domain.w>0.5 && params.flags.z>0u){fixed=vec4i(atomicLoad(&boundaryGrid[i].x),atomicLoad(&boundaryGrid[i].y),atomicLoad(&boundaryGrid[i].z),atomicLoad(&boundaryGrid[i].mass));}
   atomicStore(&grid[i].x,fixed.x);atomicStore(&grid[i].y,fixed.y);atomicStore(&grid[i].z,fixed.z);atomicStore(&grid[i].mass,fixed.w);
@@ -199,13 +199,13 @@ fn scatterParticle(i:u32,fixed:bool){
 }
 @compute @workgroup_size(128)
 fn updateGrid(@builtin(global_invocation_id) gid: vec3u) {
-  var idx=gid.x;if(params.domain.w>0.5){if(idx>=params.flags.y){return;}idx=activity[576u+idx];}else if(idx>=params.counts.y*params.counts.z*params.counts.w){return;}
+  var idx=gid.x;if(params.domain.w>0.5){if(idx>=params.flags.y){return;}idx=activity[terrainChunkCount()+idx];}else if(idx>=params.counts.y*params.counts.z*params.counts.w){return;}
   let mass=f32(atomicLoad(&grid[idx].mass))/MASS_SCALE;if(mass<=1e-7){return;}
   var v=vec3f(f32(atomicLoad(&grid[idx].x)),f32(atomicLoad(&grid[idx].y)),f32(atomicLoad(&grid[idx].z)))/MOMENTUM_SCALE/mass;
   v.y-=9.81*params.step.x;
   let point=params.domain.xyz+vec3f(coord(idx))*params.step.y;
   if(params.domain.w>0.5 && activity[terrainChunk(point)]==2u){gridVelocity[idx]=vec4f(0,0,0,mass);return;}
-  let floorHeight=0.15;
+  let floorHeight=params.domain.y+0.15;
   if(point.y<floorHeight && v.y<0.0) {
     let n=vec3f(0,1,0);v=contactVelocity(v,Contact(point.y-floorHeight,n,vec3f(0)),params.step.w,0.0);
   }
@@ -253,8 +253,9 @@ fn gather(@builtin(global_invocation_id) gid: vec3u) {
   if(any(v!=v) || any(abs(v)>vec3f(1000))) {atomicAdd(&metrics[4],1);return;}
   pos=vec4f(pos.xyz+params.step.x*v,pos.w);
   let margin=params.soil.w;
-  if(pos.y<0.15+margin) {
-    pos.y=0.15+margin;
+  let floorHeight=params.domain.y+0.15;
+  if(pos.y<floorHeight+margin) {
+    pos.y=floorHeight+margin;
     // Inelastic contact must also remove inward APIC subcell motion. Keeping
     // its normal affine row would re-inject impact energy on the next scatter.
     if(v.y<0.0){C=(IDENTITY-outer(vec3f(0,1,0),vec3f(0,1,0)))*C;}
@@ -304,9 +305,16 @@ fn bucketLoad(@builtin(global_invocation_id) gid:vec3u) {
   }
 }
 
+fn terrainChunkDimensions()->vec3u {
+  return vec3u(round(vec3f(params.counts.yzw)*params.step.y));
+}
+fn terrainChunkCount()->u32 {
+  let dims=terrainChunkDimensions();return dims.x*dims.y*dims.z;
+}
 fn terrainChunk(p:vec3f)->u32 {
-  let c=vec3u(clamp(floor(p-params.domain.xyz),vec3f(0),vec3f(11,3,11)));
-  return c.x+c.y*12u+c.z*48u;
+  let dims=terrainChunkDimensions();
+  let c=vec3u(clamp(floor(p-params.domain.xyz),vec3f(0),vec3f(dims)-vec3f(1)));
+  return c.x+c.y*dims.x+c.z*dims.x*dims.y;
 }
 @compute @workgroup_size(64)
 fn selectActive(@builtin(global_invocation_id) gid:vec3u) {
@@ -320,10 +328,21 @@ fn activeDispatch(){atomicStore(&activeList[1],(atomicLoad(&activeList[0])+63u)/
 
 @compute @workgroup_size(128)
 fn clearBoundary(@builtin(global_invocation_id) gid:vec3u){
-  if(gid.x>=params.flags.y){return;}let i=activity[576u+gid.x];
+  if(gid.x>=params.flags.y){return;}let i=activity[terrainChunkCount()+gid.x];
   atomicStore(&boundaryGrid[i].x,0);atomicStore(&boundaryGrid[i].y,0);atomicStore(&boundaryGrid[i].z,0);atomicStore(&boundaryGrid[i].mass,0);
 }
 @compute @workgroup_size(64)
 fn scatterBoundary(@builtin(global_invocation_id) gid:vec3u){
   if(gid.x>=atomicLoad(&activeList[4])){return;}scatterParticle(atomicLoad(&activeList[8u+params.counts.x+gid.x]),true);
+}
+
+// Compact readback uses the existing active-list allocation and binding budget.
+// Eight words per active sample: index, position/mass, and velocity.
+@compute @workgroup_size(64)
+fn terrainReadback(@builtin(global_invocation_id) gid:vec3u){
+  let slot=gid.x;if(slot>=atomicLoad(&activeList[0])){return;}
+  let i=atomicLoad(&activeList[8u+slot]);let o=8u+2u*params.counts.x+slot*8u;
+  atomicStore(&activeList[o],i);
+  for(var axis=0u;axis<4u;axis++){atomicStore(&activeList[o+1u+axis],bitcast<u32>(positions[i][axis]));}
+  for(var axis=0u;axis<3u;axis++){atomicStore(&activeList[o+5u+axis],bitcast<u32>(particles[i].velocity[axis]));}
 }

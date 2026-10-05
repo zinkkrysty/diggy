@@ -1,10 +1,10 @@
 import * as THREE from 'three/webgpu';
-import { storage, instanceIndex, vertexIndex, positionLocal, varying, transformNormalToView, select, color, mix, cameraWorldMatrix, vec4, uv, smoothstep, float } from 'three/tsl';
+import { storage, instanceIndex, vertexIndex, positionLocal, varying, transformNormalToView, select, cameraWorldMatrix, vec4, uv, smoothstep, float } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BUCKET_PARTS, type Pose, type Collider } from '../simulation/bucket';
 import { STATE_FLOATS, type Seed } from '../simulation/scenarios';
 import {MaterialSurface,type SurfaceStats} from './surface';
-import {soilMaterial} from './material';
+import {soilMaterial,materialColor,materialColorNode} from './material';
 
 export class LabScene {
   readonly scene=new THREE.Scene();
@@ -18,6 +18,7 @@ export class LabScene {
   private particles?: THREE.InstancedMesh;
   private surface?:MaterialSurface;
   private surfaceMesh?:THREE.Mesh;
+  private surfaceTiles:THREE.Mesh[]=[];
   private grainMesh?:THREE.InstancedMesh;
   private detachedMesh?:THREE.InstancedMesh;
   private surfaceMap?:THREE.Texture;
@@ -52,7 +53,7 @@ export class LabScene {
   setGamePresentation():void {
     this.environment.visible=false;this.bucket.visible=false;
     this.controls.minDistance=3;this.controls.maxDistance=25;this.controls.enablePan=true;
-    for(const light of this.scene.children)if(light instanceof THREE.DirectionalLight){light.position.set(-8,14,9);light.shadow.camera.left=-8;light.shadow.camera.right=8;light.shadow.camera.top=8;light.shadow.camera.bottom=-8;light.shadow.camera.far=40;light.shadow.camera.updateProjectionMatrix();}
+    for(const light of this.scene.children)if(light instanceof THREE.DirectionalLight){light.position.set(-8,14,9);light.shadow.camera.left=-16;light.shadow.camera.right=16;light.shadow.camera.top=16;light.shadow.camera.bottom=-16;light.shadow.camera.far=40;light.shadow.camera.updateProjectionMatrix();}
   }
   async init():Promise<void>{await this.renderer.init();}
   async attachParticles(seed: Seed,buffer: GPUBuffer,state:GPUBuffer,terrain=false):Promise<void> {
@@ -70,7 +71,7 @@ export class LabScene {
     const colorData=new Float32Array(seed.count*4);
     for(let i=0;i<seed.count;i++) {
       const water=seed.states[i*STATE_FLOATS+28],fine=seed.states[i*STATE_FLOATS+29];
-      const color=new THREE.Color(0xc4a574).lerp(new THREE.Color(0x564433),Math.min(0.85,water*0.8+fine*0.3));
+      const color=materialColor(water,fine);
       color.multiplyScalar(0.88+0.24*((i*16807%101)/101));colorData.set([color.r,color.g,color.b,1],i*4);
     }
     const colors=storage(new THREE.StorageInstancedBufferAttribute(colorData,4),'vec4',seed.count);
@@ -92,7 +93,11 @@ export class LabScene {
     const surfaceStyle=soilMaterial(shade);this.surfaceMap=surfaceStyle.map;
     surfaceStyle.material.positionNode=positionBuffer.element(vertexIndex).xyz;
     surfaceStyle.material.normalNode=transformNormalToView(varying(normalBuffer.element(vertexIndex).xyz));
-    this.surfaceMesh=new THREE.Mesh(geometry,surfaceStyle.material);this.surfaceMesh.frustumCulled=false;this.surfaceMesh.castShadow=true;this.surfaceMesh.receiveShadow=true;this.scene.add(this.surfaceMesh);
+    for(let tile=0;tile<this.surface.tileCount;tile++){
+      const tileGeometry=tile===0?geometry:new THREE.BufferGeometry();if(tile>0){tileGeometry.setAttribute('position',pos);tileGeometry.setAttribute('normal',normal);}tileGeometry.setIndirect(indirect,tile*48);
+      const tileMesh=new THREE.Mesh(tileGeometry,surfaceStyle.material);tileMesh.frustumCulled=false;tileMesh.castShadow=true;tileMesh.receiveShadow=true;this.scene.add(tileMesh);this.surfaceTiles.push(tileMesh);
+    }
+    this.surfaceMesh=this.surfaceTiles[0];
     const grainAttribute=new THREE.StorageInstancedBufferAttribute(this.surface.grainCount*2,4);
     backend.get(grainAttribute).buffer=this.surface.grains;
     const grainBuffer=storage(grainAttribute,'vec4',this.surface.grainCount*2);
@@ -110,7 +115,7 @@ export class LabScene {
     const grainMaterial=new THREE.MeshBasicNodeMaterial({alphaTest:0.1,side:THREE.DoubleSide});
     grainMaterial.positionNode=cameraWorldMatrix.mul(vec4(positionLocal.mul(select(grain.w.greaterThan(0),1,0)),0)).xyz.add(grain.xyz);
     grainMaterial.opacityNode=float(1).sub(smoothstep(0.14,0.25,uv().sub(0.5).length().pow(2)));
-    grainMaterial.colorNode=mix(color(0xc2b48f),color(0x5a4635),varying(grainVelocity.w));
+    grainMaterial.colorNode=materialColorNode(varying(grainVelocity.w));
     this.grainMesh=new THREE.InstancedMesh(new THREE.PlaneGeometry(0.007,0.007).toNonIndexed(),grainMaterial,this.surface.spillCount);
     this.grainMesh.geometry.setIndirect(indirect,32);
     this.grainMesh.frustumCulled=false;this.scene.add(this.grainMesh);this.setMode(this.mode);
@@ -119,19 +124,19 @@ export class LabScene {
     if(!this.particles)return;
     this.scene.remove(this.particles);this.particles.geometry.dispose();(this.particles.material as THREE.Material).dispose();this.particles.dispose();
     this.particles=undefined;
-    for(const mesh of [this.surfaceMesh,this.grainMesh,this.detachedMesh]){
+    for(const mesh of [...this.surfaceTiles,this.grainMesh,this.detachedMesh]){
       if(!mesh)continue;this.scene.remove(mesh);mesh.geometry.dispose();(mesh.material as THREE.Material).dispose();
       if(mesh instanceof THREE.InstancedMesh)mesh.dispose();
     }
-    this.detachedMap?.dispose();this.detachedMesh=undefined;this.surfaceMap?.dispose();this.surface?.destroy();this.surface=undefined;this.surfaceMesh=undefined;this.grainMesh=undefined;
+    this.detachedMap?.dispose();this.detachedMesh=undefined;this.surfaceMap?.dispose();this.surface?.destroy();this.surface=undefined;this.surfaceMesh=undefined;this.surfaceTiles=[];this.grainMesh=undefined;
   }
   setMode(mode:'surface'|'points'):void {
     this.mode=mode;this.surfaceDirty=true;if(this.particles)this.particles.visible=mode==='points';
-    if(this.surfaceMesh)this.surfaceMesh.visible=mode==='surface';if(this.grainMesh)this.grainMesh.visible=mode==='surface';if(this.detachedMesh)this.detachedMesh.visible=mode==='surface';
+    for(const mesh of this.surfaceTiles)mesh.visible=mode==='surface';if(this.grainMesh)this.grainMesh.visible=mode==='surface';if(this.detachedMesh)this.detachedMesh.visible=mode==='surface';
   }
   setProxyCompaction(enabled:boolean):void{this.proxyCompaction=enabled;if(this.surface)this.surface.useProxyCompaction=enabled;this.surfaceDirty=true;}
   setDetail(enabled:boolean):void{this.detailEnabled=enabled;this.surfaceDirty=true;this.setMode(this.mode);}
-  updateMaterial(boxes:Collider[],dt:number):void {if(this.mode==='surface'&&(dt>0||this.surfaceDirty)){this.surface?.update(boxes,dt,this.detailEnabled);this.surfaceDirty=false;}}
+  updateMaterial(boxes:Collider[],dt:number,modes?:Uint32Array):void {if(this.mode==='surface'&&(dt>0||this.surfaceDirty)){this.surface?.update(boxes,dt,this.detailEnabled,modes);this.surfaceDirty=false;}}
   surfaceDiagnostics():Promise<SurfaceStats|null>{return this.mode==='surface'&&this.surface?this.surface.diagnostics():Promise.resolve(null);}
   get visualBufferBytes():number{return this.surface?.estimatedBytes??0;}
   setBucket(pose:Pose):void {this.bucket.position.set(pose.x,pose.y,pose.z);this.bucket.rotation.z=pose.angle;}

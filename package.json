@@ -17,8 +17,10 @@
     "test:terrain": "node --import tsx scripts/terrain-check.ts",
     "test:terrain-cache": "node --import tsx scripts/terrain-cache-check.ts",
     "test:game": "node --import tsx scripts/game-check.ts",
+    "test:game-ui": "node --import tsx scripts/game-ui-check.ts",
     "benchmark:game": "node --import tsx scripts/game-benchmark.ts",
-    "test:driving": "node --import tsx scripts/driving-check.ts && node --import tsx scripts/pile-driving-check.ts && node --import tsx scripts/ledge-driving-check.ts"
+    "test:driving": "node --import tsx scripts/driving-check.ts && node --import tsx scripts/pile-driving-check.ts && node --import tsx scripts/ledge-driving-check.ts",
+    "test:terrain-stability": "node --import tsx scripts/terrain-stability-check.ts"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.12.0",

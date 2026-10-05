@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
+import {seedTerrain} from '../src/simulation/terrain';
+import {presets} from '../src/simulation/material';
 import {Excavator,JOINT_LIMITS} from '../src/simulation/excavator';
 import {boxDistance} from '../src/simulation/bucket';
 test('Swing rotates the physical bucket and its collision geometry together',()=>{
@@ -19,9 +21,10 @@ test('Hydraulic joints hold, obey limits, and respond to measured resistance',()
 });
 import {supportHeights} from '../src/simulation/ground-support';
 test('Vehicle support excludes carried and airborne soil',()=>{
- const p=Float32Array.from([0,.25,0,1,0,.45,0,1,0,2.25,0,1,0,2.45,0,1]);
- const height=supportHeights(p)[12+12*25];assert.ok(Math.abs(height-.55)<1e-6);
- assert.ok(Math.abs(supportHeights(p.slice(8))[12+12*25]-.15)<1e-6);
+ const layers=Array.from({length:12},(_,i)=>[0,-1.75+i*.2,0,1]).flat();
+ const p=Float32Array.from([...layers,0,2.25,0,1,0,2.45,0,1]);
+ const height=supportHeights(p)[24+24*49];assert.ok(Math.abs(height-.55)<1e-6);
+ assert.ok(Math.abs(supportHeights(p.slice(layers.length))[24+24*49]+1.85)<1e-6);
 });
 import {colliderBounds} from '../src/simulation/bucket';
 test('Contact broad phase encloses every rotated box corner',()=>{
@@ -58,4 +61,41 @@ test('Out-of-bounds arm still permits swing and inward recovery',()=>{
  const m=new Excavator();m.base.x=3;const start=m.pose();assert.ok(start.x>5);
  for(let i=0;i<100;i++)m.step(.032,{boom:1,stick:0,curl:0,swing:1});
  assert.ok(m.pose().x<start.x-.2);assert.ok(m.joints[3]>.2,'One constrained joint must not freeze swing');
+});
+
+test('arm can excavate beneath the original surface height',()=>{
+ const m=new Excavator();m.base={x:0,y:1,z:0,yaw:0};
+ for(let i=0;i<200;i++)m.step(.032,{boom:-1,stick:0,curl:0,swing:0});
+ for(let i=0;i<60;i++)m.step(.032,{boom:0,stick:1,curl:0,swing:0});
+ assert.ok(m.pose().y<0,'The deeper soil must be reachable by the bucket');
+ assert.ok(m.pose().y>=-1.4,'Bucket travel remains above the lowered bedrock');
+});
+
+test('chassis ground support follows excavation below the old floor',()=>{
+ const seed=seedTerrain(presets.soil),cut:number[]=[];
+ for(let i=0;i<seed.count;i++){
+  const x=seed.positions[4*i],y=seed.positions[4*i+1],z=seed.positions[4*i+2];
+  if(Math.abs(x)<1&&Math.abs(z)<1&&y>-.7)continue;
+  cut.push(...seed.positions.slice(4*i,4*i+4));
+ }
+ const heights=supportHeights(Float32Array.from(cut));
+ assert.ok(heights[24+24*49]<-.6,'Excavated support must descend below the previous floor');
+ assert.ok(Math.abs(heights[32+32*49]-.55)<1e-6,'Undisturbed ground keeps its height');
+});
+
+test('small soil uplift changes support continuously rather than dropping to bedrock',()=>{
+ const seed=seedTerrain(presets.soil);
+ for(const delta of [-.101,-.04,.04,.099,.101]){
+  const positions=seed.positions.slice();for(let i=1;i<positions.length;i+=4)positions[i]+=delta;
+  const height=supportHeights(positions)[32+32*49];
+  assert.ok(Math.abs(height-(.55+delta))<1e-5,`Support must track ${delta} m of displacement continuously`);
+ }
+});
+
+import {GroundSupportCache} from '../src/simulation/ground-support';
+test('incremental ground support matches full reconstruction when samples move columns',()=>{
+ const seed=seedTerrain(presets.soil),positions=seed.positions.slice(),cache=new GroundSupportCache();cache.update(positions);
+ const moved:number[]=[];
+ for(let i=0;i<seed.count;i++)if(Math.abs(positions[4*i])<1&&Math.abs(positions[4*i+2])<1){moved.push(i);positions[4*i]+=.55;positions[4*i+1]-=.06;}
+ assert.deepEqual(cache.update(positions,Uint32Array.from(moved)),supportHeights(positions));
 });

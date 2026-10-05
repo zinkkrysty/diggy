@@ -120,6 +120,8 @@ Run `npm run test:terrain-cache` to compare cached and reference physics. Run `n
 
 `npm run test:game` verifies the playable machine, scoop/lift/swing/dump, track drive/steering, material presets, keyboard input and preserved lab. `npm run benchmark:game` measures the complete scene during keyboard-operated excavation. Both use the hardware browser flags above. The game has its own performance measurements; laboratory FPS is not a game benchmark.
 
+`npm run test:game-ui` checks Escape dismissal and accessibility state, narrow-screen action visibility, and Shift precision after leaving the material selector. It saves screenshots under `.local/artifacts/`. Set `DIGGY_URL` when using a development server on a different port. See [the second gameplay playtest](docs/PLAYTEST-ROUND2.md) for remaining player-facing issues.
+
 The current complete-game benchmark measures roughly **32–40 FPS** on integrated Vega at adaptive render resolution, with approximately real-time soil simulation. The game has not met the 60 FPS target. See [the game checkpoint](docs/PLAYABLE-SIMULATOR.md) for timings and machine-physics limitations.
 
 `npm run test:driving` checks forward/reverse travel, braking, pivot steering, boundary retreat, loss of traction in midair, moderate pile climbing, steep-slope limits and recovery after either track drops from a ledge. Driving uses contact-limited belt forces instead of passive skid friction. See [driving validation](docs/driving-validation.json).

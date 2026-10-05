@@ -5,7 +5,7 @@ import {seedTerrain} from '../src/simulation/terrain';
 import {presets} from '../src/simulation/material';
 await Chassis.init();const results=[];
 for(const preset of ['sand','soil','wet']){
- const c=new Chassis();c.updateGround(seedTerrain(presets[preset]).positions);
+ const c=new Chassis();c.body.setTranslation({x:-3.7,y:1,z:0},true);c.updateGround(seedTerrain(presets[preset]).positions);
  for(let i=0;i<60;i++)c.step(1/60,0,0,{x:-1,y:2,z:0});
  const start=c.base;
  for(let i=0;i<120;i++)c.step(1/60,1,0,{x:-1,y:2,z:0});
