@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BUCKET_PARTS, type Pose, type Collider } from '../simulation/bucket';
 import { STATE_FLOATS, type Seed } from '../simulation/scenarios';
 import {MaterialSurface,type SurfaceStats} from './surface';
+import {SURFACE_TILE_AXIS,SURFACE_TILE_SIZE} from './terrain-tiles';
+import {TERRAIN_ORIGIN} from '../simulation/terrain';
 import {soilMaterial,materialColor,materialColorNode} from './material';
 
 export class LabScene {
@@ -95,7 +97,15 @@ export class LabScene {
     surfaceStyle.material.normalNode=transformNormalToView(varying(normalBuffer.element(vertexIndex).xyz));
     for(let tile=0;tile<this.surface.tileCount;tile++){
       const tileGeometry=tile===0?geometry:new THREE.BufferGeometry();if(tile>0){tileGeometry.setAttribute('position',pos);tileGeometry.setAttribute('normal',normal);}tileGeometry.setIndirect(indirect,tile*48);
-      const tileMesh=new THREE.Mesh(tileGeometry,surfaceStyle.material);tileMesh.frustumCulled=false;tileMesh.castShadow=true;tileMesh.receiveShadow=true;this.scene.add(tileMesh);this.surfaceTiles.push(tileMesh);
+      if(terrain){
+        // GPU-owned vertices cannot supply CPU bounds. Each tile owns these
+        // x/z cells at every height; use conservative bounds for both cameras
+        // and shadow passes without reading material back from the GPU.
+        const x=TERRAIN_ORIGIN[0]+tile%SURFACE_TILE_AXIS*SURFACE_TILE_SIZE,z=TERRAIN_ORIGIN[2]+Math.floor(tile/SURFACE_TILE_AXIS)*SURFACE_TILE_SIZE;
+        tileGeometry.boundingBox=new THREE.Box3(new THREE.Vector3(x,TERRAIN_ORIGIN[1],z),new THREE.Vector3(x+SURFACE_TILE_SIZE,TERRAIN_ORIGIN[1]+(this.surface.dimensions[1]-1)*this.surface.spacing,z+SURFACE_TILE_SIZE));
+        tileGeometry.boundingSphere=tileGeometry.boundingBox.getBoundingSphere(new THREE.Sphere());
+      }
+      const tileMesh=new THREE.Mesh(tileGeometry,surfaceStyle.material);tileMesh.frustumCulled=terrain;tileMesh.castShadow=true;tileMesh.receiveShadow=true;this.scene.add(tileMesh);this.surfaceTiles.push(tileMesh);
     }
     this.surfaceMesh=this.surfaceTiles[0];
     const grainAttribute=new THREE.StorageInstancedBufferAttribute(this.surface.grainCount*2,4);

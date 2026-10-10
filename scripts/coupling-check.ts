@@ -18,7 +18,7 @@ try {
       for(let i=0;i<560;i++) {
         const command=i<220?[.7,0,0,0]:i<330?[0,.1,0,.7]:i<440?[-.35,.7,0,0]:[0,0,0,-.7];
         result=await d.drive(command,32);
-        const s=result.snapshot;if(s.invalidParticles||Math.abs(s.massErrorPercent)>.001||s.penetrationMm>=1)throw new Error('Invalid contact state');
+        const s=result.snapshot;if(s.invalidParticles||Math.abs(s.massErrorPercent)>.001||s.penetrationMm>=1){const p=await d.particles();throw new Error(`Invalid contact state at batch ${i}: ${JSON.stringify({invalid:s.invalidParticles,massErrorPercent:s.massErrorPercent,penetrationMm:s.penetrationMm,minY:Math.min(...p.positions.filter((_:number,k:number)=>k%4===1)),pose:result.pose,dynamics:result.dynamics})}`);}
         const a=result.dynamics;maxReaction=Math.max(maxReaction,Math.hypot(...a.reaction.slice(0,3)));maxTorque=Math.max(maxTorque,Math.abs(a.reaction[3]));maxLoad=Math.max(maxLoad,a.carriedMassKg);maxSpeed=Math.max(maxSpeed,...a.velocity.map(Math.abs));
         if(i%40===0)samples.push({batch:i,pose:result.pose,dynamics:a,snapshot:s});
       }
@@ -29,7 +29,11 @@ try {
   }
   if(runs.some(r=>r.maxLoad<50||r.maxReaction<1000||r.maxTorque<100))throw new Error('No meaningful material coupling measured');
   const fullPush=runs[0].samples.find(s=>s.batch===200)!.pose.x,halfPush=runs[1].samples.find(s=>s.batch===200)!.pose.x;
-  if(!(fullPush>halfPush+.03))throw new Error(`Reduced force did not slow excavation: ${fullPush}, ${halfPush}`);
+  // A shallow cut can stay below both force limits. The loaded lift is the
+  // overload comparison; require a substantial strength-dependent difference.
+  const fullLift=runs[0].samples.find(s=>s.batch===440)!.pose.y,halfLift=runs[1].samples.find(s=>s.batch===440)!.pose.y;
+  if(fullPush<halfPush-.001)throw new Error(`Full strength excavated less: ${fullPush}, ${halfPush}`);
+  if(!(fullLift>halfLift+.5))throw new Error(`Reduced force did not limit loaded lift: ${fullLift}, ${halfLift}`);
   if(runs.some(r=>r.maxSpeed>3))throw new Error('Unstable fixture velocity');
   if(errors.length)throw new Error(errors.join('\n'));
   await mkdir('.local/artifacts',{recursive:true});await writeFile('.local/artifacts/coupling-validation.json',JSON.stringify({adapter:await page.evaluate(()=>(window as any).diggy.adapter),runs,errors},null,2));

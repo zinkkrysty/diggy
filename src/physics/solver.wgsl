@@ -135,7 +135,8 @@ fn yawVector(v:vec3f,yaw:vec4f)->vec3f {return vec3f(yaw.z*v.x+yaw.w*v.z,v.y,-ya
 fn inverseYaw(v:vec3f,yaw:vec4f)->vec3f{return vec3f(yaw.z*v.x-yaw.w*v.z,v.y,yaw.w*v.x+yaw.z*v.z);}
 fn angularVelocity(box:Box,yaw:vec4f)->vec3f{return vec3f(-yaw.w*box.halfOmega.w,yaw.y,yaw.z*box.halfOmega.w);}
 fn boxContact(point: vec3f, box: Box, rotation:Rotation,bounds:vec3f) -> Contact {
-  if(any(abs(point-box.centerAngle.xyz)>bounds+vec3f(params.soil.w))){return Contact(1000000.0,vec3f(0),vec3f(0));}
+  let contactRange=params.soil.w+select(0.0,0.004,box.velocityKind.w>0.5);
+  if(any(abs(point-box.centerAngle.xyz)>bounds+vec3f(contactRange))){return Contact(1000000.0,vec3f(0),vec3f(0));}
   let delta=point-box.centerAngle.xyz;let basis=mat3x3f(rotation.x.xyz,rotation.y.xyz,rotation.z.xyz);
   let p=transpose(basis)*delta;
   let q=abs(p)-box.halfOmega.xyz;
@@ -158,7 +159,50 @@ fn contactVelocity(v: vec3f, contact: Contact, friction: f32, adhesion: f32) -> 
   let tangentLen=length(tangent);
   let frictionDrop=friction*max(-vn,0.0)+adhesion*params.step.x*9.81;
   let slide=tangent*max(0.0,1.0-frictionDrop/max(tangentLen,1e-7));
-  return contact.velocity+max(vn,0.0)*contact.normal+slide;
+  // A finite tensile impulse briefly delays wet soil peeling off metal.
+  // It cannot pull detached material across a gap or hold it indefinitely.
+  return contact.velocity+max(vn-adhesion*params.step.x*9.81,0.0)*contact.normal+slide;
+}
+const METAL_FRICTION:f32=0.45;
+// Sweep through the expanded plate: endpoint-only projection can push a
+// sample out of the wrong face, or miss a thin wall entirely.
+fn sweptBoxContact(start:vec3f,end:vec3f,box:Box,rotation:Rotation,bounds:vec3f,margin:f32)->Contact {
+  let extent=bounds+vec3f(margin);
+  if(any(min(start,end)>box.centerAngle.xyz+extent)||any(max(start,end)<box.centerAngle.xyz-extent)) {
+    return Contact(1000000.0,vec3f(0),vec3f(0));
+  }
+  let basis=mat3x3f(rotation.x.xyz,rotation.y.xyz,rotation.z.xyz);
+  let a=transpose(basis)*(start-box.centerAngle.xyz);let delta=transpose(basis)*(end-start);
+  let half=box.halfOmega.xyz+vec3f(margin);
+  if(all(abs(a)<=half)){return Contact(1000000.0,vec3f(0),vec3f(0));}
+  var enter=0.0;var leave=1.0;var normal=vec3f(0);
+  for(var axis=0u;axis<3u;axis++) {
+    if(abs(delta[axis])<1e-8){if(abs(a[axis])>half[axis]){return Contact(1000000.0,vec3f(0),vec3f(0));}}
+    else {
+      let t0=(-half[axis]-a[axis])/delta[axis];let t1=(half[axis]-a[axis])/delta[axis];
+      let near=min(t0,t1);leave=min(leave,max(t0,t1));
+      if(near>enter){enter=near;normal=vec3f(0);normal[axis]=select(1.0,-1.0,delta[axis]>0.0);}
+    }
+  }
+  if(enter>leave||enter<=0.0||enter>1.0){return Contact(1000000.0,vec3f(0),vec3f(0));}
+  let n=basis*normal;let hit=start+enter*(end-start);
+  return Contact(margin+dot(end-hit,n),n,box.velocityKind.xyz+cross(rotation.omega.xyz,end-box.centerAngle.xyz));
+}
+// Near bedrock, the closest exit face may point into the fixed floor. Choose
+// the shortest feasible plate exit instead of alternating incompatible pushes.
+fn floorSafeContact(point:vec3f,box:Box,rotation:Rotation,contact:Contact,margin:f32,floorY:f32)->Contact {
+  if(point.y+(margin-contact.distance)*contact.normal.y>=floorY){return contact;}
+  let basis=mat3x3f(rotation.x.xyz,rotation.y.xyz,rotation.z.xyz);
+  let local=transpose(basis)*(point-box.centerAngle.xyz);
+  var result=contact;var best=1000000.0;
+  for(var axis=0u;axis<3u;axis++){for(var side=0u;side<2u;side++){
+    let sign=select(-1.0,1.0,side==1u);let normal=sign*basis[axis];
+    let distance=sign*local[axis]-box.halfOmega[axis];let correction=margin-distance;
+    if(correction>0.0&&correction<best&&point.y+correction*normal.y>=floorY){
+      best=correction;result=Contact(distance,normal,contact.velocity);
+    }
+  }}
+  return result;
 }
 @compute @workgroup_size(128)
 fn clearGrid(@builtin(global_invocation_id) gid: vec3u) {
@@ -215,18 +259,14 @@ fn updateGrid(@builtin(global_invocation_id) gid: vec3u) {
     if(coordinate[a]>params.counts[a+1u]-3u && v[a]>0.0){v[a]=0.0;}
   }
   for(var b=0u;b<params.flags.x;b++) {
-    let box=params.boxes[b];let contact=boxContact(point,box,params.rotations[b],params.bounds[b].xyz);
+    let box=params.boxes[b];
+    // Bucket plates are thinner than the grid. Nodes inside a plate can be
+    // on the opposite side from their material samples and falsely support
+    // an inverted load. Resolve metal on samples (with sweeps) instead.
+    if(box.velocityKind.w>0.5){continue;}
+    let contact=boxContact(point,box,params.rotations[b],params.bounds[b].xyz);
     if(contact.distance<0.0) {
-      let before=v;v=contactVelocity(v,contact,params.step.w,params.soil.z*box.velocityKind.w);
-      if(box.velocityKind.w>0.5) {
-        let impulse=mass*(v-before);
-        atomicAdd(&metrics[0],i32(round(-impulse.x*10000.0)));
-        atomicAdd(&metrics[1],i32(round(-impulse.y*10000.0)));
-        atomicAdd(&metrics[2],i32(round(-impulse.z*10000.0)));
-        let floorBox=params.boxes[0];
-        let pivot=floorBox.centerAngle.xyz+params.rotations[0].y.xyz*0.34;
-        atomicAdd(&metrics[6],i32(round(dot(cross(point-pivot,-impulse),params.rotations[0].z.xyz)*1000.0)));
-      }
+      v=contactVelocity(v,contact,params.step.w,0.0);
     }
   }
   gridVelocity[idx]=vec4f(v,mass);
@@ -264,9 +304,23 @@ fn gather(@builtin(global_invocation_id) gid: vec3u) {
   let lower=params.domain.xyz+vec3f(params.step.y*1.6,0.15+margin,params.step.y*1.6);
   let upper=params.domain.xyz+vec3f(params.counts.yzw)*params.step.y-vec3f(params.step.y*1.6);
   pos=vec4f(clamp(pos.xyz,lower,upper),pos.w);
+  // history.w identifies the last touched metal plate. A bond acts only over
+  // a 4 mm peeling distance after real contact, never across an arbitrary gap.
+  let bondedPlate=p.history.w;p.history.w=0.0;
+  var touchedMetal=false;
+  // A correction at a plate junction can enter a neighboring plate. Recheck
+  // the shell once without repeating adhesion or the original sweep.
+  for(var contactPass=0u;contactPass<2u;contactPass++){
   for(var b=0u;b<params.flags.x;b++) {
-    let box=params.boxes[b];let contact=boxContact(pos.xyz,box,params.rotations[b],params.bounds[b].xyz);
+    let box=params.boxes[b];var contact=boxContact(pos.xyz,box,params.rotations[b],params.bounds[b].xyz);
+    if(contactPass>0u&&box.velocityKind.w<0.5){continue;}
+    if(box.velocityKind.w>0.5&&contactPass==0u){
+      let swept=sweptBoxContact(positions[i].xyz,pos.xyz,box,params.rotations[b],params.bounds[b].xyz,margin);
+      if(swept.distance<margin){contact=swept;}
+    }
+    let adhesion=params.soil.z*box.velocityKind.w*clamp(p.material.x/0.62,0.0,1.0)*select(0.0,1.0,contactPass==0u);
     if(contact.distance<margin) {
+      if(box.velocityKind.w>0.5){contact=floorSafeContact(pos.xyz,box,params.rotations[b],contact,margin,lower.y);}
       atomicMax(&metrics[3],i32(round(max(-contact.distance,0.0)*1000000.0)));
       let before=v;
       if(dot(v-contact.velocity,contact.normal)<0.0){
@@ -274,9 +328,12 @@ fn gather(@builtin(global_invocation_id) gid: vec3u) {
         let rigidC=mat3x3f(vec3f(0,w.z,-w.y),vec3f(-w.z,0,w.x),vec3f(w.y,-w.x,0));
         C=rigidC+(IDENTITY-outer(contact.normal,contact.normal))*(C-rigidC);
       }
-      v=contactVelocity(v,contact,params.step.w,params.soil.z*box.velocityKind.w);
+      // A dry sample in mixed material must not inherit wet metal adhesion.
+      v=contactVelocity(v,contact,select(params.step.w,METAL_FRICTION,box.velocityKind.w>0.5),adhesion);
       pos=vec4f(pos.xyz+(margin-contact.distance)*contact.normal,pos.w);
       if(box.velocityKind.w>0.5) {
+        touchedMetal=true;
+        if(adhesion>0.0){p.history.w=f32(b+1u);}
         let impulse=pos.w*(v-before);
         atomicAdd(&metrics[0],i32(round(-impulse.x*10000.0)));
         atomicAdd(&metrics[1],i32(round(-impulse.y*10000.0)));
@@ -285,7 +342,20 @@ fn gather(@builtin(global_invocation_id) gid: vec3u) {
         let pivot=floorBox.centerAngle.xyz+params.rotations[0].y.xyz*0.34;
         atomicAdd(&metrics[6],i32(round(dot(cross(pos.xyz-pivot,-impulse),params.rotations[0].z.xyz)*1000.0)));
       }
+    }else if(adhesion>0.0 && bondedPlate==f32(b+1u) && contact.distance<margin+0.004){
+      let strength=adhesion*(1.0-(contact.distance-margin)/0.004);
+      let separation=max(dot(v-contact.velocity,contact.normal),0.0);
+      let delta=-contact.normal*min(separation,strength*9.81*params.step.x);
+      v+=delta;p.history.w=f32(b+1u);
+      let reaction=-pos.w*delta;
+      atomicAdd(&metrics[0],i32(round(reaction.x*10000.0)));
+      atomicAdd(&metrics[1],i32(round(reaction.y*10000.0)));
+      atomicAdd(&metrics[2],i32(round(reaction.z*10000.0)));
+      let pivot=params.boxes[0].centerAngle.xyz+params.rotations[0].y.xyz*0.34;
+      atomicAdd(&metrics[6],i32(round(dot(cross(pos.xyz-pivot,reaction),params.rotations[0].z.xyz)*1000.0)));
     }
+  }
+  if(!touchedMetal){break;}
   }
   p.velocity=vec4f(v,p.velocity.w);
   p.c0=vec4f(C[0],0);p.c1=vec4f(C[1],0);p.c2=vec4f(C[2],0);

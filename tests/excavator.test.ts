@@ -99,3 +99,43 @@ test('incremental ground support matches full reconstruction when samples move c
  for(let i=0;i<seed.count;i++)if(Math.abs(positions[4*i])<1&&Math.abs(positions[4*i+2])<1){moved.push(i);positions[4*i]+=.55;positions[4*i+1]-=.06;}
  assert.deepEqual(cache.update(positions,Uint32Array.from(moved)),supportHeights(positions));
 });
+
+test('shared pump slows concurrent functions and releases flow when commands stop',()=>{
+ const single=new Excavator(),combined=new Excavator();
+ for(let i=0;i<20;i++){
+  single.step(.016,{boom:0,stick:0,curl:0,swing:1});
+  combined.step(.016,{boom:1,stick:1,curl:1,swing:1});
+ }
+ assert.ok(combined.joints[3]<single.joints[3]*.7,'Concurrent arm commands must reduce swing travel');
+ assert.ok(combined.hydraulics.flowDemand*combined.hydraulics.allocation<=1.6+1e-9);
+ combined.step(.016,{boom:0,stick:0,curl:0,swing:1});
+ assert.equal(combined.hydraulics.allocation,1);
+ combined.reset();assert.deepEqual(combined.hydraulics,{flowDemand:0,powerDemandWatts:0,allocation:1});
+});
+
+test('measured cutting resistance slows and overload stalls curl without target windup',()=>{
+ const travel=(load:number)=>{
+  const m=new Excavator(),start=m.joints[2];
+  for(let i=0;i<50;i++){
+   m.step(.016,{boom:0,stick:0,curl:1,swing:0});
+   m.contact({impulse:[0,0,0],torqueImpulse:-load*.016,carriedMass:100},.016);
+   assert.ok(m.joints.every(Number.isFinite));
+   assert.ok(Math.abs(m.target[2]-m.joints[2])<=.081);
+   assert.ok(Math.abs(m.effort[2])<=22000);
+  }
+  return m.joints[2]-start;
+ };
+ const free=travel(0),cut=travel(8000),overload=travel(26000);
+ assert.ok(free>cut&&cut>overload,'Increasing physical resistance must reduce travel');
+ assert.ok(overload<.02,'Overload must stall or backdrive the joint');
+});
+
+test('pump power allocation accounts for measured load and ignores joints at stops',()=>{
+ const m=new Excavator();m.effort=[100000,65000,22000,40000];
+ m.step(.016,{boom:1,stick:1,curl:1,swing:0});
+ assert.ok(m.hydraulics.powerDemandWatts*m.hydraulics.allocation<=45000+1e-9);
+ m.joints[2]=JOINT_LIMITS[2][1];m.target[2]=m.joints[2];
+ m.step(.016,{boom:0,stick:0,curl:1,swing:1});
+ assert.equal(m.hydraulics.flowDemand,1);
+ assert.equal(m.hydraulics.allocation,1);
+});

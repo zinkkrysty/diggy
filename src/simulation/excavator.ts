@@ -9,12 +9,16 @@ export const BOOM_LENGTH=2.6,STICK_LENGTH=1.8;
 export const JOINT_LIMITS=[[.12,1.32],[-2.55,-.2],[-.8,3.05],[-Infinity,Infinity]] as const;
 const INITIAL=[.9,-2.3,1.4,0];
 const inertia=[12000,3500,1100,22000],limits=[100000,65000,22000,40000],flow=[.3,.42,.65,.32];
+// Reduced pump model: one full-speed function plus partial concurrent flow.
+// Power is mechanical output, not a calibrated hydraulic-fluid simulation.
+export const HYDRAULIC_FLOW_BUDGET=1.6,HYDRAULIC_POWER_WATTS=45000;
 export function rotateYaw(x:number,z:number,yaw:number):[number,number]{return [Math.cos(yaw)*x+Math.sin(yaw)*z,-Math.sin(yaw)*x+Math.cos(yaw)*z];}
 /** Reduced-coordinate hydraulic arm. State is independent of the render graph. */
 export class Excavator {
   joints=[...INITIAL];target=[...INITIAL];velocity=[0,0,0,0];effort=[0,0,0,0];reaction=[0,0,0,0];carriedMass=0;
   base:MachineBase={...MACHINE_START};
-  reset(){this.joints=[...INITIAL];this.target=[...INITIAL];this.velocity.fill(0);this.effort.fill(0);this.reaction.fill(0);this.carriedMass=0;}
+  hydraulics={flowDemand:0,powerDemandWatts:0,allocation:1};
+  reset(){this.joints=[...INITIAL];this.target=[...INITIAL];this.velocity.fill(0);this.effort.fill(0);this.reaction.fill(0);this.carriedMass=0;this.hydraulics={flowDemand:0,powerDemandWatts:0,allocation:1};}
   get yaw(){return this.base.yaw+this.joints[3];}
   points(){
     const [boom,stick]=this.joints,a=boom+stick;
@@ -38,15 +42,23 @@ export class Excavator {
     return [-9.81*(900*lever(BOOM_LENGTH*.5,a)+500*(lever(BOOM_LENGTH,a)+stickLever)+450*(lever(BOOM_LENGTH,a)+bucketLever)),-9.81*(500*stickLever+450*bucketLever),-9.81*450*(lever(.45,a+b+this.joints[2])+lever(.32,a+b+this.joints[2]-Math.PI/2)),0];
   }
   step(dt:number,command:ExcavatorCommand){
-    const before=this.pose(),commands=[command.boom,command.stick,command.curl,command.swing];
-    for(let i=0;i<4;i++)this.target[i]=Math.max(JOINT_LIMITS[i][0],Math.min(JOINT_LIMITS[i][1],Math.max(this.joints[i]-.08,Math.min(this.joints[i]+.08,this.target[i]+commands[i]*flow[i]*dt))));
+    const before=this.pose(),commands=[command.boom,command.stick,command.curl,command.swing].map(v=>Math.max(-1,Math.min(1,v)));
+    const gravityAtStart=this.gravity();
+    // Closed valves and joints at their stops do not reserve pump flow.
+    const demand=commands.map((v,i)=>this.joints[i]<=JOINT_LIMITS[i][0]+1e-6&&v<0||this.joints[i]>=JOINT_LIMITS[i][1]-1e-6&&v>0?0:Math.abs(v));
+    const flowDemand=demand.reduce((a,b)=>a+b,0);
+    const powerDemandWatts=demand.reduce((sum,v,i)=>sum+v*flow[i]*Math.min(limits[i],Math.max(Math.abs(this.effort[i]),Math.abs(-gravityAtStart[i]-this.reaction[i]))),0);
+    const allocation=Math.min(1,HYDRAULIC_FLOW_BUDGET/Math.max(flowDemand,1e-9),HYDRAULIC_POWER_WATTS/Math.max(powerDemandWatts,1e-9));
+    this.hydraulics={flowDemand,powerDemandWatts,allocation};
+    for(let i=0;i<4;i++)this.target[i]=Math.max(JOINT_LIMITS[i][0],Math.min(JOINT_LIMITS[i][1],Math.max(this.joints[i]-.08,Math.min(this.joints[i]+.08,this.target[i]+commands[i]*flow[i]*allocation*dt))));
     const steps=Math.ceil(dt/.002),h=dt/steps;
     for(let n=0;n<steps;n++){
       const gravity=this.gravity();
       for(let i=0;i<4;i++){
         const k=[380000,260000,160000,320000][i],damping=2*Math.sqrt(k*inertia[i]);
         const torque=Math.max(-limits[i],Math.min(limits[i],k*(this.target[i]-this.joints[i])-damping*this.velocity[i]-gravity[i]));this.effort[i]=torque;
-        this.velocity[i]+=(torque+gravity[i])*h/inertia[i];this.velocity[i]=Math.max(-flow[i],Math.min(flow[i],this.velocity[i]));
+        const speedLimit=flow[i]*(demand[i]>0?allocation:1);
+        this.velocity[i]+=(torque+gravity[i])*h/inertia[i];this.velocity[i]=Math.max(-speedLimit,Math.min(speedLimit,this.velocity[i]));
         const previous=this.joints[i],beforeJoint=this.pose();
         this.joints[i]+=this.velocity[i]*h;
         if(this.joints[i]<JOINT_LIMITS[i][0]||this.joints[i]>JOINT_LIMITS[i][1]){this.joints[i]=Math.max(JOINT_LIMITS[i][0],Math.min(JOINT_LIMITS[i][1],this.joints[i]));this.velocity[i]=0;}
@@ -58,6 +70,8 @@ export class Excavator {
         if(next.some((v,k)=>v>was[k]+1e-9)){this.joints[i]=previous;this.velocity[i]=0;this.target[i]=previous;}
       }
     }
+    // Keep the anti-windup bound after load-driven backmotion as well.
+    for(let i=0;i<4;i++)this.target[i]=Math.max(this.joints[i]-.08,Math.min(this.joints[i]+.08,this.target[i]));
     const after=this.pose();
     return {velocity:[(after.x-before.x)/dt,(after.y-before.y)/dt,(after.z-before.z)/dt] as [number,number,number],omega:(after.angle-before.angle)/dt,yawOmega:((after.yaw??0)-(before.yaw??0))/dt};
   }
@@ -81,5 +95,5 @@ export class Excavator {
     });
   }
 
-  report(){return {base:{...this.base},joints:[...this.joints],velocity:[...this.velocity],effort:[...this.effort],reaction:[...this.reaction],pose:this.pose(),carriedMassKg:this.carriedMass};}
+  report(){return {base:{...this.base},joints:[...this.joints],velocity:[...this.velocity],effort:[...this.effort],reaction:[...this.reaction],hydraulics:{...this.hydraulics},pose:this.pose(),carriedMassKg:this.carriedMass};}
 }

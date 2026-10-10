@@ -84,11 +84,23 @@ fn splat(@builtin(global_invocation_id) gid:vec3u){
   let volume=particles[i].velocity.w*particles[i].history.x*determinant(mat3x3f(particles[i].f0.xyz,particles[i].f1.xyz,particles[i].f2.xyz));
   let h=params.surface.y;let dx=params.surface.x;
   let center=vec3i(floor((p-params.origin.xyz)/dx));let range=i32(ceil(h/dx));
+  var lower=center-vec3i(range);var upper=center+vec3i(range);
+  if((params.flags.z&2u)>0u){
+    // Omitted nodes have zero kernel weight. Retained contributions use the
+    // same coordinates, density formula and integer rounding as before.
+    lower=max(lower,vec3i(ceil((p-params.origin.xyz-vec3f(h))/dx)));
+    upper=min(upper,vec3i(floor((p-params.origin.xyz+vec3f(h))/dx)));
+    lower=max(lower,vec3i(0));upper=min(upper,vec3i(params.dims.xyz)-vec3i(1));
+    if(params.tile.w>0u){
+      lower=max(lower,vec3i(i32(params.tile.y)-4,0,i32(params.tile.z)-4));
+      upper=min(upper,vec3i(i32(params.tile.y+params.tile.w)+4,i32(params.dims.y)-1,i32(params.tile.z+params.tile.w)+4));
+    }
+  }
   // Poly6 kernel integrates to one. Its field is visual material occupancy, not a force.
   let norm=315.0/(64.0*3.14159265*h*h*h);
   let shade=clamp(particles[i].material.x*0.8+particles[i].material.y*0.3,0.0,0.85);
-  for(var z=-range;z<=range;z++){for(var y=-range;y<=range;y++){for(var x=-range;x<=range;x++){
-    let c=center+vec3i(x,y,z);if(!valid(c)){continue;}
+  for(var z=lower.z;z<=upper.z;z++){for(var y=lower.y;y<=upper.y;y++){for(var x=lower.x;x<=upper.x;x++){
+    let c=vec3i(x,y,z);if((params.flags.z&2u)==0u&&!valid(c)){continue;}
     let world=params.origin.xyz+vec3f(c)*dx;
     let r2=dot(world-p,world-p)/(h*h);if(r2>=1.0){continue;}
     let q=1.0-r2;let density=volume*norm*q*q*q;
@@ -171,7 +183,7 @@ fn finalize(){
     vertices+=atomicLoad(&draw[tile].surface.count);overflow+=atomicLoad(&counters[5u+tile*2u]);
   }
   atomicStore(&counters[0],vertices);atomicStore(&counters[1],overflow);
-  atomicStore(&draw[0].detached.count,params.flags.w);draw[0].detached.instances=select(params.dims.w,atomicLoad(&counters[3]),params.flags.z>0u);draw[0].detached.first=0u;draw[0].detached.base=0u;
+  atomicStore(&draw[0].detached.count,params.flags.w);draw[0].detached.instances=select(params.dims.w,atomicLoad(&counters[3]),(params.flags.z&1u)>0u);draw[0].detached.first=0u;draw[0].detached.base=0u;
   atomicStore(&draw[0].spill.count,6u);draw[0].spill.instances=select(0u,params.flags.y,atomicLoad(&counters[2])>0u);draw[0].spill.first=0u;draw[0].spill.base=0u;
 }
 fn hash(i:u32)->f32{var v=i*747796405u+2891336453u;v=((v>>((v>>28u)+4u))^v)*277803737u;v=(v>>22u)^v;return f32(v)/4294967295.0;}
@@ -189,9 +201,9 @@ fn grains(@builtin(global_invocation_id) gid:vec3u){
     let proxy=Grain(vec4f(p,radius*visibility),vec4f(particles[source].velocity.xyz,clamp(particles[source].material.x*0.8+particles[source].material.y*0.3,0.0,0.85)));
     if(radius*visibility>0.0){
       let slot=atomicAdd(&counters[3],1u);
-      if(params.flags.z>0u){detail[params.flags.y+slot]=proxy;}
+      if((params.flags.z&1u)>0u){detail[params.flags.y+slot]=proxy;}
     }
-    if(params.flags.z==0u){detail[i]=proxy;}
+    if((params.flags.z&1u)==0u){detail[i]=proxy;}
     return;
   }
   var g=detail[i];

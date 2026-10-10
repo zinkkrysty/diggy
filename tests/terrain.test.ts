@@ -107,3 +107,37 @@ test('incremental terrain feedback matches a full scan across chunk crossings an
   full.update(seed.pose,time);local.update(seed.pose,time);assert.deepEqual(local.modes,full.modes);assert.deepEqual(local.report(),full.report());
  }
 });
+
+test('sparse grid-node enumeration preserves reference order across resolutions and masks',()=>{
+ const terrain=new TerrainActivity(seedTerrain(presets.soil));
+ for(const dx of [.25,.125,.1,.16]){
+  const dims=[24,6,24].map(v=>Math.round(v/dx));
+  for(const pattern of [0,1,2]){
+   for(let c=0;c<terrain.modes.length;c++)terrain.modes[c]=pattern===0?0:pattern===1?Number(c%17===0)*2:1;
+   const reference:number[]=[];
+   for(let z=0;z<dims[2];z++)for(let y=0;y<dims[1];y++)for(let x=0;x<dims[0];x++){
+    const c=Math.floor(x*dx)+Math.floor(y*dx)*24+Math.floor(z*dx)*144;
+    if(terrain.modes[c])reference.push(x+y*dims[0]+z*dims[0]*dims[1]);
+   }
+   assert.deepEqual(terrain.gridNodes(dx),Uint32Array.from(reference));
+  }
+ }
+});
+
+test('support removal wakes the chunk above a cut without waking supported neighbors',()=>{
+ const seed=seedTerrain(presets.soil),positions=seed.positions.slice(),indices:number[]=[];
+ const voxel=(x:number,y:number,z:number)=>[Math.floor((x+12)/.25),Math.floor((y-TERRAIN_ORIGIN[1])/.25),Math.floor((z+12)/.25)].join(',');
+ const cut=voxel(-.1,-.15,.1);
+ for(let i=0;i<seed.count;i++)if(voxel(...Array.from(positions.slice(i*4,i*4+3)) as [number,number,number])===cut){indices.push(i);positions[i*4+1]=10;}
+ assert.ok(indices.length>0);
+ for(const incremental of [false,true]){
+  const activity=new TerrainActivity(seed);
+  if(incremental)activity.observeChanges(positions,new Float32Array(seed.count*3),Uint32Array.from(indices),10);
+  else activity.observe(positions,seed.states,10);
+  activity.updateContacts([],10);
+  assert.equal(activity.report().unsupportedChunks,0,'Surrounding columns still support the cut');
+  assert.equal(activity.modes[chunkAt(-.1,.05,.1)],1,'The material directly above the cut wakes across the vertical chunk boundary');
+  assert.notEqual(activity.modes[chunkAt(.1,.05,.1)],1,'Supported adjoining soil remains a fixed halo');
+  assert.notEqual(activity.modes[chunkAt(-.1,-.15,.1)],1,'The chunk below the cut does not wake unnecessarily');
+ }
+});

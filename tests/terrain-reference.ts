@@ -19,11 +19,11 @@ export class ReferenceTerrainActivity {
       const ix=Math.floor((x+12)/.25),iy=Math.floor((y-TERRAIN_ORIGIN[1])/.25),iz=Math.floor((z+12)/.25);
       const v=ix+iy*width+iz*width*height;voxels.add(v);owners.set(v,c);
     }
-    // Removing occupied support wakes adjoining chunks even when their material
-    // has not moved yet. No height field: connectivity is three-dimensional.
+    // Wake material directly above removed support; connectivity handles
+    // detached volumes without waking unrelated adjoining chunks.
     for(const v of this.previousVoxels)if(!voxels.has(v)&&voxels.has(v+width)) {
       const ix=v%width,iy=Math.floor(v/width)%height,iz=Math.floor(v/(width*height));
-      const c=chunkAt(ix*.25-12+.125,iy*.25+TERRAIN_ORIGIN[1]+.125,iz*.25-12+.125);this.wake(c);if(c>=0)for(const n of neighbors(c))this.wake(n);
+      const c=chunkAt(ix*.25-12+.125,(iy+1)*.25+TERRAIN_ORIGIN[1]+.125,iz*.25-12+.125);this.wake(c);
     }
     const supported=new Set<number>(),queue:number[]=[];
     for(const v of voxels)if(Math.floor(v/width)%height<=1){supported.add(v);queue.push(v);}

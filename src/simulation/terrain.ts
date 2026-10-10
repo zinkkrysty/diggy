@@ -81,6 +81,7 @@ export class TerrainActivity {
   topologyRebuilds=0;
   private unsupported=new Set<number>();
   private time=0;
+  private gridLayout?:{dx:number;dims:number[];start:Int32Array;end:Int32Array;y:Uint32Array;z:Uint32Array;nodes:Uint32Array};
   constructor(seed:Seed){
     this.particleVoxels=new Int32Array(seed.count).fill(-1);this.particleChunks=new Int32Array(seed.count).fill(-1);
     this.observe(seed.positions,seed.states,0);
@@ -108,11 +109,14 @@ export class TerrainActivity {
     for(let c=0;c<CHUNK_COUNT;c++)if(this.moving[c])this.wake(c,.5);
     changed ||= count!==this.previousCount;
     if(changed){
+      // Wake the material whose support was removed, not every adjoining
+      // chunk. Sub-voxel settling otherwise propagates a wake front through
+      // supported soil. Connectivity separately wakes all detached volumes.
       for(let i=0;i<this.previousCount;i++){
         const v=this.previousList[i],iy=Math.floor(v/width)%height;
         if(!this.voxels[v]&&iy<height-1&&this.voxels[v+width]){
-          const c=chunkAt((v%width)*.25-12+.125,iy*.25+TERRAIN_ORIGIN[1]+.125,Math.floor(v/plane)*.25-12+.125);
-          this.wake(c);if(c>=0)for(const n of this.faces[c])this.wake(n);
+          const c=chunkAt((v%width)*.25-12+.125,(iy+1)*.25+TERRAIN_ORIGIN[1]+.125,Math.floor(v/plane)*.25-12+.125);
+          this.wake(c);
         }
       }
       this.rebuildSupport(this.voxels,this.voxelList,count);
@@ -169,8 +173,8 @@ export class TerrainActivity {
     for(const [v,before]of touched){const occupied=this.voxelCounts[v]>0;this.previousVoxels[v]=Number(occupied);changed ||= occupied!==before;}
     if(changed){
       for(const [v,before]of touched)if(before&&!this.previousVoxels[v]&&Math.floor(v/width)%height<height-1&&this.previousVoxels[v+width]){
-        const c=chunkAt((v%width)*.25-12+.125,(Math.floor(v/width)%height)*.25+TERRAIN_ORIGIN[1]+.125,Math.floor(v/plane)*.25-12+.125);
-        this.wake(c);if(c>=0)for(const n of this.faces[c])this.wake(n);
+        const c=chunkAt((v%width)*.25-12+.125,(Math.floor(v/width)%height+1)*.25+TERRAIN_ORIGIN[1]+.125,Math.floor(v/plane)*.25-12+.125);
+        this.wake(c);
       }
       let count=0;for(let v=0;v<this.previousVoxels.length;v++)if(this.previousVoxels[v])this.previousList[count++]=v;
       this.previousCount=count;this.rebuildSupport(this.previousVoxels,this.previousList,count);
@@ -199,12 +203,21 @@ export class TerrainActivity {
     for(let c=0;c<CHUNK_COUNT;c++)if(dynamic[c])for(const n of this.halos[c])if(!this.modes[n])this.modes[n]=2;
   }
   gridNodes(dx:number):Uint32Array {
-    const dims=[24,6,24].map(v=>Math.round(v/dx)),nodes:number[]=[];
-    for(let z=0;z<dims[2];z++)for(let y=0;y<dims[1];y++)for(let x=0;x<dims[0];x++) {
-      const c=Math.floor(x*dx)+Math.floor(y*dx)*24+Math.floor(z*dx)*144;
-      if(this.modes[c])nodes.push(x+y*dims[0]+z*dims[0]*dims[1]);
+    if(this.gridLayout?.dx!==dx){
+      const dims=[24,6,24].map(v=>Math.round(v/dx)),start=new Int32Array(24).fill(-1),end=new Int32Array(24);
+      // Use the original floor mapping, including non-integral cell/chunk ratios.
+      for(let x=0;x<dims[0];x++){const c=Math.floor(x*dx);if(start[c]<0)start[c]=x;end[c]=x+1;}
+      this.gridLayout={dx,dims,start,end,y:Uint32Array.from({length:dims[1]},(_,i)=>Math.floor(i*dx)*24),z:Uint32Array.from({length:dims[2]},(_,i)=>Math.floor(i*dx)*144),nodes:new Uint32Array(dims[0]*dims[1]*dims[2])};
     }
-    return Uint32Array.from(nodes);
+    const {dims,start,end,y:yc,z:zc,nodes}=this.gridLayout;let count=0;
+    // Skip sleeping spans while preserving the reference's exact node order.
+    for(let z=0;z<dims[2];z++)for(let y=0;y<dims[1];y++){
+      const c=yc[y]+zc[z],row=(y+z*dims[1])*dims[0];
+      for(let chunk=0;chunk<24;chunk++)if(this.modes[c+chunk]&&start[chunk]>=0){
+        for(let x=start[chunk];x<end[chunk];x++)nodes[count++]=row+x;
+      }
+    }
+    return nodes.slice(0,count);
   }
   report(){return {mapMetres:[24,6,24],chunkMetres:1,activeChunks:Array.from(this.modes).filter(v=>v===1).length,boundaryChunks:Array.from(this.modes).filter(v=>v===2).length,sleepingOccupiedChunks:Array.from(this.occupied).filter((v,i)=>v&&this.modes[i]===0).length,unsupportedChunks:this.unsupported.size};}
 }

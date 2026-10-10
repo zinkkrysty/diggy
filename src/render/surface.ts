@@ -24,6 +24,7 @@ export class MaterialSurface {
   readonly grains:GPUBuffer;
   readonly estimatedBytes:number;
   useProxyCompaction=true;
+  useTightSplatBounds=true;
   private field:GPUBuffer;
   private uniform:GPUBuffer;
   private counters:GPUBuffer;
@@ -78,7 +79,7 @@ export class MaterialSurface {
     f.set([dt,sampleSpacing,detailEnabled?1:0,this.terrain?TERRAIN_FLOOR:.15],8);
     f.set([...(this.terrain?TERRAIN_ORIGIN:[-3,0,-2]),this.frame++],12);
     boxes.slice(0,8).forEach((b,i)=>{f.set([...b.center,b.angle,...b.half,b.omega,...b.velocity,b.bucket?1:0],16+i*12);f.set([b.yaw??0,b.yawOmega??0,Math.cos(b.yaw??0),Math.sin(b.yaw??0)],116+i*4);f.set([...colliderBounds(b),0],148+i*4);writeColliderRotation(f,180+i*16,b);});
-    u[112]=Math.min(8,boxes.length);u[113]=this.spillCount;u[114]=this.useProxyCompaction?1:0;u[115]=240;
+    u[112]=Math.min(8,boxes.length);u[113]=this.spillCount;u[114]=(this.useProxyCompaction?1:0)|(this.useTightSplatBounds?2:0);u[115]=240;
     u[308]=this.tileCount;
     this.device.queue.writeBuffer(this.uniform,0,data);
     const dirty=this.terrain&&this.initialized&&modes?terrainSurfaceTiles(modes,boxes):new Set(Array.from({length:this.tileCount},(_,i)=>i));

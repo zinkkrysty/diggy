@@ -31,3 +31,11 @@ The original driving reproduction reached 253 ms per physics batch and read back
 Mass error stayed below 0.001%, all states remained finite, and surface buffers did not overflow. An unsupported wet clump fell to the deeper floor. Unit tests compare incremental terrain/support updates against complete rebuilds across particle movement, chunk crossings, and cuts, and check that initialization preserves the surface volume. Driving checks cover braking, reversing, steering, airborne tracks, slopes, and ledges.
 
 Raw results and visual captures: `.local/artifacts/terrain-stability-validation.json`, `terrain-fix-driving.png`, and `terrain-fix-digging.png`. The original investigation is in [TERRAIN-STABILITY-DIAGNOSIS.md](TERRAIN-STABILITY-DIAGNOSIS.md).
+
+## Swinging excavation follow-up — 2026-10-10
+
+Soil digging with swing revealed another activation wave. A vacated support voxel woke its containing chunk and all six face neighbors, regardless of whether neighboring soil still had support. Newly activated soil could settle, vacate another voxel and continue the wake front. The earlier straight digging regression did not detect this: distant particles stayed unchanged without swing.
+
+Support removal now wakes the chunk directly above the missing voxel, including across a vertical chunk boundary. Adjoining supported chunks remain fixed transfer halos. The connectivity graph independently wakes every chunk containing disconnected material and its face neighbors, allowing falling samples to cross chunk boundaries and reach receiving soil. No distance cap or additional damping is applied.
+
+The extended hydraulic regression includes 24 seconds of live digging and turning, then compares distant particle positions with the initial seed. Before the change, roughly 7,000 distant samples moved, with displacement exceeding two metres. Afterward, every checked distant sample retains its original position. Mass, finite-state, surface-capacity and hydraulic checks pass; the scripted scoop carries 582 kg and empties when dumped. Unit checks cover a cut crossing a vertical chunk boundary and verify that supported face neighbors remain fixed. The terrain stability regression also passes across sand, soil and wet dirt, including an unsupported wet clump falling to bedrock. Results are saved in `.local/artifacts/digging-edge-validation.json`.

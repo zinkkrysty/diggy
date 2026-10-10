@@ -105,7 +105,7 @@ Use Three.js, TypeScript, and Vite, with simulation, physics, rendering, input, 
 
 Exercise repeated excavation, transport, dumping, mixing, trench collapse, driving over piles, and digging beneath the machine. Check long-session stability, conservation, and performance as disturbed regions accumulate.
 
-### 8. More realistic digging — planned
+### 8. More realistic digging — hydraulics and bucket-contact increments implemented
 
 Extend the existing force-limited joints, soil reaction feedback, cohesion, adhesion, damage, and compaction rather than replacing the solver. Prioritize hydraulic response and bucket filling, then cutting contact. Keep detailed physical work local to the bucket, tracks, and genuinely unstable ground; preserve cached distant terrain and integrated-Vega performance.
 
@@ -121,6 +121,10 @@ Extend the existing force-limited joints, soil reaction feedback, cohesion, adhe
 
 Defer individual physical grains, detailed tooth-scale fracture, and full hydraulic-fluid simulation. Their cost is difficult to justify on integrated Vega. Consider finer local resolution only after measuring a specific contact limitation and its combined physics/rendering cost.
 
+The first increment adds a shared pump budget to the playable arm: simultaneous boom, stick, curl, and swing requests share 1.6 full-speed functions and a conservative 45 kW mechanical power budget estimated from joint effort, gravity, and measured soil reaction. Existing torque limits and impulse coupling still govern resistance and overload. Closed valves and joints at their angular stops release flow; target error remains bounded even during load-driven backmotion. Pump demand and allocation are exposed in machine diagnostics. These are prototype tuning values, not calibrated machine specifications. Regression checks cover concurrent slowing, flow recovery, power limits, resistance, overload/backdrive, and target windup. Hydraulic calibration remains open. See [hydraulic implementation and validation](docs/HYDRAULICS.md).
+
+The second increment resolves thin bucket plates on material samples with swept contact, separate metal friction, and moisture-dependent tensile adhesion over a short peeling range. It removes false inverted support caused by contact nodes on the opposite side of thin plates. Plate corrections respect bedrock and recheck neighboring plates. Controlled loads retain 95–100% during carrying at laboratory and game grid sizes; all three materials release when tipped, overfill can spill, and dry samples do not inherit wet adhesion. Mass and composition remain conserved. These checks do not establish calibrated filling capacity or consistent clump breakup. Cutting-edge geometry and angle-dependent resistance are next; filling and hydraulic calibration still need user feedback and longer sequences. See [bucket contact and validation](docs/BUCKET-CONTACT.md).
+
 Each physics change must retain finite states, mass conservation, continuous chassis support, local activation, and genuine unsupported collapse. Benchmark active digging and repeated transport/dumping at real-time simulation speed, not only idle or driving scenes.
 
 ## Performance strategy and acceptance
@@ -132,6 +136,10 @@ Optimize with sparse active regions, GPU-resident data, efficient particle/grid 
 Acceptance includes freely flowing dry sand, stable friction-supported piles, no persistent unsupported floating material, distinct wet-soil behavior, believable bucket transfer, and continuous material appearance without large simulation beads.
 
 Benchmark active digging and large collapses as well as idle scenes, using the final material surface and visual effects rather than only the debug point renderer. Report frame-time distributions and simulation throughput so smooth rendering cannot conceal a simulation that is falling behind. If fidelity and frame budget conflict, record the measured limits and revisit the plan explicitly.
+
+The October 10 digging performance follow-up reduces unnecessary surface splats, skips sleeping CPU grid spans and enables bounded terrain tile culling. Current 24 m game measurements improve from 28.6 to 30.2 FPS and from 50.0 to 36.5 ms p95 at approximately real-time simulation speed. Paired surface fields match exactly; physics and surface resolution remain unchanged. The 60 FPS target remains unmet. See [measurements and validation](docs/GAME-PERFORMANCE.md).
+
+Swinging excavation subsequently exposed a support-removal wake front reaching untouched site edges. Activation now targets material directly above a cut and graph-disconnected volumes, without automatically waking supported face neighbors. The extended turning-dig regression leaves distant particles unchanged. See [locality correction](docs/TERRAIN-STABILITY-FIX.md).
 
 ## Research references
 
